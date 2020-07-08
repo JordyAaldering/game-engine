@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Luci\Log.h" />
     <ClInclude Include="src\Luci.h" />
     <ClInclude Include="src\Luci\Application.h" />
     <ClInclude Include="src\Luci\Core.h" />
     <ClInclude Include="src\Luci\EntryPoint.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Luci\Log.cpp" />
     <ClCompile Include="src\Luci\Application.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -25,6 +27,7 @@
     <ProjectGuid>{4d47694e-5854-469a-9110-c190652b3feb}</ProjectGuid>
     <RootNamespace>LuciEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Luci-Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -67,6 +70,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>LUCI_PLATFORM_WINDOWS;LUCI_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Luci-Engine\vendor\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,6 +85,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Luci-Engine\vendor\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

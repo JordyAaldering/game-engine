@@ -1,0 +1,3 @@
+[submodule "Luci-Engine/vendor/spdlog"]
+	path = Luci-Engine/vendor/spdlog
+	url = https://github.com/gabime/spdlog
