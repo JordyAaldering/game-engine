@@ -4,6 +4,9 @@
     <Filter Include="Luci">
       <UniqueIdentifier>{32BB887C-1EF2-890D-C7DE-6F10B3F4050F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Luci\Events">
+      <UniqueIdentifier>{D69A591A-4250-D20F-CB44-CCE637F9C813}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Luci.h" />
@@ -15,6 +18,18 @@
     </ClInclude>
     <ClInclude Include="src\Luci\EntryPoint.h">
       <Filter>Luci</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Luci\Events\ApplicationEvent.h">
+      <Filter>Luci\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Luci\Events\Event.h">
+      <Filter>Luci\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Luci\Events\KeyEvent.h">
+      <Filter>Luci\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Luci\Events\MouseEvent.h">
+      <Filter>Luci\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Luci\Log.h">
       <Filter>Luci</Filter>

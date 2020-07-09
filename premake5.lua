@@ -1,4 +1,4 @@
-workspace "Luci"
+workspace "Luci-Engine"
     architecture "x64"
 
     configurations {
@@ -23,6 +23,7 @@ project "Luci-Engine"
     }
 
     includedirs {
+        "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include"
     }
 

@@ -9,3 +9,5 @@
 #else
 	#error Luci only supports Windows.
 #endif // LUCI_PLATFORM_WINDOWS
+
+#define BIT(x) (1 << x)
