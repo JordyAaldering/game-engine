@@ -4,4 +4,5 @@
 #include "Luci/Application.h"
 #include "Luci/EntryPoint.h"
 #include "Luci/Layer.h"
+#include "Luci/ImGui/ImGuiLayer.h"
 #include "Luci/Log.h"

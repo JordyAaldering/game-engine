@@ -153,18 +153,22 @@
     <ClInclude Include="src\Luci\Events\Event.h" />
     <ClInclude Include="src\Luci\Events\KeyEvent.h" />
     <ClInclude Include="src\Luci\Events\MouseEvent.h" />
+    <ClInclude Include="src\Luci\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Luci\Layer.h" />
     <ClInclude Include="src\Luci\LayerStack.h" />
     <ClInclude Include="src\Luci\Log.h" />
     <ClInclude Include="src\Luci\Window.h" />
+    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\lucipch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Luci\Application.cpp" />
+    <ClCompile Include="src\Luci\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Luci\Layer.cpp" />
     <ClCompile Include="src\Luci\LayerStack.cpp" />
     <ClCompile Include="src\Luci\Log.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\lucipch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
