@@ -19,7 +19,6 @@ group "Dependencies"
     include "Luci-Engine/vendor/GLFW"
     include "Luci-Engine/vendor/Glad"
     include "Luci-Engine/vendor/imgui"
-
 group ""
 
 project "Luci-Engine"

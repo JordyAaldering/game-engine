@@ -5,8 +5,8 @@
 
 	int main(int argc, char** argv) {
 		Luci::Log::Init();
-		LUCI_CORE_WARN("Initialized log.");
-		LUCI_INFO("Initialized log. Var={0}.", 5);
+		LUCI_CORE_WARN("Initialized core log.");
+		LUCI_INFO("Initialized log.");
 
 		auto app = Luci::CreateApplication();
 		app->Run();
