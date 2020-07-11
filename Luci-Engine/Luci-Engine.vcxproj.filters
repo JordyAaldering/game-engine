@@ -37,6 +37,12 @@
     <ClInclude Include="src\Luci\Events\MouseEvent.h">
       <Filter>Luci\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Luci\Layer.h">
+      <Filter>Luci</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Luci\LayerStack.h">
+      <Filter>Luci</Filter>
+    </ClInclude>
     <ClInclude Include="src\Luci\Log.h">
       <Filter>Luci</Filter>
     </ClInclude>
@@ -50,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Luci\Application.cpp">
+      <Filter>Luci</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Luci\Layer.cpp">
+      <Filter>Luci</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Luci\LayerStack.cpp">
       <Filter>Luci</Filter>
     </ClCompile>
     <ClCompile Include="src\Luci\Log.cpp">
