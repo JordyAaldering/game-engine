@@ -1,5 +1,6 @@
 workspace "Luci-Engine"
     architecture "x64"
+    startproject "Sandbox"
 
     configurations {
         "Debug",
@@ -14,14 +15,18 @@ IncludeDir["GLFW"] = "Luci-Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "Luci-Engine/vendor/Glad/include"
 IncludeDir["ImGui"] = "Luci-Engine/vendor/imgui"
 
-include "Luci-Engine/vendor/GLFW"
-include "Luci-Engine/vendor/Glad"
-include "Luci-Engine/vendor/imgui"
+group "Dependencies"
+    include "Luci-Engine/vendor/GLFW"
+    include "Luci-Engine/vendor/Glad"
+    include "Luci-Engine/vendor/imgui"
+
+group ""
 
 project "Luci-Engine"
     location "Luci-Engine"
     kind "SharedLib"
     language "C++"
+    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -51,7 +56,6 @@ project "Luci-Engine"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
@@ -61,28 +65,29 @@ project "Luci-Engine"
         }
 
         postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+            ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
         }
     
     filter "configurations:Debug"
         defines "LUCI_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "LUCI_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations.Dist"
         defines "LUCI_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
+    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -112,15 +117,15 @@ project "Sandbox"
 
     filter "configurations:Debug"
         defines "LUCI_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
-        
+
     filter "configurations:Release"
         defines "LUCI_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
-    
+
     filter "configurations.Dist"
         defines "LUCI_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
