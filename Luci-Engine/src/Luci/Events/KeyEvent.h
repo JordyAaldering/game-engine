@@ -36,6 +36,20 @@ namespace Luci {
 		int m_RepeatCount;
 	};
 
+	class LUCI_API KeyTypedEvent : public KeyEvent {
+	public:
+		KeyTypedEvent(int keyCode)
+			: KeyEvent(keyCode) {}
+
+		std::string ToString() const override {
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_KeyCode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
+	};
+
 	class LUCI_API KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keyCode)

@@ -36,7 +36,7 @@ namespace Luci {
 
 		if (!s_GLFWInitialized) {
 			int success = glfwInit();
-			LUCI_CORE_ASSERT(succes, "Could not initialize GLFW.");
+			LUCI_CORE_ASSERT(success, "Could not initialize GLFW.");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 
@@ -66,25 +66,31 @@ namespace Luci {
 			data.EventCallback(event);
 		});
 
-		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int keyCode, int scancode, int action, int mods) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			switch (action) {
 				case GLFW_PRESS: {
-					KeyPressedEvent event(key, 0);
+					KeyPressedEvent event(keyCode, 0);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_REPEAT: {
-					KeyPressedEvent event(key, 1);
+					KeyPressedEvent event(keyCode, 1);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE: {
-					KeyReleasedEvent event(key);
+					KeyReleasedEvent event(keyCode);
 					data.EventCallback(event);
 					break;
 				}
 			}
+		});
+
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keyCode) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			KeyTypedEvent event(keyCode);
+			data.EventCallback(event);
 		});
 
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {

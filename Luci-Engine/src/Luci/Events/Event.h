@@ -9,7 +9,7 @@ namespace Luci {
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowFocusLost, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyTyped, KeyReleased,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
 	};
 
