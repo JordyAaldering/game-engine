@@ -34,6 +34,7 @@
     <ClInclude Include="src\Luci\Log.h">
       <Filter>Luci</Filter>
     </ClInclude>
+    <ClInclude Include="src\lucipch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Luci\Application.cpp">
@@ -42,5 +43,6 @@
     <ClCompile Include="src\Luci\Log.cpp">
       <Filter>Luci</Filter>
     </ClCompile>
+    <ClCompile Include="src\lucipch.cpp" />
   </ItemGroup>
 </Project>

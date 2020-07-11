@@ -17,6 +17,9 @@ project "Luci-Engine"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+    pchheader "lucipch.h"
+    pchsource "%{prj.name}/src/lucipch.cpp"
+
     files {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp"

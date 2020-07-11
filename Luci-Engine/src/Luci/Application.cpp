@@ -1,3 +1,4 @@
+#include "lucipch.h"
 #include "Application.h"
 
 #include "Luci/Events/ApplicationEvent.h"

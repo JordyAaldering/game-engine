@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Luci/Core.h"
-#include <string>
-#include <functional>
 
 namespace Luci {
 
