@@ -4,3 +4,6 @@
 [submodule "Luci-Engine/vendor/GLFW"]
 	path = Luci-Engine/vendor/GLFW
 	url = https://github.com/JordyAaldering/glfw
+[submodule "Luci-Engine/vendor/imgui"]
+	path = Luci-Engine/vendor/imgui
+	url = https://github.com/JordyAaldering/imgui
