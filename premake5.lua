@@ -11,8 +11,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Luci-Engine/vendor/GLFW/include"
+IncludeDir["Glad"] = "Luci-Engine/vendor/Glad/include"
 
 include "Luci-Engine/vendor/GLFW"
+include "Luci-Engine/vendor/Glad"
 
 project "Luci-Engine"
     location "Luci-Engine"
@@ -33,11 +35,13 @@ project "Luci-Engine"
     includedirs {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}"
     }
 
     links {
         "GLFW",
+        "Glad",
         "opengl32.lib"
     }
 
@@ -48,7 +52,8 @@ project "Luci-Engine"
 
         defines {
             "LUCI_PLATFORM_WINDOWS",
-            "LUCI_BUILD_DLL"
+            "LUCI_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands {
