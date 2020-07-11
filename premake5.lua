@@ -9,6 +9,11 @@ workspace "Luci-Engine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Luci-Engine/vendor/GLFW/include"
+
+include "Luci-Engine/vendor/GLFW"
+
 project "Luci-Engine"
     location "Luci-Engine"
     kind "SharedLib"
@@ -27,7 +32,13 @@ project "Luci-Engine"
 
     includedirs {
         "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links {
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"

@@ -1,16 +1,18 @@
 #pragma once
 
-#include <iostream>
 #include <memory>
+#include <sstream>
+#include <iostream>
 #include <utility>
 #include <algorithm>
 #include <functional>
 
 #include <string>
-#include <sstream>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+
+#include "Luci/Log.h"
 
 #ifdef LUCI_PLATFORM_WINDOWS
 	#include <Windows.h>

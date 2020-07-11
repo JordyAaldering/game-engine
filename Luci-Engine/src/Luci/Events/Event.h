@@ -1,5 +1,6 @@
 #pragma once
 
+#include "lucipch.h"
 #include "Luci/Core.h"
 
 namespace Luci {

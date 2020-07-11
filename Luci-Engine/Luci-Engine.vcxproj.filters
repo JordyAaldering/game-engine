@@ -7,6 +7,12 @@
     <Filter Include="Luci\Events">
       <UniqueIdentifier>{D69A591A-4250-D20F-CB44-CCE637F9C813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Luci.h" />
@@ -34,6 +40,12 @@
     <ClInclude Include="src\Luci\Log.h">
       <Filter>Luci</Filter>
     </ClInclude>
+    <ClInclude Include="src\Luci\Window.h">
+      <Filter>Luci</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\lucipch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="src\Luci\Log.cpp">
       <Filter>Luci</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\lucipch.cpp" />
   </ItemGroup>
