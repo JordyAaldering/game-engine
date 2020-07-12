@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Luci/Core/Window.h"
+#include "Luci/Renderer/GraphicsContext.h"
 #include <GLFW/glfw3.h>
 
 namespace Luci {
@@ -23,10 +24,11 @@ namespace Luci {
 		inline virtual void* GetNativeWindow() const { return m_Window; }
 
 	private:
+		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
+
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
-
-		GLFWwindow* m_Window;
 
 		struct WindowData {
 			std::string Title;
