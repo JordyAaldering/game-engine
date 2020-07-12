@@ -8,6 +8,8 @@
 #include "Luci/Events/ApplicationEvent.h"
 #include "Luci/ImGui/ImGuiLayer.h"
 
+#include "Luci/Renderer/Shader.h"
+
 namespace Luci {
 
 	class Application {
@@ -34,6 +36,7 @@ namespace Luci {
 		LayerStack m_LayerStack;
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 
 		bool OnWindowClose(WindowCloseEvent& event);
 	};

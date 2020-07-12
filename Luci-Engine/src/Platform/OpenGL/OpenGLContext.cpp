@@ -17,7 +17,7 @@ namespace Luci {
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		LUCI_CORE_ASSERT(status, "Failed to initialize Glad.");
 
-		LUCI_CORE_INFO("OpenGL renderer:\n\tVendor: {0}\n\tRenderer: {1}\n\tVersion: {2}",
+		LUCI_CORE_INFO("OpenGL renderer\n\tVendor: {0}\n\tRenderer: {1}\n\tVersion: {2}",
 			glGetString(GL_VENDOR), glGetString(GL_RENDERER), glGetString(GL_VERSION));
 	}
 
