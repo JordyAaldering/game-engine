@@ -3,13 +3,14 @@
 #include "Core.h"
 #include "Window.h"
 #include "LayerStack.h"
+
 #include "Luci/Events/Event.h"
 #include "Luci/Events/ApplicationEvent.h"
 #include "Luci/ImGui/ImGuiLayer.h"
 
 namespace Luci {
 
-	class LUCI_API Application {
+	class Application {
 	public:
 		Application();
 		virtual ~Application() = default;

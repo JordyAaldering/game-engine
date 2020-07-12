@@ -8,7 +8,7 @@ workspace "Luci-Engine"
         "Dist"
     }
 
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+OutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Luci-Engine/vendor/GLFW/include"
@@ -27,10 +27,10 @@ project "Luci-Engine"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
-    staticruntime "On"
+    staticruntime "on"
 
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("bin/" .. OutputDir .. "/%{prj.name}")
+    objdir ("bin-int/" .. OutputDir .. "/%{prj.name}")
 
     pchheader "lucipch.h"
     pchsource "%{prj.name}/src/lucipch.cpp"
@@ -74,27 +74,27 @@ project "Luci-Engine"
     filter "configurations:Debug"
         defines "LUCI_DEBUG"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "LUCI_RELEASE"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
     filter "configurations.Dist"
         defines "LUCI_DIST"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
-    staticruntime "On"
+    staticruntime "on"
 
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("bin/" .. OutputDir .. "/%{prj.name}")
+    objdir ("bin-int/" .. OutputDir .. "/%{prj.name}")
 
     files {
         "%{prj.name}/src/**.h",
@@ -122,14 +122,14 @@ project "Sandbox"
     filter "configurations:Debug"
         defines "LUCI_DEBUG"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "LUCI_RELEASE"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
     filter "configurations.Dist"
         defines "LUCI_DIST"
         runtime "Release"
-        optimize "On"
+        optimize "on"

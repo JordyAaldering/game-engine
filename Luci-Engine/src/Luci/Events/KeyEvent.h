@@ -4,7 +4,7 @@
 
 namespace Luci {
 
-	class LUCI_API KeyEvent : public Event {
+	class KeyEvent : public Event {
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
 
@@ -17,7 +17,7 @@ namespace Luci {
 			: m_KeyCode(keyCode) {}
 	};
 
-	class LUCI_API KeyPressedEvent : public KeyEvent {
+	class KeyPressedEvent : public KeyEvent {
 	public:
 		KeyPressedEvent(int keyCode, int repeatCount)
 			: KeyEvent(keyCode), m_RepeatCount(repeatCount) {}
@@ -36,7 +36,7 @@ namespace Luci {
 		int m_RepeatCount;
 	};
 
-	class LUCI_API KeyTypedEvent : public KeyEvent {
+	class KeyTypedEvent : public KeyEvent {
 	public:
 		KeyTypedEvent(int keyCode)
 			: KeyEvent(keyCode) {}
@@ -50,7 +50,7 @@ namespace Luci {
 		EVENT_CLASS_TYPE(KeyTyped)
 	};
 
-	class LUCI_API KeyReleasedEvent : public KeyEvent {
+	class KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keyCode)
 			: KeyEvent(keyCode) {}
