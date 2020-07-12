@@ -7,3 +7,6 @@
 [submodule "Luci-Engine/vendor/imgui"]
 	path = Luci-Engine/vendor/imgui
 	url = https://github.com/JordyAaldering/imgui
+[submodule "Luci-Engine/vendor/glm"]
+	path = Luci-Engine/vendor/glm
+	url = https://github.com/g-truc/glm

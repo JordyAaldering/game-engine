@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Luci-Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "Luci-Engine/vendor/Glad/include"
 IncludeDir["ImGui"] = "Luci-Engine/vendor/imgui"
+IncludeDir["glm"] = "Luci-Engine/vendor/glm"
 
 group "Dependencies"
     include "Luci-Engine/vendor/GLFW"
@@ -35,7 +36,9 @@ project "Luci-Engine"
 
     files {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/glm/glm/**.hpp",
+        "%{prj.name}/vendor/glm/glm/**.inl"
     }
 
     includedirs {
@@ -43,7 +46,8 @@ project "Luci-Engine"
         "%{prj.name}/vendor/spdlog/include",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
     }
 
     links {
@@ -98,7 +102,8 @@ project "Sandbox"
 
     includedirs {
         "Luci-Engine/vendor/spdlog/include",
-        "Luci-Engine/src"
+        "Luci-Engine/src",
+        "%{IncludeDir.glm}"
     }
 
     links {
