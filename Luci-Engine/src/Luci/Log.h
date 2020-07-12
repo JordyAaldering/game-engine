@@ -25,11 +25,11 @@ namespace Luci {
 #define LUCI_CORE_INFO(...)  ::Luci::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define LUCI_CORE_WARN(...)  ::Luci::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define LUCI_CORE_ERROR(...) ::Luci::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define LUCI_CORE_FATAL(...) ::Luci::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define LUCI_CORE_FATAL(...) ::Luci::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // client log macros
 #define LUCI_TRACE(...)      ::Luci::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define LUCI_INFO(...)       ::Luci::Log::GetClientLogger()->info(__VA_ARGS__)
 #define LUCI_WARN(...)       ::Luci::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define LUCI_ERROR(...)      ::Luci::Log::GetClientLogger()->error(__VA_ARGS__)
-#define LUCI_FATAL(...)      ::Luci::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define LUCI_FATAL(...)      ::Luci::Log::GetClientLogger()->critical(__VA_ARGS__)
