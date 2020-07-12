@@ -12,7 +12,7 @@ namespace Luci {
 	class LUCI_API Application {
 	public:
 		Application();
-		virtual ~Application();
+		virtual ~Application() = default;
 
 		void Run();
 

@@ -23,7 +23,7 @@ namespace Luci {
 		using EventCallbackFn = std::function<void(Event&)>;
 
 		static Window* Create(const WindowProps& props = WindowProps());
-		virtual ~Window() {}
+		virtual ~Window() = default;
 
 		virtual void OnUpdate() = 0;
 
