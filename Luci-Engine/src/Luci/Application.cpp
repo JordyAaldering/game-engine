@@ -1,6 +1,6 @@
 #include "lucipch.h"
 #include "Application.h"
-#include "Luci/Log.h"
+#include "Input.h"
 
 #include <glad/glad.h>
 

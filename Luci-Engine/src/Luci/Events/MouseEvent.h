@@ -14,7 +14,7 @@ namespace Luci {
 
 		std::string ToString() const override {
 			std::stringstream ss;
-			ss << "MouseMovedEvent: " << GetX() << ", " << GetY();
+			ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
 			return ss.str();
 		}
 

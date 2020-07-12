@@ -2,7 +2,6 @@
 
 #include "Luci/Core.h"
 #include "Layer.h"
-#include <vector>
 
 namespace Luci {
 

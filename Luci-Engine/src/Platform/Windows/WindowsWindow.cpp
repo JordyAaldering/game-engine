@@ -37,9 +37,7 @@ namespace Luci {
 		if (!s_GLFWInitialized) {
 			int success = glfwInit();
 			LUCI_CORE_ASSERT(success, "Could not initialize GLFW.");
-
 			glfwSetErrorCallback(GLFWErrorCallback);
-
 			s_GLFWInitialized = true;
 		}
 

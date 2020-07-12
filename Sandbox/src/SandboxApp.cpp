@@ -9,7 +9,8 @@ public:
 	}
 
 	void OnEvent(Luci::Event& event) override {
-		LUCI_TRACE("{0}", event);
+		// todo: find out why this does crashes the application
+		// LUCI_TRACE("{0}", event);
 	}
 };
 

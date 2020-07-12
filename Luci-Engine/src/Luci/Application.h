@@ -15,7 +15,7 @@ namespace Luci {
 
 		void Run();
 
-		void OnEvent(Event& e);
+		void OnEvent(Event& event);
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
@@ -30,7 +30,7 @@ namespace Luci {
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
 
-		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowClose(WindowCloseEvent& event);
 	};
 
 	// to be defined in client
