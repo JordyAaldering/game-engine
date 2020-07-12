@@ -26,17 +26,17 @@ namespace Luci {
 	void LayerStack::PopLayer(Layer* layer) {
 		auto it = std::find(begin(), end(), layer);
 		if (it != end()) {
+			layer->OnDetach();
 			m_Layers.erase(it);
 			m_LayerInsert--;
-			layer->OnDetach();
 		}
 	}
 
 	void LayerStack::PopOverlay(Layer* overlay) {
 		auto it = std::find(begin(), end(), overlay);
 		if (it != end()) {
-			m_Layers.erase(it);
 			overlay->OnDetach();
+			m_Layers.erase(it);
 		}
 	}
 
