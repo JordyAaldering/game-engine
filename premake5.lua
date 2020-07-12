@@ -24,9 +24,10 @@ group ""
 
 project "Luci-Engine"
     location "Luci-Engine"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -39,6 +40,10 @@ project "Luci-Engine"
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl"
+    }
+
+    defines {
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     includedirs {
@@ -58,17 +63,12 @@ project "Luci-Engine"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
 
         defines {
             "LUCI_PLATFORM_WINDOWS",
             "LUCI_BUILD_DLL",
             "GLFW_INCLUDE_NONE"
-        }
-
-        postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
         }
     
     filter "configurations:Debug"
@@ -90,7 +90,8 @@ project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -103,6 +104,7 @@ project "Sandbox"
     includedirs {
         "Luci-Engine/vendor/spdlog/include",
         "Luci-Engine/src",
+        "Luci-Engine/vendor",
         "%{IncludeDir.glm}"
     }
 
@@ -111,8 +113,6 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {

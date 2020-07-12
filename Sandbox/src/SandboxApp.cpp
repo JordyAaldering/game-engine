@@ -20,11 +20,7 @@ public:
 
 class Sandbox : public Luci::Application {
 public:
-	Sandbox() {
-		PushLayer(new ExampleLayer());
-		PushOverlay(new Luci::ImGuiLayer());
-	}
-
+	Sandbox() { PushLayer(new ExampleLayer()); }
 	~Sandbox() {}
 };
 

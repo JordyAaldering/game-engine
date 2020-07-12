@@ -5,6 +5,7 @@
 #include "Luci/LayerStack.h"
 #include "Luci/Events/Event.h"
 #include "Luci/Events/ApplicationEvent.h"
+#include "Luci/ImGui/ImGuiLayer.h"
 
 namespace Luci {
 
@@ -28,6 +29,7 @@ namespace Luci {
 
 		bool m_Running = true;
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 
 		bool OnWindowClose(WindowCloseEvent& event);
