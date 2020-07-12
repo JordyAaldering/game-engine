@@ -29,8 +29,11 @@ bld/
 # but keep vendor files
 !vendor/[Bb]in/
 
-# Visual Studio 2015/2017 cache/options directory
+# Visual Studio 2015/2017 cache/options
 .vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
