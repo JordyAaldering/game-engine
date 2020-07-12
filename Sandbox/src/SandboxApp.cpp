@@ -5,12 +5,16 @@ public:
 	ExampleLayer() : Layer("Example") {}
 
 	void OnUpdate() override {
-		LUCI_INFO("ExampleLayer::OnUpdate");
+		if (Luci::Input::IsKeyPressed(LUCI_KEY_TAB)) {
+			LUCI_INFO("Tab key pressed.");
+		}
 	}
 
 	void OnEvent(Luci::Event& event) override {
-		// todo: find out why this does crashes the application
-		// LUCI_TRACE("{0}", event);
+		if (event.GetEventType() == Luci::EventType::KeyPressed) {
+			Luci::KeyPressedEvent& e = (Luci::KeyPressedEvent&)event;
+			LUCI_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 

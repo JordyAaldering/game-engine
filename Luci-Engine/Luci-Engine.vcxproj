@@ -153,9 +153,11 @@
     <ClInclude Include="src\Luci\Events\MouseEvent.h" />
     <ClInclude Include="src\Luci\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Luci\Input.h" />
+    <ClInclude Include="src\Luci\KeyCodes.h" />
     <ClInclude Include="src\Luci\Layer.h" />
     <ClInclude Include="src\Luci\LayerStack.h" />
     <ClInclude Include="src\Luci\Log.h" />
+    <ClInclude Include="src\Luci\MouseButtonCodes.h" />
     <ClInclude Include="src\Luci\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />

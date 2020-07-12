@@ -46,6 +46,12 @@
     <ClInclude Include="src\Luci\ImGui\ImGuiLayer.h">
       <Filter>Luci\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Luci\Input.h">
+      <Filter>Luci</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Luci\KeyCodes.h">
+      <Filter>Luci</Filter>
+    </ClInclude>
     <ClInclude Include="src\Luci\Layer.h">
       <Filter>Luci</Filter>
     </ClInclude>
@@ -55,18 +61,22 @@
     <ClInclude Include="src\Luci\Log.h">
       <Filter>Luci</Filter>
     </ClInclude>
+    <ClInclude Include="src\Luci\MouseButtonCodes.h">
+      <Filter>Luci</Filter>
+    </ClInclude>
     <ClInclude Include="src\Luci\Window.h">
       <Filter>Luci</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
       <Filter>Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\lucipch.h" />
-    <ClInclude Include="src\Luci\Input.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Luci\Application.cpp">
@@ -87,10 +97,12 @@
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
       <Filter>Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\lucipch.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>
