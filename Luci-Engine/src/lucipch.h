@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Luci/Log.h"
+#include "Luci/Core/Log.h"
 
 #ifdef LUCI_PLATFORM_WINDOWS
 	#include <Windows.h>

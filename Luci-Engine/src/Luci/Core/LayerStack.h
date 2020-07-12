@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Luci/Core.h"
+#include "Core.h"
 #include "Layer.h"
 
 namespace Luci {

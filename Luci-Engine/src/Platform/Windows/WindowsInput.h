@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Luci/Input.h"
+#include "Luci/Core/Input.h"
 
 namespace Luci {
 

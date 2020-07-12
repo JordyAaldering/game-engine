@@ -1,6 +1,6 @@
 #include "lucipch.h"
 #include "WindowsInput.h"
-#include "Luci/Application.h"
+#include "Luci/Core/Application.h"
 
 #include <GLFW/glfw3.h>
 

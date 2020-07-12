@@ -1,7 +1,6 @@
 #include "lucipch.h"
 #include "ImGuiLayer.h"
-
-#include "Luci/Application.h"
+#include "Luci/Core/Application.h"
 
 #include <imgui.h>
 #include <examples/imgui_impl_glfw.h>

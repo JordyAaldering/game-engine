@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Luci/Window.h"
+#include "Luci/Core/Window.h"
 #include <GLFW/glfw3.h>
 
 namespace Luci {
