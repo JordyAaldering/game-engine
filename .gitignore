@@ -26,8 +26,6 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-# but keep vendor files
-!vendor/[Bb]in/
 
 # Visual Studio 2015/2017 cache/options
 .vs/
