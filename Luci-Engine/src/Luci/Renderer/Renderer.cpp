@@ -3,4 +3,6 @@
 
 namespace Luci {
 
+	RendererAPI Renderer::s_RendererAPI = RendererAPI::OpenGL;
+
 }

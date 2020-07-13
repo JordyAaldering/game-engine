@@ -10,11 +10,8 @@ namespace Luci {
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 		// Send the vertex shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
 		const GLchar* source = vertexSrc.c_str();
 		glShaderSource(vertexShader, 1, &source, 0);
-
-		// Compile the vertex shader
 		glCompileShader(vertexShader);
 
 		GLint isCompiled = 0;
@@ -39,11 +36,8 @@ namespace Luci {
 		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
 		// Send the fragment shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
 		source = fragmentSrc.c_str();
 		glShaderSource(fragmentShader, 1, &source, 0);
-
-		// Compile the fragment shader
 		glCompileShader(fragmentShader);
 
 		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
@@ -64,7 +58,6 @@ namespace Luci {
 			return;
 		}
 
-		// Vertex and fragment shaders are successfully compiled.
 		// Now time to link them together into a program.
 		m_RendererID = glCreateProgram();
 
@@ -75,7 +68,6 @@ namespace Luci {
 		// Link our program
 		glLinkProgram(m_RendererID);
 
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
 		glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int*)&isLinked);
 		if (isLinked == GL_FALSE) {
