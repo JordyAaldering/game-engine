@@ -9,6 +9,7 @@
 #include "Luci/ImGui/ImGuiLayer.h"
 
 #include "Luci/Renderer/Shader.h"
+#include "Luci/Renderer/VertexArray.h"
 #include "Luci/Renderer/Buffer.h"
 
 namespace Luci {
@@ -36,10 +37,8 @@ namespace Luci {
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 
-		unsigned int m_VertexArray;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VertexArray;
 
 		bool OnWindowClose(WindowCloseEvent& event);
 	};
