@@ -1,18 +1,17 @@
 #pragma once
 
+#include "RenderCommand.h"
+
 namespace Luci {
-
-	enum class RendererAPI {
-		None = 0,
-		OpenGL,
-	};
-
+	
 	class Renderer {
 	public:
-		static inline RendererAPI GetAPI() { return s_RendererAPI; }
+		static void BeginScene();
+		static void EndScene();
 
-	private:
-		static RendererAPI s_RendererAPI;
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 
 }
