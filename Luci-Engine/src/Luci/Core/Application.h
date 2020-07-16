@@ -11,6 +11,7 @@
 #include "Luci/Renderer/Shader.h"
 #include "Luci/Renderer/VertexArray.h"
 #include "Luci/Renderer/Buffer.h"
+#include "Luci/Renderer/OrthographicCamera.h"
 
 namespace Luci {
 
@@ -39,6 +40,8 @@ namespace Luci {
 
 		std::shared_ptr<Shader> m_Shader;
 		std::shared_ptr<VertexArray> m_VertexArray;
+
+		OrthographicCamera m_Camera;
 
 		bool OnWindowClose(WindowCloseEvent& event);
 	};
