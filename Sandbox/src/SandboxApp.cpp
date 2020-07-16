@@ -1,4 +1,5 @@
 #include <Luci.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 class ExampleLayer : public Luci::Layer {
 public:
@@ -31,12 +32,13 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec4 v_Color;
 
 			void main() {
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -61,13 +63,11 @@ public:
 		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_D)) {
 			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
 		}
-
 		if (Luci::Input::IsKeyPressed(LUCI_KEY_W)) {
 			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
 		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_S)) {
 			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
 		}
-
 		if (Luci::Input::IsKeyPressed(LUCI_KEY_Q)) {
 			m_CameraRotation += m_CameraRotateSpeed * timestep;
 		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_E)) {
@@ -81,7 +81,7 @@ public:
 		m_Camera.SetRotation(m_CameraRotation);
 
 		Luci::Renderer::BeginScene(m_Camera);
-		Luci::Renderer::Submit(m_Shader, m_VertexArray);
+		Luci::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
 		Luci::Renderer::EndScene();
 	}
 
