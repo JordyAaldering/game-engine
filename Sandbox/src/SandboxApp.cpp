@@ -55,23 +55,23 @@ public:
 		m_Shader.reset(new Luci::Shader(vertexSrc, fragmentSrc));
 	}
 
-	void OnUpdate() override {
+	void OnUpdate(Luci::Timestep timestep) override {
 		if (Luci::Input::IsKeyPressed(LUCI_KEY_A)) {
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
 		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_D)) {
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
 		}
 
 		if (Luci::Input::IsKeyPressed(LUCI_KEY_W)) {
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
 		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_S)) {
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
 		}
 
 		if (Luci::Input::IsKeyPressed(LUCI_KEY_Q)) {
-			m_CameraRotation += m_CameraRotateSpeed;
+			m_CameraRotation += m_CameraRotateSpeed * timestep;
 		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_E)) {
-			m_CameraRotation -= m_CameraRotateSpeed;
+			m_CameraRotation -= m_CameraRotateSpeed * timestep;
 		}
 
 		Luci::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
@@ -93,8 +93,8 @@ private:
 	glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
 	float m_CameraRotation = 0.0f;
 
-	float m_CameraMoveSpeed = 0.1f;
-	float m_CameraRotateSpeed = 2.0f;
+	float m_CameraMoveSpeed = 2.0f;
+	float m_CameraRotateSpeed = 90.0f;
 };
 
 class Sandbox : public Luci::Application {

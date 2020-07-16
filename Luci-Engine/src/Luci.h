@@ -6,9 +6,13 @@
 
 // core
 #include "Luci/Core/Application.h"
-#include "Luci/Core/EntryPoint.h"
+#include "Luci/Core/Timestep.h"
 #include "Luci/Core/Layer.h"
 
+// entrypoint
+#include "Luci/Core/EntryPoint.h"
+
+// input
 #include "Luci/Core/Input.h"
 #include "Luci/Core/KeyCodes.h"
 #include "Luci/Core/MouseButtonCodes.h"
