@@ -6,6 +6,9 @@ namespace Luci {
 
 	class Input {
 	public:
+		Input(const Input&) = delete;
+		Input& operator=(const Input&) = delete;
+
 		inline static bool IsKeyPressed(int keyCode) { return s_Instance->IsKeyPressedImpl(keyCode); }
 
 		inline static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
@@ -14,6 +17,8 @@ namespace Luci {
 		inline static float GetMouseY() { return s_Instance->GetMouseYImpl(); }
 
 	protected:
+		Input() = default;
+
 		virtual bool IsKeyPressedImpl(int keyCode) = 0;
 
 		virtual bool IsMouseButtonPressedImpl(int button) = 0;

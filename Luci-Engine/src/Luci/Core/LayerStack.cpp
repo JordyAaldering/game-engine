@@ -22,7 +22,7 @@ namespace Luci {
 
 	void LayerStack::PopLayer(Layer* layer) {
 		auto it = std::find(begin(), end(), layer);
-		if (it != end()) {
+		if (it != begin() + m_LayerInsertIndex) {
 			layer->OnDetach();
 			m_Layers.erase(it);
 			m_LayerInsertIndex--;

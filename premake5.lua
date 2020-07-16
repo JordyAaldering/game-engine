@@ -8,6 +8,10 @@ workspace "Luci-Engine"
         "Dist"
     }
 
+    flags {
+        "MultiProcessorCompile"
+    }
+
 OutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
