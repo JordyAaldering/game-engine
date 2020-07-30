@@ -12,7 +12,7 @@ public:
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f,
 		};
 
-		std::shared_ptr<Luci::VertexBuffer> vertexBuffer;
+		Luci::Ref<Luci::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Luci::VertexBuffer::Create(vertices, 3 * 7));
 		vertexBuffer->SetLayout({
 			{ Luci::ShaderDataType::Float3, "a_Position" },
@@ -21,7 +21,7 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Luci::IndexBuffer> indexBuffer;
+		Luci::Ref<Luci::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Luci::IndexBuffer::Create(indices, 3));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -86,8 +86,8 @@ public:
 	}
 
 private:
-	std::shared_ptr<Luci::Shader> m_Shader;
-	std::shared_ptr<Luci::VertexArray> m_VertexArray;
+	Luci::Ref<Luci::Shader> m_Shader;
+	Luci::Ref<Luci::VertexArray> m_VertexArray;
 
 	Luci::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
