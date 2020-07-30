@@ -1,60 +1,95 @@
 #include "lucipch.h"
 #include "OpenGLShader.h"
 
+#include <fstream>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Luci {
 
+	static GLenum ShaderTypeFromString(const std::string& type) {
+		if (type == "vertex") return GL_VERTEX_SHADER;
+		if (type == "fragment") return GL_FRAGMENT_SHADER;
+
+		LUCI_CORE_ASSERT(false, "Unknown shader type.");
+		return 0;
+	}
+
+	OpenGLShader::OpenGLShader(const std::string& filepath) {
+		std::string source = ReadFile(filepath);
+		auto shaderSources = PreProcess(source);
+		Compile(shaderSources);
+	}
+
 	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc) {
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		std::unordered_map<GLenum, std::string> sources;
+		sources[GL_VERTEX_SHADER] = vertexSrc;
+		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
+		Compile(sources);
+	}
 
-		const GLchar* source = vertexSrc.c_str();
-		glShaderSource(vertexShader, 1, &source, 0);
-		glCompileShader(vertexShader);
+	OpenGLShader::~OpenGLShader() {
+		glDeleteProgram(m_RendererID);
+	}
 
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE) {
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source) {
+		std::unordered_map<GLenum, std::string> shaderSources;
 
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+		const char* typeToken = "#type";
+		size_t typeTokenLength = strlen(typeToken);
+		size_t pos = source.find(typeToken, 0);
 
-			glDeleteShader(vertexShader);
+		while (pos != std::string::npos) {
+			size_t eol = source.find_first_of("\r\n", pos);
+			LUCI_CORE_ASSERT(eol != std::string::npos, "Syntax error.");
 
-			LUCI_CORE_ERROR("{0}", infoLog.data());
-			LUCI_CORE_ASSERT(false, "Vertex shader compilation failure!");
-			return;
+			size_t begin = pos + typeTokenLength + 1;
+			std::string type = source.substr(begin, eol - begin);
+			LUCI_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specifier.");
+
+			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
+			pos = source.find(typeToken, nextLinePos);
+			shaderSources[ShaderTypeFromString(type)] = source.substr(nextLinePos,
+				pos - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
 		}
 
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		source = fragmentSrc.c_str();
-		glShaderSource(fragmentShader, 1, &source, 0);
-		glCompileShader(fragmentShader);
+		return shaderSources;
+	}
 
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE) {
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
+		GLuint program = glCreateProgram();
+		std::vector<GLenum> glShaderIDs(shaderSources.size());
 
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
+		for (auto& kv : shaderSources) {
+			GLenum shaderType = kv.first;
+			const std::string& source = kv.second;
 
-			glDeleteShader(fragmentShader);
-			glDeleteShader(vertexShader);
+			GLuint shader = glCreateShader(shaderType);
 
-			LUCI_CORE_ERROR("{0}", infoLog.data());
-			LUCI_CORE_ASSERT(false, "Fragment shader compilation failure!");
-			return;
+			const GLchar* sourceCStr = source.c_str();
+			glShaderSource(shader, 1, &sourceCStr, 0);
+			glCompileShader(shader);
+
+			GLint isCompiled = 0;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+			if (isCompiled == GL_FALSE) {
+				GLint maxLength = 0;
+				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+				glDeleteShader(shader);
+
+				LUCI_CORE_ERROR("{0}", infoLog.data());
+				LUCI_CORE_ASSERT(false, "Shader compilation failure!");
+				break;
+			}
+
+			glAttachShader(program, shader);
+			glShaderIDs.push_back(shader);
 		}
 
-		m_RendererID = glCreateProgram();
-		GLuint program = m_RendererID;
-
-		glAttachShader(program, vertexShader);
-		glAttachShader(program, fragmentShader);
 		glLinkProgram(program);
 
 		GLint isLinked = 0;
@@ -67,20 +102,39 @@ namespace Luci {
 			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
 
 			glDeleteProgram(program);
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
+			for (auto id : glShaderIDs) {
+				glDeleteShader(id);
+			}
 
 			LUCI_CORE_ERROR("{0}", infoLog.data());
 			LUCI_CORE_ASSERT(false, "Shader link failure!");
 			return;
 		}
 
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
+		for (auto id : glShaderIDs) {
+			glDetachShader(program, id);
+		}
+
+		m_RendererID = program;
 	}
 
-	OpenGLShader::~OpenGLShader() {
-		glDeleteProgram(m_RendererID);
+	std::string OpenGLShader::ReadFile(const std::string& filepath) {
+		std::string result;
+
+		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		if (!in) {
+			LUCI_CORE_ERROR("Could not open file '{0}'.", filepath);
+			return result;
+		}
+
+		in.seekg(0, std::ios::end);
+		result.resize(in.tellg());
+
+		in.seekg(0, std::ios::beg);
+		in.read(&result[0], result.size());
+		in.close();
+
+		return result;
 	}
 
 	void OpenGLShader::Bind() const {
