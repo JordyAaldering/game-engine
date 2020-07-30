@@ -24,6 +24,7 @@
 
 #include "Luci/Renderer/Buffer.h"
 #include "Luci/Renderer/Shader.h"
+#include "Luci/Renderer/Texture.h"
 #include "Luci/Renderer/VertexArray.h"
 
 // logging

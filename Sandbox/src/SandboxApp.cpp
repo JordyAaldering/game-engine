@@ -1,43 +1,50 @@
 #include <Luci.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 class ExampleLayer : public Luci::Layer {
 public:
 	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
 		m_VertexArray.reset(Luci::VertexArray::Create());
 
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f,
+		float vertices[4 * (3 + 2)] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
 		};
 
 		Luci::Ref<Luci::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Luci::VertexBuffer::Create(vertices, 3 * 7));
+		vertexBuffer.reset(Luci::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float)));
 		vertexBuffer->SetLayout({
 			{ Luci::ShaderDataType::Float3, "a_Position" },
-			{ Luci::ShaderDataType::Float4, "a_Color" },
-			});
+			{ Luci::ShaderDataType::Float2, "a_TexCoord" },
+		});
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
-		uint32_t indices[3] = { 0, 1, 2 };
+		uint32_t indices[2 * 3] = {
+			0, 1, 2,
+			0, 2, 3,
+		};
+
 		Luci::Ref<Luci::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Luci::IndexBuffer::Create(indices, 3));
+		indexBuffer.reset(Luci::IndexBuffer::Create(indices, sizeof(indices) / sizeof(int)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		std::string vertexSrc = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
+			layout(location = 1) in vec2 a_TexCoord;
 
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
 
-			out vec4 v_Color;
+			out vec2 v_TexCoord;
 
 			void main() {
-				v_Color = a_Color;
+				v_TexCoord = a_TexCoord;
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
@@ -47,14 +54,20 @@ public:
 
 			layout(location = 0) out vec4 o_Color;
 
-			in vec4 v_Color;
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
 
 			void main() {
-				o_Color = vec4(v_Color);
+				o_Color = texture(u_Texture, v_TexCoord);
 			}
 		)";
 
-		m_Shader.reset(new Luci::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Luci::Shader::Create(vertexSrc, fragmentSrc));
+		m_Texture = Luci::Texture2D::Create("assets/textures/Icon.png");
+
+		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Texture)->Bind();
+		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Texture)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Luci::Timestep timestep) override {
@@ -81,6 +94,7 @@ public:
 		m_Camera.SetRotation(m_CameraRotation);
 
 		Luci::Renderer::BeginScene(m_Camera);
+		m_Texture->Bind();
 		Luci::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
 		Luci::Renderer::EndScene();
 	}
@@ -88,6 +102,7 @@ public:
 private:
 	Luci::Ref<Luci::Shader> m_Shader;
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
+	Luci::Ref<Luci::Texture> m_Texture;
 
 	Luci::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
