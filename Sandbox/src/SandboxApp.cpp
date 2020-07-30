@@ -63,11 +63,11 @@ public:
 			}
 		)";
 
-		m_Shader.reset(Luci::Shader::Create(vertexSrc, fragmentSrc));
-		m_Texture = Luci::Texture2D::Create("assets/textures/Icon.png");
+		m_Shader = Luci::Shader::Create(vertexSrc, fragmentSrc);
+		m_Texture = Luci::Texture2D::Create("assets/textures/Checkerboard.png");
 
-		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Texture)->Bind();
-		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Texture)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Shader)->Bind();
+		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Shader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Luci::Timestep timestep) override {
@@ -94,8 +94,10 @@ public:
 		m_Camera.SetRotation(m_CameraRotation);
 
 		Luci::Renderer::BeginScene(m_Camera);
+
 		m_Texture->Bind();
 		Luci::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+
 		Luci::Renderer::EndScene();
 	}
 

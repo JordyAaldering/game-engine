@@ -11,7 +11,6 @@ namespace Luci {
 
 		const GLchar* source = vertexSrc.c_str();
 		glShaderSource(vertexShader, 1, &source, 0);
-
 		glCompileShader(vertexShader);
 
 		GLint isCompiled = 0;
@@ -31,10 +30,8 @@ namespace Luci {
 		}
 
 		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
 		source = fragmentSrc.c_str();
 		glShaderSource(fragmentShader, 1, &source, 0);
-
 		glCompileShader(fragmentShader);
 
 		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
