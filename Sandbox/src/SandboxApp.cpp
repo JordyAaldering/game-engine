@@ -65,6 +65,7 @@ public:
 
 		m_Shader = Luci::Shader::Create(vertexSrc, fragmentSrc);
 		m_Texture = Luci::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_TextureIcon = Luci::Texture2D::Create("assets/textures/Icon.png");
 
 		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Shader)->Bind();
 		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Shader)->UploadUniformInt("u_Texture", 0);
@@ -97,6 +98,8 @@ public:
 
 		m_Texture->Bind();
 		Luci::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+		m_TextureIcon->Bind();
+		Luci::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
 
 		Luci::Renderer::EndScene();
 	}
@@ -104,7 +107,7 @@ public:
 private:
 	Luci::Ref<Luci::Shader> m_Shader;
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
-	Luci::Ref<Luci::Texture> m_Texture;
+	Luci::Ref<Luci::Texture> m_Texture, m_TextureIcon;
 
 	Luci::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
