@@ -32,16 +32,19 @@ namespace Luci {
 		inline Window& GetWindow() { return *m_Window; }
 
 	private:
+		bool OnWindowClose(WindowCloseEvent& event);
+		bool OnWindowResize(WindowResizeEvent& event);
+
+	private:
 		static Application* s_Instance;
 
 		bool m_Running = true;
+		bool m_Minimized = false;
 		float m_LastFrameTime = 0.0f;
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
-
-		bool OnWindowClose(WindowCloseEvent& event);
 	};
 
 	/// <summary>

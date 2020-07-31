@@ -29,8 +29,10 @@ namespace Luci {
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack) {
-				layer->OnUpdate(timestep);
+			if (!m_Minimized) {
+				for (Layer* layer : m_LayerStack) {
+					layer->OnUpdate(timestep);
+				}
 			}
 
 			m_ImGuiLayer->Begin();
@@ -46,6 +48,7 @@ namespace Luci {
 	void Application::OnEvent(Event& event) {
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(LUCI_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(LUCI_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) {
 			(*--it)->OnEvent(event);
@@ -66,6 +69,17 @@ namespace Luci {
 	bool Application::OnWindowClose(WindowCloseEvent& event) {
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& event) {
+		if (event.GetWidth() == 0 || event.GetHeight() == 0) {
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+		return false;
 	}
 
 }
