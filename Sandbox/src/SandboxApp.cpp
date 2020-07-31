@@ -32,12 +32,13 @@ public:
 		indexBuffer.reset(Luci::IndexBuffer::Create(indices, sizeof(indices) / sizeof(int)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 		
-		m_Shader = Luci::Shader::Create("assets/shaders/Texture.glsl");
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
+
 		m_Texture = Luci::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_TextureIcon = Luci::Texture2D::Create("assets/textures/Icon.png");
 
-		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Shader)->Bind();
-		std::dynamic_pointer_cast<Luci::OpenGLShader>(m_Shader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Luci::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Luci::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Luci::Timestep timestep) override {
@@ -65,16 +66,18 @@ public:
 
 		Luci::Renderer::BeginScene(m_Camera);
 
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+
 		m_Texture->Bind();
-		Luci::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+		Luci::Renderer::Submit(textureShader, m_VertexArray, glm::mat4(1.0f));
 		m_TextureIcon->Bind();
-		Luci::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+		Luci::Renderer::Submit(textureShader, m_VertexArray, glm::mat4(1.0f));
 
 		Luci::Renderer::EndScene();
 	}
 
 private:
-	Luci::Ref<Luci::Shader> m_Shader;
+	Luci::ShaderLibrary m_ShaderLibrary;
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
 	Luci::Ref<Luci::Texture> m_Texture, m_TextureIcon;
 
