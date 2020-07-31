@@ -20,7 +20,9 @@
 // renderer
 #include "Luci/Renderer/Renderer.h"
 #include "Luci/Renderer/RenderCommand.h"
-#include "Luci/Renderer/OrthographicCamera.h"
+
+#include "Luci/Renderer/Camera/OrthographicCamera.h"
+#include "Luci/Renderer/Camera/OrthographicCameraController.h"
 
 #include "Luci/Renderer/Buffer.h"
 #include "Luci/Renderer/Shader.h"

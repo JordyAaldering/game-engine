@@ -5,7 +5,7 @@
 
 class ExampleLayer : public Luci::Layer {
 public:
-	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+	ExampleLayer() : Layer("Example"), m_CameraController(1280.0f / 720.0f, true) {
 		m_VertexArray.reset(Luci::VertexArray::Create());
 
 		float vertices[4 * (3 + 2)] = {
@@ -42,29 +42,12 @@ public:
 	}
 
 	void OnUpdate(Luci::Timestep timestep) override {
-		if (Luci::Input::IsKeyPressed(LUCI_KEY_A)) {
-			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
-		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_D)) {
-			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
-		}
-		if (Luci::Input::IsKeyPressed(LUCI_KEY_W)) {
-			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
-		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_S)) {
-			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
-		}
-		if (Luci::Input::IsKeyPressed(LUCI_KEY_Q)) {
-			m_CameraRotation += m_CameraRotateSpeed * timestep;
-		} else if (Luci::Input::IsKeyPressed(LUCI_KEY_E)) {
-			m_CameraRotation -= m_CameraRotateSpeed * timestep;
-		}
+		m_CameraController.OnUpdate(timestep);
 
 		Luci::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Luci::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		Luci::Renderer::BeginScene(m_Camera);
+		Luci::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		auto textureShader = m_ShaderLibrary.Get("Texture");
 
@@ -76,17 +59,17 @@ public:
 		Luci::Renderer::EndScene();
 	}
 
+	void OnEvent(Luci::Event& event) override {
+		m_CameraController.OnEvent(event);
+	}
+
 private:
 	Luci::ShaderLibrary m_ShaderLibrary;
+
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
 	Luci::Ref<Luci::Texture> m_Texture, m_TextureIcon;
 
-	Luci::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
-	float m_CameraRotation = 0.0f;
-
-	float m_CameraMoveSpeed = 2.0f;
-	float m_CameraRotateSpeed = 90.0f;
+	Luci::OrthographicCameraController m_CameraController;
 };
 
 class Sandbox : public Luci::Application {

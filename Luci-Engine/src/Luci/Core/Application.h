@@ -12,7 +12,7 @@
 #include "Luci/Renderer/Shader.h"
 #include "Luci/Renderer/VertexArray.h"
 #include "Luci/Renderer/Buffer.h"
-#include "Luci/Renderer/OrthographicCamera.h"
+#include "Luci/Renderer/Camera/OrthographicCamera.h"
 
 namespace Luci {
 
