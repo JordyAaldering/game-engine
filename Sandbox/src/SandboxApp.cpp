@@ -1,12 +1,16 @@
 #include <Luci.h>
+#include <Luci/Core/EntryPoint.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
+#include "Sandbox2D.h"
+
 class ExampleLayer : public Luci::Layer {
 public:
 	ExampleLayer() : Layer("Example"), m_CameraController(1280.0f / 720.0f, true) {
-		m_VertexArray.reset(Luci::VertexArray::Create());
+		m_VertexArray = Luci::VertexArray::Create();
 
 		float vertices[4 * (3 + 2)] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -16,7 +20,7 @@ public:
 		};
 
 		Luci::Ref<Luci::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Luci::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float)));
+		vertexBuffer = Luci::VertexBuffer::Create(vertices, sizeof(vertices) / sizeof(float));
 		vertexBuffer->SetLayout({
 			{ Luci::ShaderDataType::Float3, "a_Position" },
 			{ Luci::ShaderDataType::Float2, "a_TexCoord" },
@@ -29,7 +33,7 @@ public:
 		};
 
 		Luci::Ref<Luci::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Luci::IndexBuffer::Create(indices, sizeof(indices) / sizeof(int)));
+		indexBuffer = Luci::IndexBuffer::Create(indices, sizeof(indices) / sizeof(int));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 		
 		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
@@ -74,7 +78,11 @@ private:
 
 class Sandbox : public Luci::Application {
 public:
-	Sandbox() { PushLayer(new ExampleLayer()); }
+	Sandbox() { 
+		// PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
+	}
+
 	~Sandbox() = default;
 };
 

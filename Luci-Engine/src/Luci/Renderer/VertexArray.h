@@ -7,7 +7,7 @@ namespace Luci {
 
 	class VertexArray {
 	public:
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 		virtual ~VertexArray() = default;
 
 		virtual void Bind() const = 0;

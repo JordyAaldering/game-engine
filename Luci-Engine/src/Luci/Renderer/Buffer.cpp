@@ -6,26 +6,26 @@
 
 namespace Luci {
 
-	VertexBuffer* VertexBuffer::Create(float* vertices, size_t size) {
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, size_t size) {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return new OpenGLVertexBuffer(vertices, size);
+				return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 		}
 
 		LUCI_CORE_ASSERT(false, "Unknown RendererAPI value.");
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indices, size_t size) {
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, size_t size) {
 		switch (Renderer::GetAPI()) {
 			case RendererAPI::API::None:
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return new OpenGLIndexBuffer(indices, size);
+				return std::make_shared<OpenGLIndexBuffer>(indices, size);
 		}
 
 		LUCI_CORE_ASSERT(false, "Unknown RendererAPI value.");
