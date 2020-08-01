@@ -19,6 +19,14 @@ namespace Luci {
 
 		LUCI_CORE_INFO("OpenGL renderer\n\tVendor: {0}\n\tRenderer: {1}\n\tVersion: {2}",
 			glGetString(GL_VENDOR), glGetString(GL_RENDERER), glGetString(GL_VERSION));
+
+		#ifdef LUCI_ENABLE_ASSERTS
+			int versionMajor, versionMinor;
+			glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+			glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
+
+			LUCI_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 5), "Luci requires at least OpenGL version 4.5.");
+		#endif
 	}
 
 	void OpenGLContext::SwapBuffers() {

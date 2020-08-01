@@ -74,7 +74,6 @@ project "Luci-Engine"
         systemversion "latest"
 
         defines {
-            "LUCI_PLATFORM_WINDOWS",
             "LUCI_BUILD_DLL",
             "GLFW_INCLUDE_NONE"
         }
@@ -122,10 +121,6 @@ project "Sandbox"
 
     filter "system:windows"
         systemversion "latest"
-
-        defines {
-            "LUCI_PLATFORM_WINDOWS"
-        }
 
     filter "configurations:Debug"
         defines "LUCI_DEBUG"

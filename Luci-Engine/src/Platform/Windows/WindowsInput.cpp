@@ -6,7 +6,7 @@
 
 namespace Luci {
 
-	Input* Input::s_Instance = new WindowsInput();
+	Scope <Input> Input::s_Instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(int keyCode) {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
