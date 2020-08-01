@@ -122,6 +122,7 @@ namespace Luci {
 
 		for (auto id : glShaderIDs) {
 			glDetachShader(program, id);
+			glDeleteShader(id);
 		}
 
 		m_RendererID = program;

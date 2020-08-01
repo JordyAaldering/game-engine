@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Luci/Core/Log.h"
+#include "Luci/Debug/Log.h"
 
 #ifdef LUCI_PLATFORM_WINDOWS
 	#include <Windows.h>

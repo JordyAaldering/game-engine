@@ -29,5 +29,5 @@
 #include "Luci/Renderer/Texture.h"
 #include "Luci/Renderer/VertexArray.h"
 
-// logging
-#include "Luci/Core/Log.h"
+// debug
+#include "Luci/Debug/Log.h"
