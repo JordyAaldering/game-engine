@@ -8,7 +8,8 @@ Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f
 }
 
 void Sandbox2D::OnAttach() {
-	
+	m_Texture = Luci::Texture2D::Create("assets/textures/Checkerboard.png");
+	m_TextureIcon = Luci::Texture2D::Create("assets/textures/Icon.png");
 }
 
 void Sandbox2D::OnDetach() {
@@ -23,8 +24,11 @@ void Sandbox2D::OnUpdate(Luci::Timestep timestep) {
 
 	Luci::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-	Luci::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-	Luci::Renderer2D::DrawQuad({ 0.5f, 0.5f }, { 1.2f, 1.0f }, { 0.3f, 0.2f, 0.8f, 1.0f });
+	Luci::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.6f, 0.7f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+	Luci::Renderer2D::DrawQuad({ 0.6f, -0.5f }, { 1.0f, 0.8f }, { 0.3f, 0.2f, 0.8f, 1.0f });
+
+	Luci::Renderer2D::DrawQuad({ -0.3f, 0.2f }, { 0.5f, 0.5f }, m_Texture, { 0.6f, 0.2f, 0.3f, 1.0f });
+	Luci::Renderer2D::DrawQuad({ -0.3f, 0.2f, 0.1f }, { 0.6f, 0.6f }, m_TextureIcon, glm::vec4(1.0f));
 
 	Luci::Renderer2D::EndScene();
 }

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Luci/Renderer/Camera/OrthographicCamera.h"
+#include "Camera/OrthographicCamera.h"
+#include "Texture.h"
 
 namespace Luci {
 
@@ -15,10 +16,8 @@ namespace Luci {
 		// Primitives
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color);
-
-
-	private:
-
+		static void DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& tint = glm::vec4(1.0f));
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& tint = glm::vec4(1.0f));
 	};
 
 }
