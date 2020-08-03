@@ -21,7 +21,6 @@ namespace Luci {
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-		// when viewports are enabled tweak WindowRounding/WindowBg so platform windows can look identical to regular ones
 		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 			style.WindowRounding = 0.0f;
@@ -31,7 +30,6 @@ namespace Luci {
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 
-		// setup platform/renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
@@ -40,11 +38,6 @@ namespace Luci {
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
-	}
-
-	void ImGuiLayer::OnImGuiRender() {
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
 	}
 
 	void ImGuiLayer::Begin() {
