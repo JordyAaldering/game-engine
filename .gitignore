@@ -26,6 +26,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+# But not debug code
+!Luci-Engine/src/Luci/Debug/
 
 # Visual Studio 2015/2017 cache/options
 .vs/
