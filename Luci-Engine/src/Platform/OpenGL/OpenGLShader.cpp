@@ -135,11 +135,16 @@ namespace Luci {
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (!in) {
 			LUCI_CORE_ERROR("Could not open file '{0}'.", filepath);
-			return result;
+			return "";
 		}
 
 		in.seekg(0, std::ios::end);
-		result.resize(in.tellg());
+		int size = in.tellg();
+		if (size == -1) {
+			LUCI_CORE_ERROR("Could not read from file '{0}'.", filepath);
+		}
+
+		result.resize(size);
 
 		in.seekg(0, std::ios::beg);
 		in.read(&result[0], result.size());

@@ -41,8 +41,8 @@ public:
 		m_Texture = Luci::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_TextureIcon = Luci::Texture2D::Create("assets/textures/Icon.png");
 
-		std::dynamic_pointer_cast<Luci::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<Luci::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Luci::Timestep timestep) override {
@@ -68,12 +68,11 @@ public:
 	}
 
 private:
-	Luci::ShaderLibrary m_ShaderLibrary;
+	Luci::OrthographicCameraController m_CameraController;
 
+	Luci::ShaderLibrary m_ShaderLibrary;
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
 	Luci::Ref<Luci::Texture> m_Texture, m_TextureIcon;
-
-	Luci::OrthographicCameraController m_CameraController;
 };
 
 class Sandbox : public Luci::Application {

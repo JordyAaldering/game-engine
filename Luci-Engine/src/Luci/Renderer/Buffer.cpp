@@ -12,7 +12,7 @@ namespace Luci {
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+				return CreateRef<OpenGLVertexBuffer>(vertices, size);
 		}
 
 		LUCI_CORE_ASSERT(false, "Unknown RendererAPI value.");
@@ -25,7 +25,7 @@ namespace Luci {
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return std::make_shared<OpenGLIndexBuffer>(indices, size);
+				return CreateRef<OpenGLIndexBuffer>(indices, size);
 		}
 
 		LUCI_CORE_ASSERT(false, "Unknown RendererAPI value.");

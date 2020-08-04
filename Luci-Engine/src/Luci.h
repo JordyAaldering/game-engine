@@ -5,6 +5,7 @@
  */
 
 // core
+#include "Luci/Core/Core.h"
 #include "Luci/Core/Application.h"
 #include "Luci/Core/Timestep.h"
 #include "Luci/Core/Layer.h"

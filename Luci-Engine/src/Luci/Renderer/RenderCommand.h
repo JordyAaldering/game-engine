@@ -27,7 +27,7 @@ namespace Luci {
 		}
 
 	private:
-		static Scope <RendererAPI> s_RendererAPI;
+		static Scope<RendererAPI> s_RendererAPI;
 	};
 
 }

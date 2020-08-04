@@ -32,21 +32,7 @@
 	#error "Unknown platform!"
 #endif // End of platform detection
 
-// DLL support
-#ifdef LUCI_PLATFORM_WINDOWS
-	#if LUCI_DYNAMIC_LINK
-		#ifdef LUCI_BUILD_DLL
-			#define HAZEL_API __declspec(dllexport)
-		#else
-			#define HAZEL_API __declspec(dllimport)
-		#endif
-	#else
-		#define LUCI_API
-	#endif
-#else
-	#error Luci only supports Windows!
-#endif // End of DLL support
-
+// Debugging
 #ifdef LUCI_DEBUG
 	#define LUCI_ENABLE_ASSERTS
 #endif
@@ -57,7 +43,7 @@
 #else
 	#define LUCI_ASSERT(x, ...)
 	#define LUCI_CORE_ASSERT(x, ...)
-#endif
+#endif // End of debugging
 
 #define BIT(x) (1 << x)
 

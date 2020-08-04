@@ -8,10 +8,9 @@ namespace Luci {
 
 	struct WindowProps {
 		std::string Title;
-		unsigned int Width, Height;
+		uint32_t Width, Height;
 
-		WindowProps(const std::string& title = "Luci Engine",
-			unsigned int width = 1280, unsigned int height = 720)
+		WindowProps(const std::string& title = "Luci Engine", unsigned int width = 1280, unsigned int height = 720)
 			: Title(title), Width(width), Height(height) {}
 	};
 
@@ -22,7 +21,7 @@ namespace Luci {
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props = WindowProps());
 		virtual ~Window() = default;
 
 		virtual void OnUpdate() = 0;
