@@ -22,8 +22,10 @@ layout(location = 0) out vec4 o_Color;
 in vec2 v_TexCoord;
 
 uniform sampler2D u_Texture;
+uniform vec2 u_Tiling;
 uniform vec4 u_Color;
 
 void main() {
-	o_Color = texture(u_Texture, v_TexCoord) * u_Color;
+	vec2 tiledTexCoord = vec2(v_TexCoord.x * u_Tiling.x, v_TexCoord.y * u_Tiling.y);
+	o_Color = texture(u_Texture, tiledTexCoord) * u_Color;
 }

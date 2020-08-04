@@ -69,34 +69,42 @@ namespace Luci {
 		LUCI_PROFILE_FUNCTION();
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color) {
-		DrawQuad({ position.x, position.y, 0.0f }, scale, color);
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const glm::vec4& color) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
 		s_Data->WhiteTexture->Bind();
+		s_Data->TextureShader->SetFloat2("u_Tiling", glm::vec2(1.0f));
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			// Only calculate rotation if there is any.
+			* (rotation == 0.0f ? glm::mat4(1.0f) : glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }))
+			* glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
 
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& color) {
-		DrawQuad({ position.x, position.y, 0.0f }, scale, texture, color);
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& color) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, texture, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
 		texture->Bind();
+		s_Data->TextureShader->SetFloat2("u_Tiling", glm::vec2(1.0f));
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			// Only calculate rotation if there is any.
+			* (rotation == 0.0f ? glm::mat4(1.0f) : glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }))
+			* glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
 
 		s_Data->QuadVertexArray->Bind();
