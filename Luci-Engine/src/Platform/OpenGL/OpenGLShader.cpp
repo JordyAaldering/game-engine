@@ -16,6 +16,8 @@ namespace Luci {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath) {
+		LUCI_PROFILE_FUNCTION();
+
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -29,6 +31,8 @@ namespace Luci {
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name) {
+		LUCI_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -36,10 +40,13 @@ namespace Luci {
 	}
 
 	OpenGLShader::~OpenGLShader() {
+		LUCI_PROFILE_FUNCTION();
 		glDeleteProgram(m_RendererID);
 	}
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source) {
+		LUCI_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -65,6 +72,8 @@ namespace Luci {
 	}
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
+		LUCI_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 		std::array<GLenum, 2> glShaderIDs;
 		LUCI_CORE_ASSERT(shaderSources.size() <= glShaderIDs.max_size(), "Too many shaders supplied.");
@@ -130,6 +139,8 @@ namespace Luci {
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath) {
+		LUCI_PROFILE_FUNCTION();
+
 		std::string result;
 
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
@@ -154,10 +165,12 @@ namespace Luci {
 	}
 
 	void OpenGLShader::Bind() const {
+		LUCI_PROFILE_FUNCTION();
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Unbind() const {
+		LUCI_PROFILE_FUNCTION();
 		glUseProgram(0);
 	}
 

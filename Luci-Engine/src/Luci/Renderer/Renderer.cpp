@@ -9,11 +9,13 @@ namespace Luci {
 	Scope <Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
 
 	void Renderer::Init() {
+		LUCI_PROFILE_FUNCTION();
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
 
 	void Renderer::Shutdown() {
+		LUCI_PROFILE_FUNCTION();
 		Renderer2D::Shutdown();
 	}
 
