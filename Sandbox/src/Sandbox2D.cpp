@@ -4,20 +4,18 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <chrono>
 
-Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f) {
-	
-}
+Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f) {}
 
 void Sandbox2D::OnAttach() {
 	m_Texture = Luci::Texture2D::Create("assets/textures/Checkerboard.png");
 	m_TextureIcon = Luci::Texture2D::Create("assets/textures/Icon.png");
 }
 
-void Sandbox2D::OnDetach() {
-
-}
+void Sandbox2D::OnDetach() {}
 
 void Sandbox2D::OnUpdate(Luci::Timestep timestep) {
+	LUCI_PROFILE_FUNCTION();
+
 	m_CameraController.OnUpdate(timestep);
 
 	Luci::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
@@ -34,17 +32,10 @@ void Sandbox2D::OnUpdate(Luci::Timestep timestep) {
 }
 
 void Sandbox2D::OnImGuiRender() {
+	LUCI_PROFILE_FUNCTION();
+
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square color", glm::value_ptr(m_SquareColor));
-
-	for (auto& result : m_ProfileResults) {
-		char label[50];
-		strcpy_s(label, "%.3fms  ");
-		strcat_s(label, result.Name);
-		ImGui::Text(label, result.Time);
-	}
-
-	m_ProfileResults.clear();
 	ImGui::End();
 }
 

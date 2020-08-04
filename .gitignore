@@ -8,6 +8,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Visual profiling output
+LuciProfile*.json
+
 # Mono auto generated files
 mono_crash.*
 

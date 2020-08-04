@@ -14,6 +14,7 @@
 #include <unordered_set>
 
 #include "Luci/Debug/Log.h"
+#include "Luci/Debug/Instrumentor.h"
 
 #ifdef LUCI_PLATFORM_WINDOWS
 	#include <Windows.h>
