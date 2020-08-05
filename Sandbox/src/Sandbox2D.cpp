@@ -28,18 +28,14 @@ void Sandbox2D::OnUpdate(Luci::Timestep timestep) {
 
 	Luci::Renderer2D::DrawQuad({ -1.0f, -0.2f }, 0.0f, { 0.6f, 0.7f }, m_SquareColor);
 	Luci::Renderer2D::DrawQuad({ 0.6f, -0.5f }, 0.0f, { 1.0f, 0.8f }, { 0.2f, 0.8f, 0.3f, 1.0f });
-	//Luci::Renderer2D::DrawQuad({ -0.3f, 0.2f }, 0.0f, { 0.5f, 0.5f }, m_Texture, { 1.0f, 0.7f, 0.8f, 0.9f });
-	//Luci::Renderer2D::DrawQuad({ -0.3f, 0.2f, 0.1f }, 0.0f, { 0.6f, 0.6f }, m_TextureIcon, glm::vec4(1.0f));
+	Luci::Renderer2D::DrawQuad({ -0.3f, 0.2f }, 0.0f, { 0.5f, 0.5f }, m_Texture, { 1.0f, 0.7f, 0.8f, 0.9f });
+	Luci::Renderer2D::DrawQuad({ -0.3f, 0.2f, 0.1f }, 0.0f, { 0.6f, 0.6f }, m_TextureIcon, glm::vec4(1.0f));
 
 	Luci::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender() {
 	LUCI_PROFILE_FUNCTION();
-
-	ImGui::Begin("Settings");
-	ImGui::ColorEdit4("Square color", glm::value_ptr(m_SquareColor));
-	ImGui::End();
 }
 
 void Sandbox2D::OnEvent(Luci::Event& event) {
