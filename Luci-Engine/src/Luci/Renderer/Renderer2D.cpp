@@ -135,11 +135,11 @@ namespace Luci {
 	 */
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color) {
-		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, s_Data.TextureSlots[0], color);
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color) {
-		DrawQuad(position, rotation, size, s_Data.TextureSlots[0], color);
+		DrawQuadFromTexIndex(position, rotation, size, 0, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color) {
@@ -149,19 +149,24 @@ namespace Luci {
 	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
-		float textureIndex = 0.0f;
+		float texIndex = 0.0f;
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++) {
 			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
-				textureIndex = (float)i;
+				texIndex = (float)i;
 				break;
 			}
 		}
-		if (textureIndex == 0.0f) {
-			textureIndex = (float)s_Data.TextureSlotIndex;
+
+		if (texIndex == 0.0f) {
+			texIndex = (float)s_Data.TextureSlotIndex;
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
 		}
 		
+		DrawQuadFromTexIndex(position, rotation, size, texIndex, color);
+	}
+
+	void Renderer2D::DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, float texIndex, const glm::vec4& color) {
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
@@ -170,7 +175,7 @@ namespace Luci {
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
 			s_Data.QuadVertexBufferPtr->TexCoord = s_Data.QuadTexCoords[i];
-			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+			s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
 			s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 			s_Data.QuadVertexBufferPtr++;
 		}
