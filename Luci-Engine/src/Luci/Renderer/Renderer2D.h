@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Camera/OrthographicCamera.h"
-#include "Texture.h"
+#include "Luci/Renderer/Texture.h"
+#include "Luci/Renderer/SubTexture2D.h"
 
 namespace Luci {
 
@@ -17,8 +18,10 @@ namespace Luci {
 		// Primitives
 		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color);
-		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color = glm::vec4(1.0f));
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color = glm::vec4(1.0f));
+		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
+		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
 	
 		// Statistics
 		struct Statistics {
@@ -35,7 +38,8 @@ namespace Luci {
 	private:
 		static void FlushAndReset();
 
-		static void DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, float texIndex, const glm::vec4& color);
+		// Primitives
+		static void DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color, float texIndex, const glm::vec2* texCoords);
 	};
 
 }

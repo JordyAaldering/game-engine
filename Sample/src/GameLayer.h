@@ -20,4 +20,6 @@ private:
 	Luci::Ref<Luci::Shader> m_Shader;
 
 	Luci::Ref<Luci::Texture2D> m_SpriteSheet;
+	Luci::Ref<Luci::SubTexture2D> m_TextureBush, m_TextureBarrel, m_TextureTree;
+
 };

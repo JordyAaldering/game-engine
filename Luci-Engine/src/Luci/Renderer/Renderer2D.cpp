@@ -35,6 +35,19 @@ namespace Luci {
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1; // 0 = white texture
 
+		const glm::vec4 QuadVertexPositions[4] = {
+			{ -0.5f, -0.5f, 0.0f, 1.0f },
+			{  0.5f, -0.5f, 0.0f, 1.0f },
+			{  0.5f,  0.5f, 0.0f, 1.0f },
+			{ -0.5f,  0.5f, 0.0f, 1.0f },
+		};
+		const glm::vec2 QuadTexCoords[4] = {
+			{ 0.0f, 0.0f },
+			{ 1.0f, 0.0f },
+			{ 1.0f, 1.0f },
+			{ 0.0f, 1.0f },
+		};
+
 		Renderer2D::Statistics Statistics;
 	};
 
@@ -145,14 +158,14 @@ namespace Luci {
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color) {
-		DrawQuadFromTexIndex(position, rotation, size, 0, color);
+		DrawQuadFromTexIndex(position, rotation, size, color, 0, s_Data.QuadTexCoords);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) {
 		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, texture, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
 		float texIndex = 0.0f;
@@ -168,29 +181,36 @@ namespace Luci {
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
 		}
-		
-		DrawQuadFromTexIndex(position, rotation, size, texIndex, color);
+
+		DrawQuadFromTexIndex(position, rotation, size, color, texIndex, s_Data.QuadTexCoords);
 	}
 
-	void Renderer2D::DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, float texIndex, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, subTexture, color);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
-		constexpr float x = 2.0f, y = 3.0f;
-		constexpr float sheetWidth = 2560.0f, sheetHeight = 1664.0f;
-		constexpr float spriteWidth = 128.0f, spriteHeight = 128.0f;
+		float texIndex = 0.0f;
+		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++) {
+			if (*s_Data.TextureSlots[i].get() == *subTexture->GetTexture().get()) {
+				texIndex = (float)i;
+				break;
+			}
+		}
 
-		constexpr glm::vec4 QuadVertexPositions[] = {
-			{ -0.5f, -0.5f, 0.0f, 1.0f },
-			{  0.5f, -0.5f, 0.0f, 1.0f },
-			{  0.5f,  0.5f, 0.0f, 1.0f },
-			{ -0.5f,  0.5f, 0.0f, 1.0f }
-		};
-		constexpr glm::vec2 QuadTexCoords[] = {
-			{ (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight },
-			{ (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight },
-			{ (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight },
-			{ (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight }
-		};
+		if (texIndex == 0.0f) {
+			texIndex = (float)s_Data.TextureSlotIndex;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = subTexture->GetTexture();
+			s_Data.TextureSlotIndex++;
+		}
+
+		DrawQuadFromTexIndex(position, rotation, size, color, texIndex, subTexture->GetTexCoords());
+	}
+
+	void Renderer2D::DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color, float texIndex, const glm::vec2* texCoords) {
+		LUCI_PROFILE_FUNCTION();
 
 		if (s_Data.QuadIndexCount >= Renderer2DData::BufferMaxIndices) {
 			FlushAndReset();
@@ -201,9 +221,9 @@ namespace Luci {
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		for (uint32_t i = 0; i < 4; i++) {
-			s_Data.QuadVertexBufferPtr->Position = transform * QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = QuadTexCoords[i];
+			s_Data.QuadVertexBufferPtr->TexCoord = texCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
 			s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 			s_Data.QuadVertexBufferPtr++;
