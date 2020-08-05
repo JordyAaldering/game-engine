@@ -49,7 +49,12 @@ void Sandbox2D::OnImGuiRender() {
 	LUCI_PROFILE_FUNCTION();
 
 	auto stats = Luci::Renderer2D::GetStatistics();
-	ImGui::Begin("Statistics");
+	ImGui::Begin("ImGui");
+	ImGui::Text("SETTINGS:");
+	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+	ImGui::NewLine();
+
+	ImGui::Text("STATISTICS:");
 	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
 	ImGui::Text("Quads: %d", stats.QuadCount);
 	ImGui::Text("Vertices: %d", stats.GetVertexCount());

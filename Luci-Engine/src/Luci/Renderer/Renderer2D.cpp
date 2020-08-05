@@ -100,6 +100,7 @@ namespace Luci {
 
 	void Renderer2D::Shutdown() {
 		LUCI_PROFILE_FUNCTION();
+		delete[] s_Data.QuadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
@@ -124,6 +125,10 @@ namespace Luci {
 
 	void Renderer2D::Flush() {
 		LUCI_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount == 0) {
+			return; // nothing to draw
+		}
 
 		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++) {
 			s_Data.TextureSlots[i]->Bind(i);
