@@ -123,11 +123,11 @@ namespace Luci {
 	 * Primitives
 	 */
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const glm::vec4& color) {
-		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, color);
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
 		s_Data.QuadVertexBufferPtr->Position = position;
@@ -137,21 +137,21 @@ namespace Luci {
 		s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x + scale.x, position.y, position.z };
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
 		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
 		s_Data.QuadVertexBufferPtr->TexIndex = 0.0f;
 		s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x + scale.x, position.y + scale.y, position.z };
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
 		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr->TexIndex = 0.0f;
 		s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + scale.y, position.z };
+		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
 		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr->TexIndex = 0.0f;
@@ -161,11 +161,11 @@ namespace Luci {
 		s_Data.QuadIndexCount += 6;
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& color) {
-		DrawQuad({ position.x, position.y, 0.0f }, rotation, scale, texture, color);
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, texture, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const Ref<Texture2D> texture, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
 		float textureIndex = 0.0f;
@@ -189,21 +189,21 @@ namespace Luci {
 		s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x + scale.x, position.y, position.z };
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
 		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
 		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 		s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x + scale.x, position.y + scale.y, position.z };
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
 		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 		s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + scale.y, position.z };
+		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
 		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
 		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
