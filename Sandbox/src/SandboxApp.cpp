@@ -4,7 +4,6 @@
 #include "ExampleLayer.h"
 #include "Sandbox2D.h"
 
-
 class Sandbox : public Luci::Application {
 public:
 	Sandbox() { 
