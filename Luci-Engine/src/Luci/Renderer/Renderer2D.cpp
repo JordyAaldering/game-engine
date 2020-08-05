@@ -18,9 +18,9 @@ namespace Luci {
 	};
 
 	struct Renderer2DData {
-		const uint32_t MaxQuadsPerBuffer = 10000;
-		const uint32_t MaxVerticesPerBuffer = MaxQuadsPerBuffer * 4;
-		const uint32_t MaxIndicesPerBuffer = MaxQuadsPerBuffer * 6;
+		static const uint32_t BufferMaxQuads = 10000;
+		static const uint32_t BufferMaxVertices = BufferMaxQuads * 4;
+		static const uint32_t BufferMaxIndices = BufferMaxQuads * 6;
 		static const uint32_t MaxTextureSlots = 32;
 
 		Ref<VertexArray> QuadVertexArray;
@@ -37,6 +37,8 @@ namespace Luci {
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1; // 0 = white texture
+
+		Renderer2D::Statistics Statistics;
 	};
 
 	static Renderer2DData s_Data;
@@ -46,7 +48,7 @@ namespace Luci {
 
 		s_Data.QuadVertexArray = VertexArray::Create();
 
-		s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVerticesPerBuffer * sizeof(QuadVertex));
+		s_Data.QuadVertexBuffer = VertexBuffer::Create(Renderer2DData::BufferMaxVertices * sizeof(QuadVertex));
 		s_Data.QuadVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float4, "a_Color" },
@@ -56,10 +58,10 @@ namespace Luci {
 		});
 		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
-		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVerticesPerBuffer];
+		s_Data.QuadVertexBufferBase = new QuadVertex[Renderer2DData::BufferMaxVertices];
 
-		uint32_t* quadIndices = new uint32_t[s_Data.MaxIndicesPerBuffer];
-		for (uint32_t i = 0, offset = 0; i < s_Data.MaxIndicesPerBuffer; i += 6, offset += 4) {
+		uint32_t* quadIndices = new uint32_t[Renderer2DData::BufferMaxIndices];
+		for (uint32_t i = 0, offset = 0; i < Renderer2DData::BufferMaxIndices; i += 6, offset += 4) {
 			quadIndices[i + 0] = offset + 0;
 			quadIndices[i + 1] = offset + 1;
 			quadIndices[i + 2] = offset + 2;
@@ -68,7 +70,7 @@ namespace Luci {
 			quadIndices[i + 5] = offset + 0;
 		}
 
-		Ref<IndexBuffer> quadIndexBuffer = IndexBuffer::Create(quadIndices, s_Data.MaxIndicesPerBuffer);
+		Ref<IndexBuffer> quadIndexBuffer = IndexBuffer::Create(quadIndices, Renderer2DData::BufferMaxIndices);
 		s_Data.QuadVertexArray->SetIndexBuffer(quadIndexBuffer);
 		delete[] quadIndices;
 
@@ -128,6 +130,17 @@ namespace Luci {
 		}
 
 		RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
+		s_Data.Statistics.DrawCalls++;
+	}
+
+	void Renderer2D::FlushAndReset() {
+		LUCI_PROFILE_FUNCTION();
+
+		EndScene();
+
+		s_Data.QuadIndexCount = 0;
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+		s_Data.TextureSlotIndex = 1;
 	}
 
 	/*
@@ -167,6 +180,12 @@ namespace Luci {
 	}
 
 	void Renderer2D::DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, float texIndex, const glm::vec4& color) {
+		LUCI_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= Renderer2DData::BufferMaxIndices) {
+			FlushAndReset();
+		}
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
@@ -181,6 +200,19 @@ namespace Luci {
 		}
 
 		s_Data.QuadIndexCount += 6;
+		s_Data.Statistics.QuadCount++;
+	}
+
+	/*
+	 * Statistics
+	 */
+
+	void Renderer2D::ResetStatistics() {
+		memset(&s_Data.Statistics, 0, sizeof(Renderer2D::Statistics));
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStatistics() {
+		return s_Data.Statistics;
 	}
 
 }
