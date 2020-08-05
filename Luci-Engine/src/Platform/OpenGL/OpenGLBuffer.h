@@ -6,7 +6,8 @@ namespace Luci {
 
 	class OpenGLVertexBuffer : public VertexBuffer {
 	public:
-		OpenGLVertexBuffer(float* vertices, size_t count);
+		OpenGLVertexBuffer(size_t size);
+		OpenGLVertexBuffer(float* vertices, size_t size);
 		virtual ~OpenGLVertexBuffer();
 
 		virtual void Bind() const override;
@@ -15,11 +16,13 @@ namespace Luci {
 		virtual void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
 		virtual const BufferLayout& GetLayout() const override { return m_Layout; }
 
-		virtual size_t GetCount() const { return m_Count; }
+		virtual void SetData(const void* data, uint32_t size) override;
+
+		virtual size_t GetCount() const { return m_Size / sizeof(float); }
 
 	private:
 		uint32_t m_RendererID;
-		size_t m_Count;
+		size_t m_Size;
 		BufferLayout m_Layout;
 	};
 

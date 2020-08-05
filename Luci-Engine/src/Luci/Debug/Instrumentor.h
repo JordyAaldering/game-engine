@@ -109,7 +109,7 @@ namespace Luci {
 
 }
 
-#define LUCI_PROFILE 1
+#define LUCI_PROFILE 0
 #if LUCI_PROFILE
     #if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) || defined(__ghs__)
         #define LUCI_FUNC_SIG __PRETTY_FUNCTION__
@@ -134,8 +134,8 @@ namespace Luci {
     #define LUCI_PROFILE_SCOPE(name) ::Luci::InstrumentationTimer timer##__LINE__(name)
     #define LUCI_PROFILE_FUNCTION() LUCI_PROFILE_SCOPE(LUCI_FUNC_SIG)
 #else
-    #define LUCI_PROFILE_BEGIN_SESSION(_, _)
+    #define LUCI_PROFILE_BEGIN_SESSION(_name, _filepath)
     #define LUCI_PROFILE_END_SESSION()
-    #define LUCI_PROFILE_SCOPE(_)
+    #define LUCI_PROFILE_SCOPE(_name)
     #define LUCI_PROFILE_FUNCTION()
 #endif

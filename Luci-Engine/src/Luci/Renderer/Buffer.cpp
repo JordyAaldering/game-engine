@@ -6,9 +6,22 @@
 
 namespace Luci {
 
+	Ref<VertexBuffer> VertexBuffer::Create(size_t size) {
+		switch (Renderer::GetAPI()) {
+			case RendererAPI::API::None:
+				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
+				return nullptr;
+			case RendererAPI::API::OpenGL:
+				return CreateRef<OpenGLVertexBuffer>(size);
+		}
+
+		LUCI_CORE_ASSERT(false, "Unknown RendererAPI value.");
+		return nullptr;
+	}
+	
 	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, size_t size) {
 		switch (Renderer::GetAPI()) {
-		case RendererAPI::API::None:
+			case RendererAPI::API::None:
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
 				return nullptr;
 			case RendererAPI::API::OpenGL:

@@ -9,13 +9,20 @@ namespace Luci {
 	 * Vertex Buffer
 	 */
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, size_t count)
-		: m_Count(count) {
+	OpenGLVertexBuffer::OpenGLVertexBuffer(size_t size) : m_Size(size) {
 		LUCI_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-		glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+	}
+
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, size_t size) : m_Size(size) {
+		LUCI_PROFILE_FUNCTION();
+
+		glCreateBuffers(1, &m_RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer() {
@@ -33,12 +40,16 @@ namespace Luci {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size) {
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+	}
+
 	/*
 	 * Index Buffer
 	 */
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, size_t count)
-		: m_Count(count) {
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, size_t count) : m_Count(count) {
 		LUCI_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &m_RendererID);
