@@ -28,9 +28,6 @@ namespace Luci {
 		Ref<Shader> TextureShader;
 		Ref<Texture2D> WhiteTexture;
 
-		glm::vec4 QuadVertexPositions[4];
-		glm::vec2 QuadTexCoords[4];
-
 		uint32_t QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
@@ -87,15 +84,6 @@ namespace Luci {
 		s_Data.TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data.TextureShader->Bind();
 		s_Data.TextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
-
-		s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
-		s_Data.QuadTexCoords[0] = { 0.0f, 0.0f };
-		s_Data.QuadTexCoords[1] = { 1.0f, 0.0f };
-		s_Data.QuadTexCoords[2] = { 1.0f, 1.0f };
-		s_Data.QuadTexCoords[3] = { 0.0f, 1.0f };
 	}
 
 	void Renderer2D::Shutdown() {
@@ -187,6 +175,23 @@ namespace Luci {
 	void Renderer2D::DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, float texIndex, const glm::vec4& color) {
 		LUCI_PROFILE_FUNCTION();
 
+		constexpr float x = 2.0f, y = 3.0f;
+		constexpr float sheetWidth = 2560.0f, sheetHeight = 1664.0f;
+		constexpr float spriteWidth = 128.0f, spriteHeight = 128.0f;
+
+		constexpr glm::vec4 QuadVertexPositions[] = {
+			{ -0.5f, -0.5f, 0.0f, 1.0f },
+			{  0.5f, -0.5f, 0.0f, 1.0f },
+			{  0.5f,  0.5f, 0.0f, 1.0f },
+			{ -0.5f,  0.5f, 0.0f, 1.0f }
+		};
+		constexpr glm::vec2 QuadTexCoords[] = {
+			{ (x + 0) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight },
+			{ (x + 1) * spriteWidth / sheetWidth, (y + 0) * spriteHeight / sheetHeight },
+			{ (x + 1) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight },
+			{ (x + 0) * spriteWidth / sheetWidth, (y + 1) * spriteHeight / sheetHeight }
+		};
+
 		if (s_Data.QuadIndexCount >= Renderer2DData::BufferMaxIndices) {
 			FlushAndReset();
 		}
@@ -196,9 +201,9 @@ namespace Luci {
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		for (uint32_t i = 0; i < 4; i++) {
-			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Position = transform * QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = s_Data.QuadTexCoords[i];
+			s_Data.QuadVertexBufferPtr->TexCoord = QuadTexCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
 			s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
 			s_Data.QuadVertexBufferPtr++;
