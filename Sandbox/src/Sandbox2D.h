@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Luci.h"
-#include "ParticleSystem.h"
+#include <Luci.h>
 
 class Sandbox2D : public Luci::Layer {
 public:
@@ -20,9 +19,8 @@ private:
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
 	Luci::Ref<Luci::Shader> m_Shader;
 
-	Luci::Ref<Luci::Texture2D> m_Texture, m_TextureIcon;
-	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+	Luci::Ref<Luci::Texture2D> m_SpriteSheet;
+	Luci::Ref<Luci::SubTexture2D> m_ErrorTexture;
+	std::unordered_map<char, Luci::Ref<Luci::SubTexture2D>> m_TextureMap;
 
-	ParticleProps m_Particle;
-	ParticleSystem m_ParticleSystem;
 };

@@ -1,13 +1,11 @@
 #include <Luci.h>
 #include <Luci/Core/EntryPoint.h>
 
-#include "ExampleLayer.h"
 #include "Sandbox2D.h"
 
 class Sandbox : public Luci::Application {
 public:
-	Sandbox() { 
-		// PushLayer(new ExampleLayer());
+	Sandbox() {
 		PushLayer(new Sandbox2D());
 	}
 
