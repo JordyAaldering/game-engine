@@ -6,6 +6,8 @@ namespace Luci {
 
 	class Input {
 	public:
+		static Scope<Input> Create();
+
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 

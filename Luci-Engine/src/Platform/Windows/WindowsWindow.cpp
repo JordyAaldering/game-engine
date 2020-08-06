@@ -25,10 +25,6 @@ namespace Luci {
 		Shutdown();
 	}
 
-	Scope<Window> Window::Create(const WindowProps& props) {
-		return CreateScope<WindowsWindow>(props);
-	}
-
 	void WindowsWindow::Init(const WindowProps& props) {
 		LUCI_PROFILE_FUNCTION();
 

@@ -93,6 +93,50 @@ project "Luci-Engine"
         runtime "Release"
         optimize "on"
 
+project "Luci-Editor"
+    location "Luci-Editor"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
+
+    targetdir ("bin/" .. OutputDir .. "/%{prj.name}")
+    objdir ("bin-int/" .. OutputDir .. "/%{prj.name}")
+
+    files {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp"
+    }
+
+    includedirs {
+        "Luci-Engine/vendor/spdlog/include",
+        "Luci-Engine/src",
+        "Luci-Engine/vendor",
+        "%{IncludeDir.glm}"
+    }
+
+    links {
+        "Luci-Engine"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+
+    filter "configurations:Debug"
+        defines "LUCI_DEBUG"
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        defines "LUCI_RELEASE"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations.Dist"
+        defines "LUCI_DIST"
+        runtime "Release"
+        optimize "on"
+    
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"

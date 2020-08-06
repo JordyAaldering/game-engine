@@ -18,7 +18,7 @@ namespace Luci {
 
 	class Application {
 	public:
-		Application();
+		Application(const std::string& name = "Luci App");
 		virtual ~Application();
 
 		void Run();
