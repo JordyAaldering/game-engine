@@ -60,6 +60,10 @@ namespace Luci {
 		}
 	}
 
+	void Application::Close() {
+
+	}
+
 	void Application::OnEvent(Event& event) {
 		LUCI_PROFILE_FUNCTION();
 
