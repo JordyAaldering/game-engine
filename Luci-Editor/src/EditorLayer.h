@@ -21,7 +21,9 @@ namespace Luci {
 
 		Ref<VertexArray> m_VertexArray;
 		Ref<Shader> m_Shader;
+
 		Ref<Framebuffer> m_Framebuffer;
+		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 
 		Ref<Texture2D> m_SpriteSheet;
 		Ref<SubTexture2D> m_ErrorTexture;

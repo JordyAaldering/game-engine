@@ -8,13 +8,6 @@
 
 namespace Luci {
 
-	struct OrthographicCameraBounds {
-		float Left, Right, Bottom, Top;
-
-		float GetWidth() { return Right - Left; }
-		float GetHeight() { return Top - Bottom; }
-	};
-
 	class OrthographicCameraController {
 	public:
 		OrthographicCameraController(float aspectRatio, bool rotation = false);
@@ -22,24 +15,21 @@ namespace Luci {
 		void OnUpdate(Timestep timestep);
 		void OnEvent(Event& event);
 
+		void Resize(float width, float height);
+
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 
-		void SetZoomLevel(float zoomLevel) { m_ZoomLevel = zoomLevel; CalculateView(); }
+		void SetZoomLevel(float zoomLevel) { m_ZoomLevel = zoomLevel; }
 		float GetZoomLevel() { return m_ZoomLevel; }
 
-		const OrthographicCameraBounds& GetBounds() const { return m_Bounds; }
-
 	private:
-		void CalculateView();
-
 		bool OnMouseScrolled(MouseScrolledEvent& event);
 		bool OnWindowResized(WindowResizeEvent& event);
 
 	private:
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
-		OrthographicCameraBounds m_Bounds;
 		OrthographicCamera m_Camera;
 
 		bool m_Rotation;
@@ -47,8 +37,8 @@ namespace Luci {
 		float m_CameraRotation = 0.0f;
 
 		float m_CameraTranslationSpeed = 5.0f;
-		float m_CameraZoomSpeed = 0.25f;
 		float m_CameraRotationSpeed = 180.0f;
+		float m_CameraZoomSpeed = 0.25f;
 	};
 
 }

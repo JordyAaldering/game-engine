@@ -7,8 +7,7 @@
 namespace Luci {
 
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
-		: m_AspectRatio(aspectRatio), m_Bounds({ -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel }),
-		m_Camera(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top), m_Rotation(rotation) {}
+		: m_AspectRatio(aspectRatio), m_Camera({ -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel }), m_Rotation(rotation) {}
 
 	void OrthographicCameraController::OnUpdate(Timestep timestep) {
 		LUCI_PROFILE_FUNCTION();
@@ -57,9 +56,9 @@ namespace Luci {
 		dispatcher.Dispatch<WindowResizeEvent>(LUCI_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
 
-	void OrthographicCameraController::CalculateView() {
-		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
-		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
+	void OrthographicCameraController::Resize(float width, float height) {
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 	}
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event) {
@@ -67,15 +66,14 @@ namespace Luci {
 
 		m_ZoomLevel -= event.GetYOffset() * m_CameraZoomSpeed;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.01f);
-		CalculateView();
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;
 	}
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event) {
 		LUCI_PROFILE_FUNCTION();
 
-		m_AspectRatio = (float)event.GetWidth() / event.GetHeight();
-		CalculateView();
+		Resize((float)event.GetWidth(), (float)event.GetHeight());
 		return false;
 	}
 

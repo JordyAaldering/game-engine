@@ -32,8 +32,8 @@ namespace Luci {
         LUCI_PROFILE_FUNCTION();
 
         FramebufferSpecification fbSpec;
-        fbSpec.Width = 1280.0f;
-        fbSpec.Height = 720.0f;
+        fbSpec.Width = 1280;
+        fbSpec.Height = 720;
         m_Framebuffer = Framebuffer::Create(fbSpec);
 
         m_SpriteSheet = Texture2D::Create("assets/textures/RPGPack.png");
@@ -135,10 +135,20 @@ namespace Luci {
         ImGui::Text("Quads: %d", stats.QuadCount);
         ImGui::Text("Vertices: %d", stats.GetVertexCount());
         ImGui::Text("Indices: %d", stats.GetIndexCount());
-
-        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)textureID, ImVec2{ 1280, 720.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::End();
+
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+        ImGui::Begin("Viewport");
+        ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+        if (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y) {
+            m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
+        }
+        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+        ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        ImGui::End();
+        ImGui::PopStyleVar();
 
         ImGui::End();
     }

@@ -1,6 +1,6 @@
 workspace "Luci-Engine"
     architecture "x64"
-    startproject "Sandbox"
+    startproject "Luci-Editor"
 
     configurations {
         "Debug",
