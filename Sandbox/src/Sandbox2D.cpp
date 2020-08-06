@@ -26,6 +26,11 @@ Sandbox2D::Sandbox2D() : Layer("GameLayer"), m_CameraController(1280.0f / 720.0f
 void Sandbox2D::OnAttach() {
 	LUCI_PROFILE_FUNCTION();
 
+    Luci::FramebufferSpecification fbSpec;
+    fbSpec.Width = 1280.0f;
+    fbSpec.Height = 720.0f;
+    m_Framebuffer = Luci::Framebuffer::Create(fbSpec);
+
 	m_SpriteSheet = Luci::Texture2D::Create("assets/textures/RPGPack.png");
 	m_ErrorTexture = Luci::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 3, 3 }, { 128, 128 });
 	m_TextureMap['W'] = Luci::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 11, 11 }, { 128, 128 });
@@ -44,6 +49,7 @@ void Sandbox2D::OnUpdate(Luci::Timestep timestep) {
 	m_CameraController.OnUpdate(timestep);
 
 	Luci::Renderer2D::ResetStatistics();
+    m_Framebuffer->Bind();
 	Luci::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 	Luci::RenderCommand::Clear();
 
@@ -64,6 +70,8 @@ void Sandbox2D::OnUpdate(Luci::Timestep timestep) {
 		}
 	}
 	Luci::Renderer2D::EndScene();
+
+    m_Framebuffer->Unbind();
 }
 
 void Sandbox2D::OnImGuiRender() {
@@ -122,6 +130,9 @@ void Sandbox2D::OnImGuiRender() {
     ImGui::Text("Quads: %d", stats.QuadCount);
     ImGui::Text("Vertices: %d", stats.GetVertexCount());
     ImGui::Text("Indices: %d", stats.GetIndexCount());
+
+    uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+    ImGui::Image((void*)textureID, ImVec2{ 1280, 720.0f });
     ImGui::End();
 
     ImGui::End();

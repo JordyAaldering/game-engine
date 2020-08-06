@@ -25,6 +25,7 @@
 
 #include "Luci/Renderer/Buffer.h"
 #include "Luci/Renderer/Shader.h"
+#include "Luci/Renderer/Framebuffer.h"
 #include "Luci/Renderer/Texture.h"
 #include "Luci/Renderer/SubTexture2D.h"
 #include "Luci/Renderer/VertexArray.h"

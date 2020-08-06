@@ -18,6 +18,7 @@ private:
 
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
 	Luci::Ref<Luci::Shader> m_Shader;
+	Luci::Ref<Luci::Framebuffer> m_Framebuffer;
 
 	Luci::Ref<Luci::Texture2D> m_SpriteSheet;
 	Luci::Ref<Luci::SubTexture2D> m_ErrorTexture;
