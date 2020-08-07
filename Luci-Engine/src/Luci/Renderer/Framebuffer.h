@@ -14,6 +14,7 @@ namespace Luci {
 	class Framebuffer {
 	public:
 		static Ref<Framebuffer> Create(const FramebufferSpecification& specification);
+		virtual ~Framebuffer() = default;
 
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
 
