@@ -51,7 +51,9 @@ namespace Luci {
     void EditorLayer::OnUpdate(Timestep timestep) {
         LUCI_PROFILE_FUNCTION();
 
-        m_CameraController.OnUpdate(timestep);
+        if (m_ViewportFocused) {
+            m_CameraController.OnUpdate(timestep);
+        }
 
         Renderer2D::ResetStatistics();
         m_Framebuffer->Bind();
@@ -66,8 +68,7 @@ namespace Luci {
                 Ref<SubTexture2D> texture;
                 if (m_TextureMap.find(tileType) != m_TextureMap.end()) {
                     texture = m_TextureMap[tileType];
-                }
-                else {
+                } else {
                     texture = m_ErrorTexture;
                 }
 
@@ -139,12 +140,18 @@ namespace Luci {
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
+
+        m_ViewportFocused = ImGui::IsWindowFocused();
+        m_ViewportHovered = ImGui::IsWindowHovered();
+        Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
         if (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y) {
             m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
         }
+
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::End();

@@ -10,7 +10,9 @@
 
 namespace Luci {
 
-	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {}
+	ImGuiLayer::ImGuiLayer()
+		: Layer("ImGuiLayer") {
+	}
 
 	void ImGuiLayer::OnAttach() {
 		LUCI_PROFILE_FUNCTION();
@@ -43,6 +45,16 @@ namespace Luci {
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
+	}
+
+	void ImGuiLayer::OnEvent(Event& event) {
+		LUCI_PROFILE_FUNCTION();
+
+		if (m_BlockEvents) {
+			ImGuiIO& io = ImGui::GetIO();
+			event.Handled |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			event.Handled |= event.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+		}
 	}
 
 	void ImGuiLayer::Begin() {
