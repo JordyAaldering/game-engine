@@ -1,8 +1,9 @@
 #include "lucipch.h"
-#include "OrthographicCameraController.h"
 
-#include "Luci/Core/Input.h"
-#include "Luci/Core/KeyCodes.h"
+#include "OrthographicCameraController.h"
+#include "Luci/Core/Input/Input.h"
+#include "Luci/Core/Input/KeyCodes.h"
+#include "Luci/Core/Input/MouseCodes.h"
 
 namespace Luci {
 
@@ -13,18 +14,18 @@ namespace Luci {
 	void OrthographicCameraController::OnUpdate(Timestep timestep) {
 		LUCI_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed((int)Key::A)) {
+		if (Input::IsKeyPressed(Key::A)) {
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
-		} else if (Input::IsKeyPressed((int)Key::D)) {
+		} else if (Input::IsKeyPressed(Key::D)) {
 			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 		}
 
-		if (Input::IsKeyPressed((int)Key::W)) {
+		if (Input::IsKeyPressed(Key::W)) {
 			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
-		} else if (Input::IsKeyPressed((int)Key::S)) {
+		} else if (Input::IsKeyPressed(Key::S)) {
 			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 		}
@@ -33,9 +34,9 @@ namespace Luci {
 		m_CameraTranslationSpeed = m_ZoomLevel;
 
 		if (m_Rotation) {
-			if (Input::IsKeyPressed((int)Key::Q)) {
+			if (Input::IsKeyPressed(Key::Q)) {
 				m_CameraRotation += m_CameraRotationSpeed * timestep;
-			} else if (Input::IsKeyPressed((int)Key::E)) {
+			} else if (Input::IsKeyPressed(Key::E)) {
 				m_CameraRotation -= m_CameraRotationSpeed * timestep;
 			}
 

@@ -11,9 +11,9 @@
 #include "Luci/Core/Layer.h"
 
 // input
-#include "Luci/Core/Input.h"
-#include "Luci/Core/KeyCodes.h"
-#include "Luci/Core/MouseButtonCodes.h"
+#include "Luci/Core/Input/Input.h"
+#include "Luci/Core/Input/KeyCodes.h"
+#include "Luci/Core/Input/MouseCodes.h"
 
 // renderer
 #include "Luci/Renderer/Renderer.h"

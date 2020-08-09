@@ -1,16 +1,18 @@
 #pragma once
 
-#include "Core.h"
+#include "Luci/Core/Core.h"
+#include "Luci/Core/Input/KeyCodes.h"
+#include "Luci/Core/Input/MouseCodes.h"
 
 namespace Luci {
 
 	class Input {
 	public:
 		// Key input
-		static bool IsKeyPressed(int keyCode);
+		static bool IsKeyPressed(KeyCode keyCode);
 
 		// Mouse input
-		static bool IsMouseButtonPressed(int button);
+		static bool IsMouseButtonPressed(MouseCode button);
 		static std::pair<float, float> GetMousePosition();
 		static float GetMouseX();
 		static float GetMouseY();
