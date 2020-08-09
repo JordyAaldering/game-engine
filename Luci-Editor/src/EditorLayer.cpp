@@ -23,6 +23,11 @@ namespace Luci {
         m_DirtTexture = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 6, 11 }, { 128, 128 });
 
         m_CameraController.SetZoomLevel(5.0f);
+
+        m_ActiveScene = CreateRef<Scene>();
+        m_QuadEntity = m_ActiveScene->CreateEntity();
+        m_ActiveScene->Get().emplace<TransformComponent>(m_QuadEntity);
+        m_ActiveScene->Get().emplace<SpriteRendererComponent>(m_QuadEntity, glm::vec4{ 0.2f, 0.9f, 0.3f, 1.0f });
     }
 
     void EditorLayer::OnDetach() {
@@ -32,22 +37,21 @@ namespace Luci {
     void EditorLayer::OnUpdate(Timestep timestep) {
         LUCI_PROFILE_FUNCTION();
 
+        // Update
         if (m_ViewportFocused) {
             m_CameraController.OnUpdate(timestep);
         }
 
+        // Render
         Renderer2D::ResetStatistics();
         m_Framebuffer->Bind();
         RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         RenderCommand::Clear();
 
+        // Update scene
         Renderer2D::BeginScene(m_CameraController.GetCamera());
-        for (int y = -5; y <= 5; y++) {
-            for (int x = -5; x <= 5; x++) {
-                Ref<SubTexture2D> texture = (x + y) % 2 == 0 ? m_WaterTexture : m_DirtTexture;
-                Renderer2D::DrawQuad({ x, y }, 0, { 0.9f, 0.9f }, texture);
-            }
-        }
+        m_ActiveScene->OnUpdate(timestep);
+        
         Renderer2D::EndScene();
 
         m_Framebuffer->Unbind();
@@ -89,18 +93,6 @@ namespace Luci {
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
             ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-        }
-
-        if (ImGui::BeginMenuBar()) {
-            if (ImGui::BeginMenu("File")) {
-                if (ImGui::MenuItem("Exit")) {
-                    Application::Get().Close();
-                }
-
-                ImGui::EndMenu();
-            }
-
-            ImGui::EndMenuBar();
         }
 
         auto stats = Renderer2D::GetStatistics();

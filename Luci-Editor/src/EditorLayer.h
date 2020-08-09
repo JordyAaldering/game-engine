@@ -22,6 +22,9 @@ namespace Luci {
 		Ref<VertexArray> m_VertexArray;
 		Ref<Shader> m_Shader;
 
+		Ref<Scene> m_ActiveScene;
+		entt::entity m_QuadEntity;
+
 		Ref<Framebuffer> m_Framebuffer;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 		bool m_ViewportFocused = false, m_ViewportHovered = false;

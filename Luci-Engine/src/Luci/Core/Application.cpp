@@ -1,7 +1,7 @@
 #include "lucipch.h"
 #include "Application.h"
 
-#include "Luci/Core/Input.h"
+#include "Luci/Core/Input/Input.h"
 #include "Luci/Renderer/Renderer.h"
 
 #include <glfw/glfw3.h>

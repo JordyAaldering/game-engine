@@ -17,12 +17,17 @@ namespace Luci {
 
 		// Primitives
 		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color);
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
 		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
+
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color);
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
 		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
 	
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
+		static void DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
+		static void DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
+
 		// Statistics
 		struct Statistics {
 			uint32_t DrawCalls = 0;
@@ -39,7 +44,7 @@ namespace Luci {
 		static void FlushAndReset();
 
 		// Primitives
-		static void DrawQuadFromTexIndex(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color, float texIndex, const glm::vec2* texCoords);
+		static void DrawQuadFromTexIndex(const glm::mat4& transform, const glm::vec4& color, float texIndex, const glm::vec2* texCoords);
 	};
 
 }

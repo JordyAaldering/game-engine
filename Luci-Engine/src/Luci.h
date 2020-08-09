@@ -4,18 +4,22 @@
  * for use by Luci applications
  */
 
-// core
+// Core
 #include "Luci/Core/Core.h"
 #include "Luci/Core/Application.h"
 #include "Luci/Core/Timestep.h"
 #include "Luci/Core/Layer.h"
 
-// input
+// Input
 #include "Luci/Core/Input/Input.h"
 #include "Luci/Core/Input/KeyCodes.h"
 #include "Luci/Core/Input/MouseCodes.h"
 
-// renderer
+// Scene
+#include "Luci/Scene/Scene.h"
+#include "Luci/Scene/Components.h"
+
+// Renderer
 #include "Luci/Renderer/Renderer.h"
 #include "Luci/Renderer/Renderer2D.h"
 #include "Luci/Renderer/RenderCommand.h"
@@ -30,5 +34,5 @@
 #include "Luci/Renderer/SubTexture2D.h"
 #include "Luci/Renderer/VertexArray.h"
 
-// debug
+// Debug
 #include "Luci/Debug/Log.h"
