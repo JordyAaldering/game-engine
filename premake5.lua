@@ -15,11 +15,13 @@ workspace "Luci-Engine"
 OutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["GLFW"] = "Luci-Engine/vendor/GLFW/include"
-IncludeDir["Glad"] = "Luci-Engine/vendor/Glad/include"
-IncludeDir["ImGui"] = "Luci-Engine/vendor/imgui"
-IncludeDir["stb"] = "Luci-Engine/vendor/stb"
-IncludeDir["glm"] = "Luci-Engine/vendor/glm"
+IncludeDir["spdlog"] = "Luci-Engine/vendor/spdlog/include"
+IncludeDir["GLFW"]   = "Luci-Engine/vendor/GLFW/include"
+IncludeDir["Glad"]   = "Luci-Engine/vendor/Glad/include"
+IncludeDir["ImGui"]  = "Luci-Engine/vendor/imgui"
+IncludeDir["stb"]    = "Luci-Engine/vendor/stb"
+IncludeDir["glm"]    = "Luci-Engine/vendor/glm"
+IncludeDir["entt"]   = "Luci-Engine/vendor/entt/include"
 
 group "Dependencies"
     include "Luci-Engine/vendor/GLFW"
@@ -55,12 +57,13 @@ project "Luci-Engine"
 
     includedirs {
         "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.spdlog}",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.stb}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.entt}"
     }
 
     links {
@@ -109,10 +112,11 @@ project "Luci-Editor"
     }
 
     includedirs {
-        "Luci-Engine/vendor/spdlog/include",
         "Luci-Engine/src",
         "Luci-Engine/vendor",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.entt}"
     }
 
     links {
@@ -153,10 +157,11 @@ project "Sandbox"
     }
 
     includedirs {
-        "Luci-Engine/vendor/spdlog/include",
         "Luci-Engine/src",
         "Luci-Engine/vendor",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.entt}"
     }
 
     links {
