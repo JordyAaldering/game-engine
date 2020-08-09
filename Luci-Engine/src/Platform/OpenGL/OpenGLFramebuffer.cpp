@@ -46,6 +46,12 @@ namespace Luci {
 	}
 
 	void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height) {
+		static const uint32_t MaxFramebufferSize = 8192;
+		if (width == 0 || height == 0 || width > MaxFramebufferSize || height > MaxFramebufferSize) {
+			LUCI_CORE_WARN("Attempted to resize framebuffer to invalid size ({0}, {1}).", width, height);
+			return;
+		}
+
 		m_Specification.Width = width;
 		m_Specification.Height = height;
 		Invalidate();

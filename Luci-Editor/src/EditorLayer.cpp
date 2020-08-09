@@ -6,24 +6,6 @@
 
 namespace Luci {
 
-    static const char* s_MapTiles =
-        "WWWWWWWWWWWWWWWWWWWWWWWW"
-        "WWWWWWDDDDDDWWWWWWWWWWWW"
-        "WWWWWDDDDDDDDDDWWWWWWWWW"
-        "WWWWDDDDDDDDDDDDDDWWWWWW"
-        "WWWDDDDDDDDDDDDDDDDWWWWW"
-        "WWWDDDDDDDDWWWDDDDDDWWWW"
-        "WWWDDDDDDDDWWWDDDDDDWWWW"
-        "WWWWDDDDDDDDWWDDDDDDWWWW"
-        "WWWWWDDDDDDDDDDDDDDDDWWW"
-        "WWWWWWDDDDDDDDDDDDDDDWWW"
-        "WWWWWWDDDDDDDDDDDDDDDWWW"
-        "WWWWWWWDDWWWWDDDDDDDWWWW"
-        "WWWWWWWWWWWWWWWWDDDWWWWW"
-        "WWWWWWWWWWWWWWWWWWWWWWWW";
-    static const uint32_t s_MapWidth = 24;
-    static const uint32_t s_MapHeight = strlen(s_MapTiles) / s_MapWidth;
-
     EditorLayer::EditorLayer()
         : Layer("GameLayer"), m_CameraController(1280.0f / 720.0f) {
     }
@@ -37,9 +19,8 @@ namespace Luci {
         m_Framebuffer = Framebuffer::Create(fbSpec);
 
         m_SpriteSheet = Texture2D::Create("assets/textures/RPGPack.png");
-        m_ErrorTexture = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 3, 3 }, { 128, 128 });
-        m_TextureMap['W'] = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 11, 11 }, { 128, 128 });
-        m_TextureMap['D'] = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 6, 11 }, { 128, 128 });
+        m_WaterTexture = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 11, 11 }, { 128, 128 });
+        m_DirtTexture = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 6, 11 }, { 128, 128 });
 
         m_CameraController.SetZoomLevel(5.0f);
     }
@@ -61,18 +42,10 @@ namespace Luci {
         RenderCommand::Clear();
 
         Renderer2D::BeginScene(m_CameraController.GetCamera());
-        for (uint32_t y = 0; y < s_MapHeight; y++) {
-            for (uint32_t x = 0; x < s_MapWidth; x++) {
-                char tileType = s_MapTiles[x + y * s_MapWidth];
-
-                Ref<SubTexture2D> texture;
-                if (m_TextureMap.find(tileType) != m_TextureMap.end()) {
-                    texture = m_TextureMap[tileType];
-                } else {
-                    texture = m_ErrorTexture;
-                }
-
-                Renderer2D::DrawQuad({ x - s_MapWidth * 0.5f, y - s_MapHeight * 0.5f }, 0, { 1.0f, 1.0f }, texture);
+        for (int y = -5; y <= 5; y++) {
+            for (int x = -5; x <= 5; x++) {
+                Ref<SubTexture2D> texture = (x + y) % 2 == 0 ? m_WaterTexture : m_DirtTexture;
+                Renderer2D::DrawQuad({ x, y }, 0, { 0.9f, 0.9f }, texture);
             }
         }
         Renderer2D::EndScene();
@@ -140,13 +113,15 @@ namespace Luci {
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
+        ImGui::PopStyleVar();
 
         m_ViewportFocused = ImGui::IsWindowFocused();
         m_ViewportHovered = ImGui::IsWindowHovered();
         Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-        if (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y) {
+        if ((viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y)
+            && viewportPanelSize.x > 0 && viewportPanelSize.y > 0) {
             m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
@@ -155,7 +130,6 @@ namespace Luci {
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::End();
-        ImGui::PopStyleVar();
 
         ImGui::End();
     }

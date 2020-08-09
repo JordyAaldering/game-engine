@@ -2,7 +2,10 @@
 
 #include <memory>
 
-// Platform detection
+/*
+ * Platform detection
+ */
+
 #ifdef _WIN32
 	#ifdef _WIN64
 		#define LUCI_PLATFORM_WINDOWS
@@ -30,22 +33,37 @@
 	#error "Linux is not supported!"
 #else
 	#error "Unknown platform!"
-#endif // End of platform detection
+#endif
 
-// Debugging
+/*
+ * Debugging
+ */
+
 #ifdef LUCI_DEBUG
 	#define LUCI_ENABLE_ASSERTS
+	#if defined(LUCI_PLATFORM_WINDOWS)
+		#define LUCI_DEBUG_BREAK() __debugbreak()
+	#elif defined(LUCI_PLATFORM_LINUX)
+		#include <signal.h>
+		#define LUCI_DEBUG_BREAK() raise(SIGTRAP)
+	#else
+		#error "Platform does not support debugbreak!"
+	#endif
+#else
+	#define LUCI_DEBUG_BREAK()
 #endif
 
 #ifdef LUCI_ENABLE_ASSERTS
-	#define LUCI_ASSERT(x, ...)      { if(!(x)) { LUCI_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define LUCI_CORE_ASSERT(x, ...) { if(!(x)) { LUCI_CORE_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define LUCI_ASSERT(x, ...)      { if(!(x)) { LUCI_ERROR("Assertion failed: {0}", __VA_ARGS__); LUCI_DEBUG_BREAK(); } }
+	#define LUCI_CORE_ASSERT(x, ...) { if(!(x)) { LUCI_CORE_ERROR("Assertion failed: {0}", __VA_ARGS__); LUCI_DEBUG_BREAK(); } }
 #else
 	#define LUCI_ASSERT(x, ...)
 	#define LUCI_CORE_ASSERT(x, ...)
-#endif // End of debugging
+#endif
 
-#define BIT(x) (1 << x)
+/*
+ * Utilities 
+ */
 
 #define LUCI_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 

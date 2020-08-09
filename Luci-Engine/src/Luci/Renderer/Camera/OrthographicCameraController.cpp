@@ -7,23 +7,24 @@
 namespace Luci {
 
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
-		: m_AspectRatio(aspectRatio), m_Camera({ -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel }), m_Rotation(rotation) {}
+		: m_AspectRatio(aspectRatio), m_Camera({ -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel }), m_Rotation(rotation) {
+	}
 
 	void OrthographicCameraController::OnUpdate(Timestep timestep) {
 		LUCI_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed(LUCI_KEY_A)) {
+		if (Input::IsKeyPressed((int)Key::A)) {
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
-		} else if (Input::IsKeyPressed(LUCI_KEY_D)) {
+		} else if (Input::IsKeyPressed((int)Key::D)) {
 			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 		}
 
-		if (Input::IsKeyPressed(LUCI_KEY_W)) {
+		if (Input::IsKeyPressed((int)Key::W)) {
 			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
-		} else if (Input::IsKeyPressed(LUCI_KEY_S)) {
+		} else if (Input::IsKeyPressed((int)Key::S)) {
 			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * timestep;
 		}
@@ -32,9 +33,9 @@ namespace Luci {
 		m_CameraTranslationSpeed = m_ZoomLevel;
 
 		if (m_Rotation) {
-			if (Input::IsKeyPressed(LUCI_KEY_Q)) {
+			if (Input::IsKeyPressed((int)Key::Q)) {
 				m_CameraRotation += m_CameraRotationSpeed * timestep;
-			} else if (Input::IsKeyPressed(LUCI_KEY_E)) {
+			} else if (Input::IsKeyPressed((int)Key::E)) {
 				m_CameraRotation -= m_CameraRotationSpeed * timestep;
 			}
 

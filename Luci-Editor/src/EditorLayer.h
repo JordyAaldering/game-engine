@@ -27,8 +27,7 @@ namespace Luci {
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
 		Ref<Texture2D> m_SpriteSheet;
-		Ref<SubTexture2D> m_ErrorTexture;
-		std::unordered_map<char, Ref<SubTexture2D>> m_TextureMap;
+		Ref<SubTexture2D> m_WaterTexture, m_DirtTexture;
 
 	};
 

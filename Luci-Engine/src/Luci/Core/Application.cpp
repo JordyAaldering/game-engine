@@ -61,7 +61,6 @@ namespace Luci {
 	}
 
 	void Application::Close() {
-
 	}
 
 	void Application::OnEvent(Event& event) {
