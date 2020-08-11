@@ -1,4 +1,4 @@
-workspace "Luci"
+workspace "Luci-Engine"
     architecture "x86_64"
     startproject "Luci-Editor"
 

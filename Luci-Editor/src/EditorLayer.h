@@ -23,6 +23,7 @@ namespace Luci {
 		Ref<Shader> m_Shader;
 
 		Ref<Scene> m_ActiveScene;
+		Entity m_CameraEntity;
 		Entity m_QuadEntity;
 		glm::vec4 m_QuadColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 

@@ -24,6 +24,9 @@ namespace Luci {
         m_CameraController.SetZoomLevel(5.0f);
 
         m_ActiveScene = CreateRef<Scene>();
+        m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
+        m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
         m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
         m_QuadEntity.AddComponent<SpriteRendererComponent>(m_QuadColor);
     }
@@ -47,10 +50,7 @@ namespace Luci {
         RenderCommand::Clear();
 
         // Update scene
-        Renderer2D::BeginScene(m_CameraController.GetCamera());
         m_ActiveScene->OnUpdate(timestep);
-        
-        Renderer2D::EndScene();
 
         m_Framebuffer->Unbind();
     }

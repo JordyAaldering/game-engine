@@ -23,10 +23,30 @@ namespace Luci {
 	}
 
 	void Scene::OnUpdate(Timestep timestep) {
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group) {
-			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::DrawQuad(transform, sprite.Color);
+		Camera* mainCamera = nullptr;
+		glm::mat4* cameraTransform = nullptr;
+
+		auto cameraGroup = m_Registry.group<CameraComponent, TransformComponent>();
+		for (auto entity : cameraGroup) {
+			auto& [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
+
+			if (camera.Primary) {
+				mainCamera = &camera.Camera;
+				cameraTransform = &transform.Transform;
+				break;
+			}
+		}
+
+		if (mainCamera) {
+			Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
+
+			auto group = m_Registry.group<SpriteRendererComponent, TransformComponent>();
+			for (auto entity : group) {
+				auto& [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
+				Renderer2D::DrawQuad(transform, sprite.Color);
+			}
+
+			Renderer2D::EndScene();
 		}
 	}
 
