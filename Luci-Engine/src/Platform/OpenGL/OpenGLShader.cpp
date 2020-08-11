@@ -150,7 +150,7 @@ namespace Luci {
 		}
 
 		in.seekg(0, std::ios::end);
-		int size = in.tellg();
+		int size = (int)in.tellg();
 		if (size == -1) {
 			LUCI_CORE_ERROR("Could not read from file '{0}'.", filepath);
 		}
