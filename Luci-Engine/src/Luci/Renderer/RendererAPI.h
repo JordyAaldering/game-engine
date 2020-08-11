@@ -13,6 +13,7 @@ namespace Luci {
 		};
 
 		static Scope<RendererAPI> Create();
+		virtual ~RendererAPI() = default;
 
 		virtual void Init() = 0;
 

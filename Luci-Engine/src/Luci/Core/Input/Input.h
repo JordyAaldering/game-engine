@@ -7,7 +7,12 @@
 namespace Luci {
 
 	class Input {
+	protected:
+		Input() = default;
+
 	public:
+		~Input() = default;
+
 		// Key input
 		static bool IsKeyPressed(KeyCode keyCode);
 
