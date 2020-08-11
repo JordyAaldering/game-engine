@@ -1,8 +1,9 @@
 #pragma once
 
-#include "lucipch.h"
 #include "Core.h"
 #include "Luci/Events/Event.h"
+
+#include <sstream>
 
 namespace Luci {
 

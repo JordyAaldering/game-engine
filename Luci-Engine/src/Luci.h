@@ -37,3 +37,4 @@
 
 // Debug
 #include "Luci/Debug/Log.h"
+#include "Luci/Debug/Instrumentor.h"

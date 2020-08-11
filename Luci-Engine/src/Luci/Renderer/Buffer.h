@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Luci/Core/Core.h"
+
 namespace Luci {
 
 	enum class ShaderDataType {
@@ -63,7 +65,6 @@ namespace Luci {
 	class BufferLayout {
 	public:
 		BufferLayout() = default;
-
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
 			: m_Elements(elements) {
 			CalculateOffsets();
@@ -79,7 +80,7 @@ namespace Luci {
 
 	private:
 		std::vector<BufferElement> m_Elements;
-		uint32_t m_Stride;
+		uint32_t m_Stride = 0;
 
 		void CalculateOffsets() {
 			m_Stride = 0;

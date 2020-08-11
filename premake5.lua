@@ -54,7 +54,8 @@ project "Luci-Engine"
     defines {
         "LUCI_BUILD_DLL",
         "GLFW_INCLUDE_NONE",
-        "_CRT_SECURE_NO_WARNINGS"
+        "_CRT_SECURE_NO_WARNINGS",
+        "NOMINMAX"
     }
 
     includedirs {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Luci.h>
+#include "Luci.h"
 
 namespace Luci {
 
@@ -30,10 +30,6 @@ namespace Luci {
 		Ref<Framebuffer> m_Framebuffer;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
-
-		Ref<Texture2D> m_SpriteSheet;
-		Ref<SubTexture2D> m_WaterTexture, m_DirtTexture;
-
 	};
 
 }

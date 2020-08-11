@@ -17,12 +17,6 @@ namespace Luci {
         fbSpec.Height = 720;
         m_Framebuffer = Framebuffer::Create(fbSpec);
 
-        m_SpriteSheet = Texture2D::Create("assets/textures/RPGPack.png");
-        m_WaterTexture = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 11, 11 }, { 128, 128 });
-        m_DirtTexture = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 6, 11 }, { 128, 128 });
-
-        m_CameraController.SetZoomLevel(5.0f);
-
         m_ActiveScene = CreateRef<Scene>();
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
         m_CameraEntity.AddComponent<CameraComponent>();
@@ -94,45 +88,46 @@ namespace Luci {
         }
 
         auto stats = Renderer2D::GetStatistics();
-        ImGui::Begin("Statistics");
-        ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-        ImGui::Text("Quads: %d", stats.QuadCount);
-        ImGui::Text("Vertices: %d", stats.GetVertexCount());
-        ImGui::Text("Indices: %d", stats.GetIndexCount());
+        if (ImGui::Begin("Renderer 2D:")) {
+            ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+            ImGui::Text("Quads: %d", stats.QuadCount);
+            ImGui::Text("Vertices: %d", stats.GetVertexCount());
+            ImGui::Text("Indices: %d", stats.GetIndexCount());
 
-        if (m_QuadEntity) {
-            ImGui::Separator();
-            auto& tag = m_QuadEntity.GetComponent<TagComponent>().Tag;
-            ImGui::Text("Tag: %s", tag.c_str());
-            
-            m_QuadColor = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
-            ImGui::ColorEdit4("Quad color", glm::value_ptr(m_QuadColor));
-            ImGui::Separator();
+            if (m_QuadEntity) {
+                ImGui::Separator();
+                auto& tag = m_QuadEntity.GetComponent<TagComponent>().Tag;
+                ImGui::Text("Tag: %s", tag.c_str());
+
+                m_QuadColor = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
+                ImGui::ColorEdit4("Quad color", glm::value_ptr(m_QuadColor));
+                ImGui::Separator();
+            }
+
+            ImGui::End();
         }
-
-        ImGui::End();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-        ImGui::Begin("Viewport");
-        ImGui::PopStyleVar();
+        if (ImGui::Begin("Viewport")) {
+            m_ViewportFocused = ImGui::IsWindowFocused();
+            m_ViewportHovered = ImGui::IsWindowHovered();
+            Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
-        m_ViewportFocused = ImGui::IsWindowFocused();
-        m_ViewportHovered = ImGui::IsWindowHovered();
-        Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+            ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+            if (viewportPanelSize.x > 0.0f && viewportPanelSize.y > 0.0f &&
+                (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y)) {
+                m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+                m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+                m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
 
-        ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-        if (viewportPanelSize.x > 0.0f && viewportPanelSize.y > 0.0f &&
-            (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y)) {
-            m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-            m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
+                m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            }
 
-            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+            ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+            ImGui::End();
         }
-
-        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-        ImGui::End();
+        ImGui::PopStyleVar();
 
         ImGui::End();
     }

@@ -1,5 +1,5 @@
-#include <Luci.h>
-#include <Luci/Core/EntryPoint.h>
+#include "Luci.h"
+#include "Luci/Core/EntryPoint.h"
 
 #include "EditorLayer.h"
 

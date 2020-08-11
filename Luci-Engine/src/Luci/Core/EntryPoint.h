@@ -1,6 +1,10 @@
 #pragma once
 
 #ifdef LUCI_PLATFORM_WINDOWS
+#include "Luci/Core/Core.h"
+
+namespace Luci {
+
 	extern Luci::Application* Luci::CreateApplication();
 
 	int main(int argc, char** argv) {
@@ -14,10 +18,11 @@
 		app->Run();
 		LUCI_PROFILE_END_SESSION();
 
-		LUCI_PROFILE_BEGIN_SESSION("Startup", "LuciProfileShutdown.json");
+		LUCI_PROFILE_BEGIN_SESSION("Shutdown", "LuciProfileShutdown.json");
 		delete app;
 		LUCI_PROFILE_END_SESSION();
 
 		return 0;
 	}
+}
 #endif
