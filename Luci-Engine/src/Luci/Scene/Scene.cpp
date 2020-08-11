@@ -29,7 +29,6 @@ namespace Luci {
 		auto cameraGroup = m_Registry.group<CameraComponent, TransformComponent>();
 		for (auto entity : cameraGroup) {
 			auto& [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
-
 			if (camera.Primary) {
 				mainCamera = &camera.Camera;
 				cameraTransform = &transform.Transform;
@@ -47,6 +46,19 @@ namespace Luci {
 			}
 
 			Renderer2D::EndScene();
+		}
+	}
+
+	void Scene::OnViewportResize(uint32_t width, uint32_t height) {
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+
+		auto cameraView = m_Registry.view<CameraComponent>();
+		for (auto entity : cameraView) {
+			auto& cameraComponent = cameraView.get<CameraComponent>(entity);
+			if (!cameraComponent.FixedAspectRatio) {
+				cameraComponent.Camera.SetViewportSize(width, height);
+			}
 		}
 	}
 

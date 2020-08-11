@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Luci/Core/Core.h"
-#include "Luci/Renderer/Camera/Camera.h"
+#include "Luci/Scene/SceneCamera.h"
 
 #include <glm/glm.hpp>
 
@@ -38,13 +38,12 @@ namespace Luci {
 	};
 
 	struct CameraComponent {
-		Camera Camera;
+		SceneCamera Camera;
 		bool Primary = true;
+		bool FixedAspectRatio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const glm::mat4& projection)
-			: Camera(projection) {}
 	};
 
 }

@@ -25,7 +25,7 @@ namespace Luci {
 
         m_ActiveScene = CreateRef<Scene>();
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
-        m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+        m_CameraEntity.AddComponent<CameraComponent>();
 
         m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
         m_QuadEntity.AddComponent<SpriteRendererComponent>(m_QuadColor);
@@ -121,11 +121,13 @@ namespace Luci {
         Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-        if ((viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y)
-            && viewportPanelSize.x > 0 && viewportPanelSize.y > 0) {
+        if (viewportPanelSize.x > 0.0f && viewportPanelSize.y > 0.0f &&
+            (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y)) {
             m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
+
+            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
         }
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
