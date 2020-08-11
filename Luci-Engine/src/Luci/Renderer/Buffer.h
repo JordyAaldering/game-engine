@@ -21,8 +21,8 @@ namespace Luci {
 			case ShaderDataType::Float2: return 8;
 			case ShaderDataType::Float3: return 12;
 			case ShaderDataType::Float4: return 16;
-			case ShaderDataType::Mat3:	 return 36;
-			case ShaderDataType::Mat4:	 return 64;
+			case ShaderDataType::Mat3:	 return 3;
+			case ShaderDataType::Mat4:	 return 4;
 		}
 
 		LUCI_CORE_ASSERT(false, "Unknown ShaderDataType.");
