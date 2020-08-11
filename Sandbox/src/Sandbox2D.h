@@ -20,7 +20,6 @@ private:
 	Luci::Ref<Luci::Shader> m_Shader;
 
 	Luci::Ref<Luci::Texture2D> m_SpriteSheet;
-	Luci::Ref<Luci::SubTexture2D> m_ErrorTexture;
-	std::unordered_map<char, Luci::Ref<Luci::SubTexture2D>> m_TextureMap;
+	Luci::Ref<Luci::SubTexture2D> m_Texture;
 
 };

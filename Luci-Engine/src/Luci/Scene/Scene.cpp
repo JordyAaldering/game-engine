@@ -28,7 +28,7 @@ namespace Luci {
 
 		auto cameraGroup = m_Registry.group<CameraComponent, TransformComponent>();
 		for (auto entity : cameraGroup) {
-			auto& [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
+			const auto& [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
 			if (camera.Primary) {
 				mainCamera = &camera.Camera;
 				cameraTransform = &transform.Transform;
@@ -41,7 +41,7 @@ namespace Luci {
 
 			auto group = m_Registry.group<SpriteRendererComponent, TransformComponent>();
 			for (auto entity : group) {
-				auto& [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
+				const auto& [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
 				Renderer2D::DrawQuad(transform, sprite.Color);
 			}
 
