@@ -1,5 +1,5 @@
-workspace "Luci-Engine"
-    architecture "x64"
+workspace "Luci"
+    architecture "x86_64"
     startproject "Luci-Editor"
 
     configurations {
@@ -77,7 +77,6 @@ project "Luci-Engine"
 
     filter "system:windows"
         systemversion "latest"
-        defines "LUCI_BUILD_DLL"
     
     filter "configurations:Debug"
         defines "LUCI_DEBUG"
