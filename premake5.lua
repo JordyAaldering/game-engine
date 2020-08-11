@@ -52,6 +52,8 @@ project "Luci-Engine"
     }
 
     defines {
+        "LUCI_BUILD_DLL",
+        "GLFW_INCLUDE_NONE",
         "_CRT_SECURE_NO_WARNINGS"
     }
 
@@ -75,11 +77,7 @@ project "Luci-Engine"
 
     filter "system:windows"
         systemversion "latest"
-
-        defines {
-            "LUCI_BUILD_DLL",
-            "GLFW_INCLUDE_NONE"
-        }
+        defines "LUCI_BUILD_DLL"
     
     filter "configurations:Debug"
         defines "LUCI_DEBUG"

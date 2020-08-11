@@ -9,7 +9,7 @@ namespace Luci {
 	 * Vertex Buffer
 	 */
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(size_t size) : m_Size(size) {
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size) : m_Size(size) {
 		LUCI_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &m_RendererID);
@@ -17,7 +17,7 @@ namespace Luci {
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 	}
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, size_t size) : m_Size(size) {
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size) : m_Size(size) {
 		LUCI_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &m_RendererID);
@@ -49,7 +49,7 @@ namespace Luci {
 	 * Index Buffer
 	 */
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, size_t count) : m_Count(count) {
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count) : m_Count(count) {
 		LUCI_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &m_RendererID);

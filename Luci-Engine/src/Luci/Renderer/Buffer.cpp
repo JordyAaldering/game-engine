@@ -6,7 +6,7 @@
 
 namespace Luci {
 
-	Ref<VertexBuffer> VertexBuffer::Create(size_t size) {
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size) {
 		switch (Renderer::GetAPI()) {
 			case RendererAPI::API::None:
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
@@ -19,7 +19,7 @@ namespace Luci {
 		return nullptr;
 	}
 	
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, size_t size) {
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size) {
 		switch (Renderer::GetAPI()) {
 			case RendererAPI::API::None:
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");
@@ -32,7 +32,7 @@ namespace Luci {
 		return nullptr;
 	}
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, size_t size) {
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size) {
 		switch (Renderer::GetAPI()) {
 			case RendererAPI::API::None:
 				LUCI_CORE_ASSERT(false, "RendererAPI::None is not supported.");

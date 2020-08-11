@@ -92,8 +92,8 @@ namespace Luci {
 
 	class VertexBuffer {
 	public:
-		static Ref<VertexBuffer> Create(size_t size);
-		static Ref<VertexBuffer> Create(float* vertices, size_t size);
+		static Ref<VertexBuffer> Create(uint32_t size);
+		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
 		virtual ~VertexBuffer() = default;
 
 		virtual void Bind() const = 0;
@@ -104,18 +104,18 @@ namespace Luci {
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 		virtual const BufferLayout& GetLayout() const = 0;
 
-		virtual size_t GetCount() const = 0;
+		virtual uint32_t GetCount() const = 0;
 	};
 
 	class IndexBuffer {
 	public:
-		static Ref<IndexBuffer> Create(uint32_t* indices, size_t count);
+		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 		virtual ~IndexBuffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void UnBind() const = 0;
 
-		virtual size_t GetCount() const = 0;
+		virtual uint32_t GetCount() const = 0;
 	};
 
 }
