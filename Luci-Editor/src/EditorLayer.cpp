@@ -25,9 +25,8 @@ namespace Luci {
         m_CameraController.SetZoomLevel(5.0f);
 
         m_ActiveScene = CreateRef<Scene>();
-        m_QuadEntity = m_ActiveScene->CreateEntity();
-        m_ActiveScene->Get().emplace<TransformComponent>(m_QuadEntity);
-        m_ActiveScene->Get().emplace<SpriteRendererComponent>(m_QuadEntity, glm::vec4{ 0.2f, 0.9f, 0.3f, 1.0f });
+        m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
+        m_QuadEntity.AddComponent<SpriteRendererComponent>(m_QuadColor);
     }
 
     void EditorLayer::OnDetach() {
@@ -101,6 +100,17 @@ namespace Luci {
         ImGui::Text("Quads: %d", stats.QuadCount);
         ImGui::Text("Vertices: %d", stats.GetVertexCount());
         ImGui::Text("Indices: %d", stats.GetIndexCount());
+
+        if (m_QuadEntity) {
+            ImGui::Separator();
+            auto& tag = m_QuadEntity.GetComponent<TagComponent>().Tag;
+            ImGui::Text("Tag: %s", tag.c_str());
+            
+            m_QuadColor = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
+            ImGui::ColorEdit4("Quad color", glm::value_ptr(m_QuadColor));
+            ImGui::Separator();
+        }
+
         ImGui::End();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });

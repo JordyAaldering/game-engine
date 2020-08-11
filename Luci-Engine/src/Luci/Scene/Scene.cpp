@@ -1,6 +1,7 @@
 #include "lucipch.h"
 
 #include "Luci/Scene/Scene.h"
+#include "Luci/Scene/Entity.h"
 #include "Luci/Scene/Components.h"
 #include "Luci/Renderer/Renderer2D.h"
 
@@ -14,8 +15,11 @@ namespace Luci {
 	Scene::~Scene() {
 	}
 
-	entt::entity Scene::CreateEntity() {
-		return m_Registry.create();
+	Entity Scene::CreateEntity(const std::string& tag) {
+		Entity entity = { m_Registry.create(), this };
+		entity.AddComponent<TagComponent>(tag);
+		entity.AddComponent<TransformComponent>();
+		return entity;
 	}
 
 	void Scene::OnUpdate(Timestep timestep) {

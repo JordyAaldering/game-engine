@@ -1,24 +1,27 @@
 #pragma once
 
+#include "Luci/Core/Core.h"
 #include "Luci/Core/Timestep.h"
 
 #include <entt.hpp>
 
 namespace Luci {
 
+	class Entity;
+
 	class Scene {
 	public:
 		Scene();
 		~Scene();
 
-		entt::entity CreateEntity();
+		Entity CreateEntity(const std::string& name = "Entity");
 
 		void OnUpdate(Timestep timestep);
 
-		entt::registry& Get() { return m_Registry; }
-
 	private:
 		entt::registry m_Registry;
+
+		friend class Entity;
 	};
 
 }

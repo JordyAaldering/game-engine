@@ -17,6 +17,7 @@
 
 // Scene
 #include "Luci/Scene/Scene.h"
+#include "Luci/Scene/Entity.h"
 #include "Luci/Scene/Components.h"
 
 // Renderer
