@@ -5,7 +5,29 @@
 
 namespace Luci {
 
+	void OpenGLMessageCallback(unsigned source, unsigned type, unsigned id, 
+		unsigned severity, int length, const char* message, const void* userParam) {
+		switch (severity) {
+			case GL_DEBUG_SEVERITY_HIGH:         LUCI_CORE_FATAL(message); break;
+			case GL_DEBUG_SEVERITY_MEDIUM:       LUCI_CORE_ERROR(message); break;
+			case GL_DEBUG_SEVERITY_LOW:          LUCI_CORE_WARN(message); break;
+			case GL_DEBUG_SEVERITY_NOTIFICATION: LUCI_CORE_TRACE(message); break;
+
+			default:
+				LUCI_CORE_ASSERT(false, "Unknown severity level!");
+				LUCI_CORE_TRACE(message);
+				break;
+		}
+	}
+
 	void OpenGLRendererAPI::Init() {
+		#ifdef LUCI_DEBUG
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+		#endif
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

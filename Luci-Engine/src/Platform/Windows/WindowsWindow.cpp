@@ -1,10 +1,12 @@
 #include "lucipch.h"
-#include "WindowsWindow.h"
+
+#include "Platform/Windows/WindowsWindow.h"
 
 #include "Luci/Events/ApplicationEvent.h"
 #include "Luci/Events/KeyEvent.h"
 #include "Luci/Events/MouseEvent.h"
 
+#include "Luci/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Luci {
@@ -41,6 +43,11 @@ namespace Luci {
 			s_GLFWInitialized = true;
 		}
 
+		#ifdef LUCI_DEBUG
+		if (Renderer::GetAPI() == RendererAPI::API::OpenGL) {
+			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+		}
+		#endif
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
 		m_Context = GraphicsContext::Create(m_Window);
@@ -49,7 +56,6 @@ namespace Luci {
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
-		// set glfw callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			data.Width = width;
