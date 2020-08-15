@@ -1,5 +1,6 @@
 #include "lucipch.h"
-#include "OpenGLShader.h"
+
+#include "Platform/OpenGL/OpenGLShader.h"
 
 #include <fstream>
 #include <glad/glad.h>
@@ -8,8 +9,8 @@
 namespace Luci {
 
 	static GLenum ShaderTypeFromString(const std::string& type) {
-		if (type == "vertex") return GL_VERTEX_SHADER;
-		if (type == "fragment") return GL_FRAGMENT_SHADER;
+		if (type == "vertex") { return GL_VERTEX_SHADER; }
+		if (type == "fragment") { return GL_FRAGMENT_SHADER; }
 
 		LUCI_CORE_ASSERT(false, "Unknown shader type.");
 		return 0;

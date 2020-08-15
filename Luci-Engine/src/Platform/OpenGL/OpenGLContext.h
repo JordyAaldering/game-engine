@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Luci/Core/Core.h"
 #include "Luci/Renderer/GraphicsContext.h"
 
+// Forward declare
 struct GLFWwindow;
 
 namespace Luci {
@@ -11,7 +13,7 @@ namespace Luci {
 		OpenGLContext(GLFWwindow* windowHandle);
 		~OpenGLContext() = default;
 
-		virtual void Init() override;
+		virtual void Initialize() override;
 		virtual void SwapBuffers() override;
 
 	private:

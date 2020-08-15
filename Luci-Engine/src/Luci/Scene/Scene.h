@@ -7,6 +7,7 @@
 
 namespace Luci {
 
+	// Forward declare
 	class Entity;
 
 	class Scene {

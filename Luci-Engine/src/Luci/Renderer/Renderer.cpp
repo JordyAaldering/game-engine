@@ -1,6 +1,7 @@
 #include "lucipch.h"
-#include "Renderer.h"
-#include "Renderer2D.h"
+
+#include "Luci/Renderer/Renderer.h"
+#include "Luci/Renderer/Renderer2D.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -8,10 +9,10 @@ namespace Luci {
 
 	Scope <Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
 
-	void Renderer::Init() {
+	void Renderer::Initialize() {
 		LUCI_PROFILE_FUNCTION();
-		RenderCommand::Init();
-		Renderer2D::Init();
+		RenderCommand::Initialize();
+		Renderer2D::Initialize();
 	}
 
 	void Renderer::Shutdown() {
@@ -28,7 +29,6 @@ namespace Luci {
 	}
 
 	void Renderer::EndScene() {
-
 	}
 
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform) {

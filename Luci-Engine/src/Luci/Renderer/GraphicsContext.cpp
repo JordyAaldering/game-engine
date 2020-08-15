@@ -1,7 +1,8 @@
 #include "lucipch.h"
-#include "GraphicsContext.h"
 
-#include "Renderer.h"
+#include "Luci/Renderer/GraphicsContext.h"
+#include "Luci/Renderer/Renderer.h"
+
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Luci {

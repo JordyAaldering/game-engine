@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Luci/Renderer/Camera/OrthographicCamera.h"
+#include "Luci/Core/Core.h"
 #include "Luci/Core/Timestep.h"
+#include "Luci/Renderer/Camera/OrthographicCamera.h"
 
 #include "Luci/Events/ApplicationEvent.h"
 #include "Luci/Events/MouseEvent.h"

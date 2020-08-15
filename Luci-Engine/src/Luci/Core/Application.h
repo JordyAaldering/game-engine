@@ -1,17 +1,18 @@
 #pragma once
 
-#include "Core.h"
-#include "Timestep.h"
-#include "Window.h"
-#include "LayerStack.h"
+#include "Luci/Core/Core.h"
+#include "Luci/Core/Window.h"
+#include "Luci/Core/Timestep.h"
+#include "Luci/Core/LayerStack.h"
 
 #include "Luci/Events/Event.h"
 #include "Luci/Events/ApplicationEvent.h"
+
 #include "Luci/ImGui/ImGuiLayer.h"
 
+#include "Luci/Renderer/Buffer.h"
 #include "Luci/Renderer/Shader.h"
 #include "Luci/Renderer/VertexArray.h"
-#include "Luci/Renderer/Buffer.h"
 #include "Luci/Renderer/Camera/OrthographicCamera.h"
 
 namespace Luci {
@@ -44,7 +45,7 @@ namespace Luci {
 		bool m_Minimized = false;
 		float m_LastFrameTime = 0.0f;
 
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 	};

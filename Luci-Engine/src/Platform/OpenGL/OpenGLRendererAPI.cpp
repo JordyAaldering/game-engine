@@ -1,5 +1,6 @@
 #include "lucipch.h"
-#include "OpenGLRendererAPI.h"
+
+#include "Platform/OpenGL/OpenGLRendererAPI.h"
 
 #include <glad/glad.h>
 
@@ -10,22 +11,22 @@ namespace Luci {
 		switch (severity) {
 			case GL_DEBUG_SEVERITY_HIGH:         LUCI_CORE_FATAL(message); break;
 			case GL_DEBUG_SEVERITY_MEDIUM:       LUCI_CORE_ERROR(message); break;
-			case GL_DEBUG_SEVERITY_LOW:          LUCI_CORE_WARN(message); break;
+			case GL_DEBUG_SEVERITY_LOW:          LUCI_CORE_WARN(message);  break;
 			case GL_DEBUG_SEVERITY_NOTIFICATION: LUCI_CORE_TRACE(message); break;
 
 			default:
-				LUCI_CORE_ASSERT(false, "Unknown severity level!");
+				LUCI_CORE_ASSERT(false, "Unknown severity level.");
 				LUCI_CORE_TRACE(message);
 				break;
 		}
 	}
 
-	void OpenGLRendererAPI::Init() {
+	void OpenGLRendererAPI::Initialize() {
 		#ifdef LUCI_DEBUG
-		glEnable(GL_DEBUG_OUTPUT);
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+			glEnable(GL_DEBUG_OUTPUT);
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+			glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
 		#endif
 
 		glEnable(GL_BLEND);

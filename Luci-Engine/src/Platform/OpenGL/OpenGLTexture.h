@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Luci/Core/Core.h"
 #include "Luci/Renderer/Texture.h"
+
 #include <glad/glad.h>
 
 namespace Luci {

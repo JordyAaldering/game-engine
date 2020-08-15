@@ -39,7 +39,6 @@ namespace Luci {
 		bool Normalized;
 
 		BufferElement() = default;
-
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
 			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized) {}
 
@@ -71,18 +70,20 @@ namespace Luci {
 			CalculateOffsets();
 		}
 
-		inline const std::vector<BufferElement>& GetElements() const { return m_Elements; }
-		inline uint32_t GetStride() const { return m_Stride; }
-
+		const std::vector<BufferElement>& GetElements() const { return m_Elements; }
+		uint32_t GetStride() const { return m_Stride; }
+		
 		std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
 		std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
+		std::vector<BufferElement>::reverse_iterator rbegin() { return m_Elements.rbegin(); }
+		std::vector<BufferElement>::reverse_iterator rend() { return m_Elements.rend(); }
+
 		std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
 		std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
+		std::vector<BufferElement>::const_reverse_iterator rbegin() const { return m_Elements.rbegin(); }
+		std::vector<BufferElement>::const_reverse_iterator rend() const { return m_Elements.rend(); }
 
 	private:
-		std::vector<BufferElement> m_Elements;
-		uint32_t m_Stride = 0;
-
 		void CalculateOffsets() {
 			m_Stride = 0;
 			for (auto& element : m_Elements) {
@@ -90,6 +91,10 @@ namespace Luci {
 				m_Stride += element.Size;
 			}
 		}
+
+	private:
+		std::vector<BufferElement> m_Elements;
+		uint32_t m_Stride = 0;
 	};
 
 	class VertexBuffer {

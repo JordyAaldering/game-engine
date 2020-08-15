@@ -1,7 +1,8 @@
 #include "lucipch.h"
-#include "Texture.h"
 
+#include "Luci/Renderer/Texture.h"
 #include "Luci/Renderer/Renderer.h"
+
 #include "Platform/OpenGL/OpenGLTexture.h"
 
 namespace Luci {

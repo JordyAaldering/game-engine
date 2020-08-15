@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core.h"
-#include "Layer.h"
+#include "Luci/Core/Core.h"
+#include "Luci/Core/Layer.h"
 
 namespace Luci {
 
@@ -27,7 +27,7 @@ namespace Luci {
 
 	private:
 		std::vector<Layer*> m_Layers;
-		unsigned int m_LayerInsertIndex = 0;
+		uint32_t m_LayerInsertIndex = 0;
 	};
 
 }

@@ -9,11 +9,9 @@
 
 namespace Luci {
 
-	Scene::Scene() {
-	}
+	Scene::Scene() {}
 
-	Scene::~Scene() {
-	}
+	Scene::~Scene() {}
 
 	Entity Scene::CreateEntity(const std::string& tag) {
 		Entity entity = { m_Registry.create(), this };

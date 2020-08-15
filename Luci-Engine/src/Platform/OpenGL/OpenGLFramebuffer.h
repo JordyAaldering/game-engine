@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Luci/Core/Core.h"
 #include "Luci/Renderer/FrameBuffer.h"
 
 namespace Luci {

@@ -9,11 +9,19 @@
 
 namespace Luci {
 
-	bool Input::IsKeyPressed(KeyCode keyCode) {
+	/*
+	 * Key input
+	 */
+
+	bool Input::IsKeyPressed(KeyCode key) {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		int state = glfwGetKey(window, static_cast<int>(keyCode));
+		int state = glfwGetKey(window, static_cast<int>(key));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
+
+	/*
+	 * Mouse input
+	 */
 
 	bool Input::IsMouseButtonPressed(MouseCode button) {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
@@ -29,12 +37,12 @@ namespace Luci {
 	}
 
 	float Input::GetMouseX() {
-		auto [xPos, _] = GetMousePosition();
+		auto [xPos, _yPos] = GetMousePosition();
 		return xPos;
 	}
 
 	float Input::GetMouseY() {
-		auto [_, yPos] = GetMousePosition();
+		auto [_xPos, yPos] = GetMousePosition();
 		return yPos;
 	}
 

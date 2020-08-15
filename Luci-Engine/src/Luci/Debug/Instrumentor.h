@@ -7,10 +7,10 @@
 #include <chrono>
 #include <fstream>
 #include <iomanip>
-#include <string>
-#include <thread>
 #include <mutex>
+#include <string>
 #include <sstream>
+#include <thread>
 
 namespace Luci {
 
@@ -80,14 +80,10 @@ namespace Luci {
 			static Instrumentor instance;
 			return instance;
 		}
-	private:
-		Instrumentor()
-			: m_CurrentSession(nullptr) {
-		}
 
-		~Instrumentor() {
-			EndSession();
-		}
+	private:
+		Instrumentor() : m_CurrentSession(nullptr) {}
+		~Instrumentor() { EndSession(); }
 
 		void WriteHeader() {
 			m_OutputStream << "{\"otherData\": {},\"traceEvents\":[{}";

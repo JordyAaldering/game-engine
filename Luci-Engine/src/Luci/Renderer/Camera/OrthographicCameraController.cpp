@@ -1,6 +1,7 @@
 #include "lucipch.h"
 
-#include "OrthographicCameraController.h"
+#include "Luci/Renderer/Camera/OrthographicCameraController.h"
+
 #include "Luci/Core/Input/Input.h"
 #include "Luci/Core/Input/KeyCodes.h"
 #include "Luci/Core/Input/MouseCodes.h"

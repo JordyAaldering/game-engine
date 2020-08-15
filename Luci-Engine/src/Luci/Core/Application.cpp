@@ -1,10 +1,10 @@
 #include "lucipch.h"
-#include "Application.h"
 
+#include "Luci/Core/Application.h"
 #include "Luci/Core/Input/Input.h"
 #include "Luci/Renderer/Renderer.h"
 
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace Luci {
 
@@ -19,7 +19,7 @@ namespace Luci {
 		m_Window = Window::Create(WindowProps(name));
 		m_Window->SetEventCallback(LUCI_BIND_EVENT_FN(Application::OnEvent));
 
-		Renderer::Init();
+		Renderer::Initialize();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);

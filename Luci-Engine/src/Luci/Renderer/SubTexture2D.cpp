@@ -1,5 +1,6 @@
 #include "lucipch.h"
-#include "SubTexture2D.h"
+
+#include "Luci/Renderer/SubTexture2D.h"
 
 namespace Luci {
 

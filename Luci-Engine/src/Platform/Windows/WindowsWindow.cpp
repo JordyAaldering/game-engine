@@ -19,7 +19,7 @@ namespace Luci {
 
 	WindowsWindow::WindowsWindow(const WindowProps& props) {
 		LUCI_PROFILE_FUNCTION();
-		Init(props);
+		Initialize(props);
 	}
 
 	WindowsWindow::~WindowsWindow() {
@@ -27,7 +27,7 @@ namespace Luci {
 		Shutdown();
 	}
 
-	void WindowsWindow::Init(const WindowProps& props) {
+	void WindowsWindow::Initialize(const WindowProps& props) {
 		LUCI_PROFILE_FUNCTION();
 
 		m_Data.Title = props.Title;
@@ -51,7 +51,7 @@ namespace Luci {
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
 		m_Context = GraphicsContext::Create(m_Window);
-		m_Context->Init();
+		m_Context->Initialize();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);

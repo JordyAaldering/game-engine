@@ -14,7 +14,7 @@ namespace Luci {
 		~Input() = default;
 
 		// Key input
-		static bool IsKeyPressed(KeyCode keyCode);
+		static bool IsKeyPressed(KeyCode key);
 
 		// Mouse input
 		static bool IsMouseButtonPressed(MouseCode button);

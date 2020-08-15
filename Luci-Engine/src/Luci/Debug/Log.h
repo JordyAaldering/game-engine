@@ -9,7 +9,7 @@ namespace Luci {
 
 	class Log {
 	public:
-		static void Init();
+		static void Initialize();
 
 		static Ref<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 		static Ref<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
@@ -21,14 +21,14 @@ namespace Luci {
 
 }
 
-// core log macros
+// Core logging
 #define LUCI_CORE_TRACE(...) ::Luci::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define LUCI_CORE_INFO(...)  ::Luci::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define LUCI_CORE_WARN(...)  ::Luci::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define LUCI_CORE_ERROR(...) ::Luci::Log::GetCoreLogger()->error(__VA_ARGS__)
 #define LUCI_CORE_FATAL(...) ::Luci::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
-// client log macros
+// Client logging
 #define LUCI_TRACE(...)      ::Luci::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define LUCI_INFO(...)       ::Luci::Log::GetClientLogger()->info(__VA_ARGS__)
 #define LUCI_WARN(...)       ::Luci::Log::GetClientLogger()->warn(__VA_ARGS__)

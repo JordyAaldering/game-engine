@@ -1,16 +1,17 @@
 #pragma once
 
-#include "Camera/Camera.h"
-#include "Camera/OrthographicCamera.h"
+#include "Luci/Core/Core.h"
 
 #include "Luci/Renderer/Texture.h"
 #include "Luci/Renderer/SubTexture2D.h"
+#include "Luci/Renderer/Camera/Camera.h"
+#include "Luci/Renderer/Camera/OrthographicCamera.h"
 
 namespace Luci {
 
 	class Renderer2D {
 	public:
-		static void Init();
+		static void Initialize();
 		static void Shutdown();
 
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
@@ -46,7 +47,6 @@ namespace Luci {
 	private:
 		static void FlushAndReset();
 
-		// Primitives
 		static void DrawQuadFromTexIndex(const glm::mat4& transform, const glm::vec4& color, float texIndex, const glm::vec2* texCoords);
 	};
 

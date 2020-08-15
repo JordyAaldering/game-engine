@@ -7,13 +7,13 @@
 	extern Luci::Application* Luci::CreateApplication();
 
 	int main(int argc, char** argv) {
-		Luci::Log::Init();
+		Luci::Log::Initialize();
 
 		LUCI_PROFILE_BEGIN_SESSION("Startup", "LuciProfileStartup.json");
 		auto app = Luci::CreateApplication();
 		LUCI_PROFILE_END_SESSION();
 
-		LUCI_PROFILE_BEGIN_SESSION("Startup", "LuciProfileRuntime.json");
+		LUCI_PROFILE_BEGIN_SESSION("Runtime", "LuciProfileRuntime.json");
 		app->Run();
 		LUCI_PROFILE_END_SESSION();
 

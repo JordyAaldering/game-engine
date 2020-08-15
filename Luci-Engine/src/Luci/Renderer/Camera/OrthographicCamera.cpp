@@ -1,5 +1,6 @@
 #include "lucipch.h"
-#include "OrthographicCamera.h"
+
+#include "Luci/Renderer/Camera/OrthographicCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 

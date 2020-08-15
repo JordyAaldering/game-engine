@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Buffer.h"
+#include "Luci/Core/Core.h"
+#include "Luci/Renderer/Buffer.h"
+
 #include <memory>
 
 namespace Luci {

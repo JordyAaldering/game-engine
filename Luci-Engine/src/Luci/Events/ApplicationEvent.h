@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Event.h"
+#include "Luci/Core/Core.h"
+#include "Luci/Events/Event.h"
 
 namespace Luci {
 

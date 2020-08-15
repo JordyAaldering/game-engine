@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.h"
+#include "Luci/Core/Core.h"
 #include "Luci/Events/Event.h"
 
 #include <sstream>
@@ -31,7 +31,7 @@ namespace Luci {
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
 
-		// window attributes
+		// Window attributes
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;

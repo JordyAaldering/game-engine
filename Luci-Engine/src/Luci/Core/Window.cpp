@@ -1,5 +1,6 @@
 #include "lucipch.h"
-#include "Window.h"
+
+#include "Luci/Core/Window.h"
 
 #ifdef LUCI_PLATFORM_WINDOWS
 #include "Platform/Windows/WindowsWindow.h"

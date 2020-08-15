@@ -11,7 +11,7 @@ namespace Luci {
 
 	class ImGuiLayer : public Layer {
 	public:
-		ImGuiLayer();
+		ImGuiLayer() : Layer("ImGuiLayer") {}
 		~ImGuiLayer() = default;
 
 		virtual void OnAttach() override;

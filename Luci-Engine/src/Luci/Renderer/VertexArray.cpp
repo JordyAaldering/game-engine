@@ -1,7 +1,8 @@
 #include "lucipch.h"
-#include "VertexArray.h"
 
-#include "Renderer.h"
+#include "Luci/Renderer/VertexArray.h"
+#include "Luci/Renderer/Renderer.h"
+
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Luci {

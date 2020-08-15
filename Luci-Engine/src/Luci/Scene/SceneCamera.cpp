@@ -26,6 +26,11 @@ namespace Luci {
 		}
 	}
 
+	void SceneCamera::SetOrthographicSize(float size) {
+		m_OrthographicSize = size;
+		RecalculateProjection();
+	}
+
 	void SceneCamera::RecalculateProjection() {
 		float orthoTop = m_OrthographicSize * 0.5f;
 		float orthoRight = orthoTop * m_AspectRatio;

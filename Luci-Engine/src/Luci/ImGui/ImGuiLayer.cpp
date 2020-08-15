@@ -10,10 +10,6 @@
 
 namespace Luci {
 
-	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGuiLayer") {
-	}
-
 	void ImGuiLayer::OnAttach() {
 		LUCI_PROFILE_FUNCTION();
 

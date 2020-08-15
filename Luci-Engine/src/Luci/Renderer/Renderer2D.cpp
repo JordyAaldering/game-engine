@@ -1,9 +1,9 @@
 #include "lucipch.h"
-#include "Renderer2D.h"
 
-#include "VertexArray.h"
-#include "Shader.h"
-#include "RenderCommand.h"
+#include "Luci/Renderer/Renderer2D.h"
+#include "Luci/Renderer/Shader.h"
+#include "Luci/Renderer/VertexArray.h"
+#include "Luci/Renderer/RenderCommand.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -53,7 +53,7 @@ namespace Luci {
 
 	static Renderer2DData s_Data;
 
-	void Renderer2D::Init() {
+	void Renderer2D::Initialize() {
 		LUCI_PROFILE_FUNCTION();
 
 		s_Data.QuadVertexArray = VertexArray::Create();

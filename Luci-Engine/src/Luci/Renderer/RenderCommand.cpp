@@ -1,5 +1,6 @@
 #include "lucipch.h"
-#include "RenderCommand.h"
+
+#include "Luci/Renderer/RenderCommand.h"
 
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 
