@@ -45,17 +45,15 @@ project "Luci-Engine"
     files {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
-        "%{prj.name}/vendor/stb/**.h",
-        "%{prj.name}/vendor/stb/**.cpp",
-        "%{prj.name}/vendor/glm/glm/**.hpp",
-        "%{prj.name}/vendor/glm/glm/**.inl"
+        IncludeDir["stb"] .. "/**.h",
+        IncludeDir["stb"] .. "/**.cpp",
+        IncludeDir["glm"] .. "/**.hpp",
+        IncludeDir["glm"] .. "/**.inl"
     }
 
     defines {
-        "LUCI_BUILD_DLL",
-        "GLFW_INCLUDE_NONE",
         "_CRT_SECURE_NO_WARNINGS",
-        "NOMINMAX"
+        "GLFW_INCLUDE_NONE"
     }
 
     includedirs {
