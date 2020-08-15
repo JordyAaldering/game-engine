@@ -35,6 +35,12 @@
 	#error "Unknown platform!"
 #endif
 
+#ifdef LUCI_PLATFORM_WINDOWS
+	#ifndef NOMINMAX
+		#define NOMINMAX
+	#endif
+#endif
+
 /*
  * Debugging
  */

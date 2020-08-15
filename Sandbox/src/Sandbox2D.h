@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Luci.h>
+#include "Luci.h"
 
 class Sandbox2D : public Luci::Layer {
 public:
@@ -18,8 +18,5 @@ private:
 
 	Luci::Ref<Luci::VertexArray> m_VertexArray;
 	Luci::Ref<Luci::Shader> m_Shader;
-
-	Luci::Ref<Luci::Texture2D> m_SpriteSheet;
-	Luci::Ref<Luci::SubTexture2D> m_Texture;
 
 };

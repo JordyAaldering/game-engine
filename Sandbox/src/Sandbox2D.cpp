@@ -10,10 +10,6 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach() {
 	LUCI_PROFILE_FUNCTION();
-
-	m_SpriteSheet = Luci::Texture2D::Create("assets/textures/RPGPack.png");
-	m_Texture = Luci::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 3, 3 }, { 128, 128 });
-	m_CameraController.SetZoomLevel(5.0f);
 }
 
 void Sandbox2D::OnDetach() {

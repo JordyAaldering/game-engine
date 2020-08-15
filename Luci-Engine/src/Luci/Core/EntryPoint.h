@@ -1,9 +1,8 @@
 #pragma once
 
-#ifdef LUCI_PLATFORM_WINDOWS
 #include "Luci/Core/Core.h"
 
-namespace Luci {
+#ifdef LUCI_PLATFORM_WINDOWS
 
 	extern Luci::Application* Luci::CreateApplication();
 
@@ -24,5 +23,5 @@ namespace Luci {
 
 		return 0;
 	}
-}
+
 #endif

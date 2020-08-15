@@ -17,7 +17,7 @@ namespace Luci {
 	};
 
 	struct TransformComponent {
-		glm::mat4 Transform{ 0.0f };
+		glm::mat4 Transform{ 1.0f };
 
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;

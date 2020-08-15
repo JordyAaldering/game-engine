@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Luci/Core/Core.h"
+
 #include "Luci/Core/Layer.h"
 #include "Luci/Events/ApplicationEvent.h"
 #include "Luci/Events/KeyEvent.h"

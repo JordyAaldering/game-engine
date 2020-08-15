@@ -13,16 +13,27 @@ namespace Luci {
 		Entity(entt::entity handle, Scene* scene);
 
 		template<typename T, typename... Args>
-		T& AddComponent(Args&&... args);
+		T& AddComponent(Args&&... args) {
+			LUCI_CORE_ASSERT(!HasComponent<T>(), "Entity already has component.");
+			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+		}
 
 		template<typename T>
-		T& GetComponent();
+		T& GetComponent() {
+			LUCI_CORE_ASSERT(HasComponent<T>(), "Entity does not have component.");
+			return m_Scene->m_Registry.get<T>(m_EntityHandle);
+		}
 
 		template<typename T>
-		bool HasComponent();
+		bool HasComponent() {
+			return m_Scene->m_Registry.has<T>(m_EntityHandle);
+		}
 
 		template<typename T>
-		T& RemoveComponent();
+		T& RemoveComponent() {
+			LUCI_CORE_ASSERT(HasComponent<T>(), "Entity does not have component.");
+			m_Scene->m_Registry.remove<T>(m_EntityHandle);
+		}
 
 		operator bool() const { return m_EntityHandle != entt::null; }
 
