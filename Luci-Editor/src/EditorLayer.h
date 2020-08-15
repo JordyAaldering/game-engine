@@ -19,15 +19,14 @@ namespace Luci {
 	private:
 		OrthographicCameraController m_CameraController;
 
+		Ref<Framebuffer> m_Framebuffer;
 		Ref<VertexArray> m_VertexArray;
 		Ref<Shader> m_Shader;
 
 		Ref<Scene> m_ActiveScene;
-		Entity m_CameraEntity;
+		Entity m_CameraEntity, m_SecondaryCameraEntity;
 		Entity m_QuadEntity;
-		glm::vec4 m_QuadColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
-		Ref<Framebuffer> m_Framebuffer;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 	};

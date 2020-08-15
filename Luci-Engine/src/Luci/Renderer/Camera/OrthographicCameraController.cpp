@@ -58,7 +58,7 @@ namespace Luci {
 		dispatcher.Dispatch<WindowResizeEvent>(LUCI_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
 
-	void OrthographicCameraController::Resize(float width, float height) {
+	void OrthographicCameraController::OnResize(float width, float height) {
 		m_AspectRatio = width / height;
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 	}
@@ -75,7 +75,7 @@ namespace Luci {
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event) {
 		LUCI_PROFILE_FUNCTION();
 
-		Resize((float)event.GetWidth(), (float)event.GetHeight());
+		OnResize((float)event.GetWidth(), (float)event.GetHeight());
 		return false;
 	}
 

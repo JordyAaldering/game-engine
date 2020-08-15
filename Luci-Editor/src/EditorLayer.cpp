@@ -18,11 +18,16 @@ namespace Luci {
         m_Framebuffer = Framebuffer::Create(fbSpec);
 
         m_ActiveScene = CreateRef<Scene>();
+
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
         m_CameraEntity.AddComponent<CameraComponent>();
 
+        m_SecondaryCameraEntity = m_ActiveScene->CreateEntity("Secondary Camera");
+        auto& cc = m_SecondaryCameraEntity.AddComponent<CameraComponent>();
+        cc.Primary = false;
+
         m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
-        m_QuadEntity.AddComponent<SpriteRendererComponent>(m_QuadColor);
+        m_QuadEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
     }
 
     void EditorLayer::OnDetach() {
@@ -31,6 +36,14 @@ namespace Luci {
 
     void EditorLayer::OnUpdate(Timestep timestep) {
         LUCI_PROFILE_FUNCTION();
+
+        // Resize
+        FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+        if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)) {
+            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        }
 
         // Update
         if (m_ViewportFocused) {
@@ -87,8 +100,9 @@ namespace Luci {
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
         }
 
-        auto stats = Renderer2D::GetStatistics();
-        if (ImGui::Begin("Renderer 2D:")) {
+        if (ImGui::Begin("Renderer 2D")) {
+            auto stats = Renderer2D::GetStatistics();
+            ImGui::Text("> Statistics");
             ImGui::Text("Draw Calls: %d", stats.DrawCalls);
             ImGui::Text("Quads: %d", stats.QuadCount);
             ImGui::Text("Vertices: %d", stats.GetVertexCount());
@@ -99,32 +113,25 @@ namespace Luci {
                 auto& tag = m_QuadEntity.GetComponent<TagComponent>().Tag;
                 ImGui::Text("Tag: %s", tag.c_str());
 
-                m_QuadColor = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
-                ImGui::ColorEdit4("Quad color", glm::value_ptr(m_QuadColor));
+                auto& color = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
+                ImGui::ColorEdit4("Quad color", glm::value_ptr(color));
                 ImGui::Separator();
             }
 
             ImGui::End();
         }
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         if (ImGui::Begin("Viewport")) {
             m_ViewportFocused = ImGui::IsWindowFocused();
             m_ViewportHovered = ImGui::IsWindowHovered();
             Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
             ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-            if (viewportPanelSize.x > 0.0f && viewportPanelSize.y > 0.0f &&
-                (viewportPanelSize.x != m_ViewportSize.x || viewportPanelSize.y != m_ViewportSize.y)) {
-                m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-                m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-                m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
-
-                m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-            }
+            m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
             uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-            ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+            ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2(0, 1), ImVec2(1, 0));
             ImGui::End();
         }
         ImGui::PopStyleVar();
