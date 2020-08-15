@@ -23,29 +23,48 @@ namespace Luci {
 	}
 
 	void Scene::OnUpdate(Timestep timestep) {
-		Camera* mainCamera = nullptr;
-		glm::mat4* cameraTransform = nullptr;
+		{ LUCI_PROFILE_SCOPE("Scene::OnUpdate Update Scripts");
+			m_Registry.view<NativeScriptComponent>().each([=](entt::entity entity, NativeScriptComponent& nsc) {
+				if (!nsc.Instance) {
+					nsc.InstantiateFunction();
+					nsc.Instance->m_Entity = Entity(entity, this);
 
-		auto cameraGroup = m_Registry.group<CameraComponent, TransformComponent>();
-		for (auto entity : cameraGroup) {
-			auto& [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
-			if (camera.Primary) {
-				mainCamera = &camera.Camera;
-				cameraTransform = &transform.Transform;
-				break;
-			}
+					if (nsc.OnCreateFunction) {
+						nsc.OnCreateFunction(nsc.Instance);
+					}
+				}
+
+				if (nsc.OnUpdateFunction) {
+					nsc.OnUpdateFunction(nsc.Instance, timestep);
+				}
+			});
 		}
 
-		if (mainCamera) {
-			Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
+		{ LUCI_PROFILE_SCOPE("Scene::OnUpdate Render 2D");
+			Camera* mainCamera = nullptr;
+			glm::mat4* cameraTransform = nullptr;
 
-			auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
-			for (auto entity : group) {
-				auto& [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
-				Renderer2D::DrawQuad(transform, sprite.Color);
+			auto cameraGroup = m_Registry.group<CameraComponent, TransformComponent>();
+			for (auto entity : cameraGroup) {
+				auto& [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
+				if (camera.Primary) {
+					mainCamera = &camera.Camera;
+					cameraTransform = &transform.Transform;
+					break;
+				}
 			}
 
-			Renderer2D::EndScene();
+			if (mainCamera) {
+				Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
+
+				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
+				for (auto entity : group) {
+					auto& [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
+					Renderer2D::DrawQuad(transform, sprite.Color);
+				}
+
+				Renderer2D::EndScene();
+			}
 		}
 	}
 

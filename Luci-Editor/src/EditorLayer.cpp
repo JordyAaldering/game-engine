@@ -1,5 +1,7 @@
 #include "EditorLayer.h"
 
+#include "scripts/CameraController.h"
+
 #include <imgui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -25,6 +27,7 @@ namespace Luci {
         m_SecondaryCameraEntity = m_ActiveScene->CreateEntity("Secondary Camera");
         auto& cc = m_SecondaryCameraEntity.AddComponent<CameraComponent>();
         cc.Primary = false;
+        m_SecondaryCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
         m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
         m_QuadEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
@@ -116,6 +119,12 @@ namespace Luci {
                 auto& color = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
                 ImGui::ColorEdit4("Quad color", glm::value_ptr(color));
                 ImGui::Separator();
+            }
+
+            static bool usePrimary = true;
+            if (ImGui::Checkbox("Camera A", &usePrimary)) {
+                m_CameraEntity.GetComponent<CameraComponent>().Primary = usePrimary;
+                m_SecondaryCameraEntity.GetComponent<CameraComponent>().Primary = !usePrimary;
             }
 
             ImGui::End();
