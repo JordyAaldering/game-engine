@@ -23,11 +23,11 @@ namespace Luci {
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
         m_CameraEntity.AddComponent<CameraComponent>();
+        m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
         m_SecondaryCameraEntity = m_ActiveScene->CreateEntity("Secondary Camera");
         auto& cc = m_SecondaryCameraEntity.AddComponent<CameraComponent>();
         cc.Primary = false;
-        m_SecondaryCameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
         m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
         m_QuadEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));

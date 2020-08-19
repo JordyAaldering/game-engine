@@ -24,17 +24,12 @@ namespace Luci {
 		{ LUCI_PROFILE_SCOPE("Scene::OnUpdate Update Scripts");
 			m_Registry.view<NativeScriptComponent>().each([=](entt::entity entity, NativeScriptComponent& nsc) {
 				if (!nsc.Instance) {
-					nsc.InstantiateFunction();
+					nsc.Instance = nsc.InstantiateScript();
 					nsc.Instance->m_Entity = Entity(entity, this);
-
-					if (nsc.OnCreateFunction) {
-						nsc.OnCreateFunction(nsc.Instance);
-					}
+					nsc.Instance->OnCreate();
 				}
 
-				if (nsc.OnUpdateFunction) {
-					nsc.OnUpdateFunction(nsc.Instance, timestep);
-				}
+				nsc.Instance->OnUpdate(timestep);
 			});
 		}
 
@@ -44,7 +39,7 @@ namespace Luci {
 
 			auto cameraGroup = m_Registry.group<CameraComponent, TransformComponent>();
 			for (auto entity : cameraGroup) {
-				auto& [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
+				auto [camera, transform] = cameraGroup.get<CameraComponent, TransformComponent>(entity);
 				if (camera.Primary) {
 					mainCamera = &camera.Camera;
 					cameraTransform = &transform.Transform;
@@ -57,7 +52,7 @@ namespace Luci {
 
 				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
 				for (auto entity : group) {
-					auto& [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
+					auto [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
 					Renderer2D::DrawQuad(transform, sprite.Color);
 				}
 
