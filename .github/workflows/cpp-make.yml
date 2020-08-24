@@ -15,7 +15,7 @@ jobs:
     - name: generate
       run: |
         cd scripts\
-        Win-GenerateMakefiles.bat
+        call Win-GenerateMakefiles.bat
     - name: make
       run: make
     - name: make check
