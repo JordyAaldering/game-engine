@@ -16,7 +16,7 @@ jobs:
       run: |
         cd scripts/
         chmod +x ./Linux-GenerateMakefiles.sh
-        ./Linux-GenerateMakefiles.sh
+        sudo ./Linux-GenerateMakefiles.sh
     - name: make
       run: make
     - name: make check
