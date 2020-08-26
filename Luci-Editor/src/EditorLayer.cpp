@@ -120,11 +120,14 @@ namespace Luci {
                 auto& tag = m_QuadEntity.GetComponent<TagComponent>().Tag;
                 ImGui::Text("Tag: %s", tag.c_str());
 
+                auto& transform = m_QuadEntity.GetComponent<TransformComponent>().Transform;
+                ImGui::DragFloat4("Transform", glm::value_ptr(transform[3]), 0.1f, -10.0f, 10.0f);
+
                 auto& color = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
-                ImGui::ColorEdit4("Quad color", glm::value_ptr(color));
-                ImGui::Separator();
+                ImGui::ColorEdit4("Color", glm::value_ptr(color));
             }
 
+            ImGui::Separator();
             static bool usePrimary = true;
             if (ImGui::Checkbox("Camera A", &usePrimary)) {
                 m_CameraEntity.GetComponent<CameraComponent>().Primary = usePrimary;
