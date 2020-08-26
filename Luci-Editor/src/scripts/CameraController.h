@@ -8,14 +8,6 @@ namespace Luci {
 
 	class CameraController : public ScriptableEntity {
 	public:
-		void OnCreate() {
-			
-		}
-
-		void OnDestroy() {
-
-		}
-
 		void OnUpdate(Timestep timestep) {
 			auto& transform = GetComponent<TransformComponent>().Transform;
 			static float speed = 5.0f;

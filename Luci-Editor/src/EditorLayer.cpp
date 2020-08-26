@@ -31,6 +31,8 @@ namespace Luci {
 
         m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
         m_QuadEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
     }
 
     void EditorLayer::OnDetach() {
@@ -102,6 +104,8 @@ namespace Luci {
             ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
         }
+
+        m_SceneHierarchyPanel.OnImGuiRender();
 
         if (ImGui::Begin("Renderer 2D")) {
             auto stats = Renderer2D::GetStatistics();
