@@ -1,18 +1,24 @@
 [submodule "Luci-Engine/vendor/imgui"]
 	path = Luci-Engine/vendor/imgui
 	url = https://github.com/TheCherno/imgui.git
+	ignore = dirty
 [submodule "Luci-Engine/vendor/glfw"]
 	path = Luci-Engine/vendor/glfw
 	url = https://github.com/TheCherno/glfw.git
+	ignore = dirty
 [submodule "Luci-Engine/vendor/ImGuizmo"]
 	path = Luci-Engine/vendor/ImGuizmo
 	url = https://github.com/TheCherno/ImGuizmo.git
+	ignore = dirty
 [submodule "Luci-Engine/vendor/yaml-cpp"]
 	path = Luci-Engine/vendor/yaml-cpp
 	url = https://github.com/TheCherno/yaml-cpp.git
+	ignore = dirty
 [submodule "Luci-Engine/vendor/glm"]
 	path = Luci-Engine/vendor/glm
 	url = https://github.com/g-truc/glm.git
+	ignore = dirty
 [submodule "Luci-Engine/vendor/spdlog"]
 	path = Luci-Engine/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+	ignore = dirty
