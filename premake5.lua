@@ -12,11 +12,11 @@ workspace "Luci-Engine"
         "MultiProcessorCompile"
     }
 
-OutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["spdlog"] = "Luci-Engine/vendor/spdlog/include"
-IncludeDir["GLFW"]   = "Luci-Engine/vendor/GLFW/include"
+IncludeDir["glfw"]   = "Luci-Engine/vendor/glfw/include"
 IncludeDir["Glad"]   = "Luci-Engine/vendor/Glad/include"
 IncludeDir["ImGui"]  = "Luci-Engine/vendor/imgui"
 IncludeDir["stb"]    = "Luci-Engine/vendor/stb"
@@ -24,7 +24,7 @@ IncludeDir["glm"]    = "Luci-Engine/vendor/glm"
 IncludeDir["entt"]   = "Luci-Engine/vendor/entt/include"
 
 group "Dependencies"
-    include "Luci-Engine/vendor/GLFW"
+    include "Luci-Engine/vendor/glfw"
     include "Luci-Engine/vendor/Glad"
     include "Luci-Engine/vendor/imgui"
 group ""
@@ -36,8 +36,8 @@ project "Luci-Engine"
     cppdialect "C++17"
     staticruntime "on"
 
-    targetdir ("bin/" .. OutputDir .. "/%{prj.name}")
-    objdir ("bin-int/" .. OutputDir .. "/%{prj.name}")
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     pchheader "lucipch.h"
     pchsource "%{prj.name}/src/lucipch.cpp"
@@ -59,7 +59,7 @@ project "Luci-Engine"
     includedirs {
         "%{prj.name}/src",
         "%{IncludeDir.spdlog}",
-        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.glfw}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.stb}",
@@ -68,7 +68,7 @@ project "Luci-Engine"
     }
 
     links {
-        "GLFW",
+        "glfw",
         "Glad",
         "ImGui",
         "opengl32.lib"
@@ -99,8 +99,8 @@ project "Luci-Editor"
     cppdialect "C++17"
     staticruntime "on"
 
-    targetdir ("bin/" .. OutputDir .. "/%{prj.name}")
-    objdir ("bin-int/" .. OutputDir .. "/%{prj.name}")
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
         "%{prj.name}/src/**.h",
@@ -144,8 +144,8 @@ project "Sandbox"
     cppdialect "C++17"
     staticruntime "on"
 
-    targetdir ("bin/" .. OutputDir .. "/%{prj.name}")
-    objdir ("bin-int/" .. OutputDir .. "/%{prj.name}")
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
         "%{prj.name}/src/**.h",
