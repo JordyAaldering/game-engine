@@ -1,0 +1,12 @@
+[submodule "Luci-Engine/vendor/imgui"]
+	path = Luci-Engine/vendor/imgui
+	url = https://github.com/TheCherno/imgui.git
+[submodule "Luci-Engine/vendor/glfw"]
+	path = Luci-Engine/vendor/glfw
+	url = https://github.com/TheCherno/glfw.git
+[submodule "Luci-Engine/vendor/ImGuizmo"]
+	path = Luci-Engine/vendor/ImGuizmo
+	url = https://github.com/TheCherno/ImGuizmo.git
+[submodule "Luci-Engine/vendor/yaml-cpp"]
+	path = Luci-Engine/vendor/yaml-cpp
+	url = https://github.com/TheCherno/yaml-cpp.git
