@@ -10,7 +10,19 @@ namespace Luci {
 		RecalculateProjection();
 	}
 
+	void SceneCamera::SetPerspective(float verticalFov, float nearClip, float farClip) {
+		m_ProjectionType = ProjectionType::Perspective;
+
+		m_PerspectiveFov = verticalFov;
+		m_PerspectiveNear = nearClip;
+		m_PerspectiveFar = farClip;
+
+		RecalculateProjection();
+	}
+
 	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip) {
+		m_ProjectionType = ProjectionType::Orthographic;
+
 		m_OrthographicSize = size;
 		m_OrthographicNear = nearClip;
 		m_OrthographicFar = farClip;
@@ -26,17 +38,18 @@ namespace Luci {
 		}
 	}
 
-	void SceneCamera::SetOrthographicSize(float size) {
-		m_OrthographicSize = size;
-		RecalculateProjection();
-	}
-
 	void SceneCamera::RecalculateProjection() {
-		float orthoTop = m_OrthographicSize * 0.5f;
-		float orthoRight = orthoTop * m_AspectRatio;
+		if (m_ProjectionType == ProjectionType::Perspective) {
+			m_ProjectionMatrix = glm::perspective(m_PerspectiveFov, m_AspectRatio,
+				m_PerspectiveNear, m_PerspectiveFar);
+		}
+		else {
+			float orthoTop = m_OrthographicSize * 0.5f;
+			float orthoRight = orthoTop * m_AspectRatio;
 
-		m_ProjectionMatrix = glm::ortho(-orthoRight, orthoRight, -orthoTop, orthoTop,
-			m_OrthographicNear, m_OrthographicFar);
+			m_ProjectionMatrix = glm::ortho(-orthoRight, orthoRight, -orthoTop, orthoTop,
+				m_OrthographicNear, m_OrthographicFar);
+		}
 	}
 
 }
