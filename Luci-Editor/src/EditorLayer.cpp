@@ -29,7 +29,7 @@ namespace Luci {
         auto& cc = m_SecondaryCameraEntity.AddComponent<CameraComponent>();
         cc.Primary = false;
 
-        m_QuadEntity = m_ActiveScene->CreateEntity("Quad");
+        m_QuadEntity = m_ActiveScene->CreateEntity("Square");
         m_QuadEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 
         m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -107,32 +107,13 @@ namespace Luci {
 
         m_SceneHierarchyPanel.OnImGuiRender();
 
-        if (ImGui::Begin("Renderer 2D")) {
+        if (ImGui::Begin("Statistics")) {
             auto stats = Renderer2D::GetStatistics();
-            ImGui::Text("> Statistics");
+
             ImGui::Text("Draw Calls: %d", stats.DrawCalls);
             ImGui::Text("Quads: %d", stats.QuadCount);
             ImGui::Text("Vertices: %d", stats.GetVertexCount());
             ImGui::Text("Indices: %d", stats.GetIndexCount());
-
-            if (m_QuadEntity) {
-                ImGui::Separator();
-                auto& tag = m_QuadEntity.GetComponent<TagComponent>().Tag;
-                ImGui::Text("Tag: %s", tag.c_str());
-
-                auto& transform = m_QuadEntity.GetComponent<TransformComponent>().Transform;
-                ImGui::DragFloat4("Transform", glm::value_ptr(transform[3]), 0.1f, -10.0f, 10.0f);
-
-                auto& color = m_QuadEntity.GetComponent<SpriteRendererComponent>().Color;
-                ImGui::ColorEdit4("Color", glm::value_ptr(color));
-            }
-
-            ImGui::Separator();
-            static bool usePrimary = true;
-            if (ImGui::Checkbox("Camera A", &usePrimary)) {
-                m_CameraEntity.GetComponent<CameraComponent>().Primary = usePrimary;
-                m_SecondaryCameraEntity.GetComponent<CameraComponent>().Primary = !usePrimary;
-            }
 
             ImGui::End();
         }
