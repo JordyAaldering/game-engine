@@ -8,20 +8,20 @@ namespace Luci {
 
 	class CameraController : public ScriptableEntity {
 	public:
-		void OnUpdate(Timestep timestep) {
-			auto& transform = GetComponent<TransformComponent>().Transform;
+		virtual void OnUpdate(Timestep timestep) {
+			auto& translation = GetComponent<TransformComponent>().Translation;
 			static float speed = 5.0f;
 
 			if (Input::IsKeyPressed(KeyCode::A)) {
-				transform[3][0] -= speed * timestep;
+				translation.x -= speed * timestep;
 			} else if (Input::IsKeyPressed(KeyCode::D)) {
-				transform[3][0] += speed * timestep;
+				translation.x += speed * timestep;
 			}
 
 			if (Input::IsKeyPressed(KeyCode::W)) {
-				transform[3][1] += speed * timestep;
+				translation.y += speed * timestep;
 			} else if (Input::IsKeyPressed(KeyCode::S)) {
-				transform[3][1] -= speed * timestep;
+				translation.y -= speed * timestep;
 			}
 		}
 	};
