@@ -1,8 +1,8 @@
 #include "lucipch.h"
 
-#include "SceneSerializer.h"
-#include "Entity.h"
-#include "Components.h"
+#include "Luci/Scene/SceneSerializer.h"
+#include "Luci/Scene/Entity.h"
+#include "Luci/Scene/Components.h"
 
 #include <yaml-cpp/yaml.h>
 

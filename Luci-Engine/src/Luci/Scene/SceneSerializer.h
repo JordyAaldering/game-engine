@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scene.h"
+#include "Luci/Scene/Scene.h"
 
 namespace Luci {
 
