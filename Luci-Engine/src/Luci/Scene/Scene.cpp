@@ -24,7 +24,19 @@ namespace Luci {
 		m_Registry.destroy(entity);
 	}
 
-	void Scene::OnUpdate(Timestep timestep) {
+	void Scene::OnUpdateEditor(Timestep timestep, EditorCamera& camera) {
+		Renderer2D::BeginScene(camera);
+
+		auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
+		for (auto entity : group) {
+			auto [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
+			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+		}
+
+		Renderer2D::EndScene();
+	}
+
+	void Scene::OnUpdateRuntime(Timestep timestep) {
 		{ LUCI_PROFILE_SCOPE("Scene::OnUpdate Update Scripts");
 			m_Registry.view<NativeScriptComponent>().each([=](entt::entity entity, NativeScriptComponent& nsc) {
 				if (!nsc.Instance) {

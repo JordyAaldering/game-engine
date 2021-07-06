@@ -2,6 +2,7 @@
 
 #include "Luci.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Luci/Renderer/Camera/EditorCamera.h"
 
 namespace Luci {
 
@@ -32,8 +33,8 @@ namespace Luci {
 		Ref<Shader> m_Shader;
 
 		Ref<Scene> m_ActiveScene;
-		Entity m_CameraEntity, m_SecondaryCameraEntity;
-		Entity m_QuadEntity;
+
+		EditorCamera m_EditorCamera;
 
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 		bool m_ViewportFocused = false, m_ViewportHovered = false;

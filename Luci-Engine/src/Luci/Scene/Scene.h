@@ -2,6 +2,7 @@
 
 #include "Luci/Core/Core.h"
 #include "Luci/Core/Timestep.h"
+#include "Luci/Renderer/Camera/EditorCamera.h"
 
 #include <entt.hpp>
 
@@ -18,7 +19,8 @@ namespace Luci {
 		Entity CreateEntity(const std::string& name = "Entity");
 		void DestroyEntity(Entity entity);
 
-		void OnUpdate(Timestep timestep);
+		void OnUpdateEditor(Timestep timestep, EditorCamera& camera);
+		void OnUpdateRuntime(Timestep timestep);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		Entity GetPrimaryCameraEntity();

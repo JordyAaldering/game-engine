@@ -40,14 +40,14 @@ namespace Luci {
 
 	void SceneCamera::RecalculateProjection() {
 		if (m_ProjectionType == ProjectionType::Perspective) {
-			m_ProjectionMatrix = glm::perspective(m_PerspectiveFov, m_AspectRatio,
+			m_Projection = glm::perspective(m_PerspectiveFov, m_AspectRatio,
 				m_PerspectiveNear, m_PerspectiveFar);
 		}
 		else {
 			float orthoTop = m_OrthographicSize * 0.5f;
 			float orthoRight = orthoTop * m_AspectRatio;
 
-			m_ProjectionMatrix = glm::ortho(-orthoRight, orthoRight, -orthoTop, orthoTop,
+			m_Projection = glm::ortho(-orthoRight, orthoRight, -orthoTop, orthoTop,
 				m_OrthographicNear, m_OrthographicFar);
 		}
 	}

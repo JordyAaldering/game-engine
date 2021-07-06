@@ -1,0 +1,29 @@
+Scene: Untitled
+Entities:
+  - Entity: 123456789
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Translation: [4.04988043e-08, 0.795791805, -0.951505184]
+      Rotation: [-2.86106467, -0.38884449, -0.604317009]
+      Scale: [1.77999997, 5.1293292, 1.78001535]
+    SpriteRendererComponent:
+      Color: [0, 1, 0.202380896, 1]
+  - Entity: 123456789
+    TagComponent:
+      Tag: Blue Square
+    TransformComponent:
+      Translation: [0.641564727, 0, 0]
+      Rotation: [-0.875795186, 0.213543043, -0.248900488]
+      Scale: [0.999999464, 0.999999881, 0.99999994]
+    SpriteRendererComponent:
+      Color: [0, 0.964290619, 1, 1]
+  - Entity: 123456789
+    TagComponent:
+      Tag: Red Square
+    TransformComponent:
+      Translation: [-0.893159032, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0.138996124, 0, 1]

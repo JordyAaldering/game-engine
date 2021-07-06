@@ -3,6 +3,8 @@
 #include "Luci/Core/Core.h"
 #include "Luci/Events/Event.h"
 
+#include <sstream>
+
 namespace Luci {
 
 	class MouseMovedEvent : public Event {
