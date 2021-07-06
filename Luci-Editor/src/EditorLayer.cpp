@@ -1,6 +1,7 @@
 #include "EditorLayer.h"
 
 #include "scripts/CameraController.h"
+#include "Luci/Scene/SceneSerializer.h"
 
 #include <imgui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -20,18 +21,6 @@ namespace Luci {
         m_Framebuffer = Framebuffer::Create(fbSpec);
 
         m_ActiveScene = CreateRef<Scene>();
-
-        m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
-        m_CameraEntity.AddComponent<CameraComponent>();
-        m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-
-        m_SecondaryCameraEntity = m_ActiveScene->CreateEntity("Secondary Camera");
-        auto& cc = m_SecondaryCameraEntity.AddComponent<CameraComponent>();
-        cc.Primary = false;
-
-        m_QuadEntity = m_ActiveScene->CreateEntity("Square");
-        m_QuadEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
-
         m_SceneHierarchyPanel.SetContext(m_ActiveScene);
     }
 
@@ -110,6 +99,28 @@ namespace Luci {
         }
 
         style.WindowMinSize.x = windowMinSizeX;
+
+		if (ImGui::BeginMenuBar()) {
+			if (ImGui::BeginMenu("File")) {
+				if (ImGui::MenuItem("Serialize")) {
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.Serialize("assets/scenes/Example.yaml");
+				}
+
+				if (ImGui::MenuItem("Deserialize")) {
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.Deserialize("assets/scenes/Example.yaml");
+				}
+
+				if (ImGui::MenuItem("Exit")) {
+					Application::Get().Close();
+				}
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenuBar();
+		}
 
         m_SceneHierarchyPanel.OnImGuiRender();
 
