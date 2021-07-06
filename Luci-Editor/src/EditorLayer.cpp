@@ -2,6 +2,7 @@
 
 #include "scripts/CameraController.h"
 #include "Luci/Scene/SceneSerializer.h"
+#include "Luci/Utils/PlatformUtils.h"
 
 #include <imgui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -102,14 +103,16 @@ namespace Luci {
 
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("Serialize")) {
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.Serialize("assets/scenes/Example.yaml");
+				if (ImGui::MenuItem("New", "Ctrl+N")) {
+					NewScene();
 				}
 
-				if (ImGui::MenuItem("Deserialize")) {
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.Deserialize("assets/scenes/Example.yaml");
+				if (ImGui::MenuItem("Open...", "Ctrl+O")) {
+					OpenScene();
+				}
+
+				if (ImGui::MenuItem("Save As...", , "Ctrl+Shift+S")) {
+					SaveSceneAs();
 				}
 
 				if (ImGui::MenuItem("Exit")) {
@@ -155,6 +158,65 @@ namespace Luci {
 
     void EditorLayer::OnEvent(Event& event) {
         m_CameraController.OnEvent(event);
+
+		EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<KeyPressedEvent>(LUCI_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
     }
+
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event) {
+		if (event.GetRepeatCount() > 0) {
+			return false;
+		}
+
+		bool controlPressed = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shiftPressed = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+
+		switch ((Key)event.GetKeyCode()) {
+			case Key::N: {
+				if (controlPressed) {
+					NewScene();
+				}
+			}
+			case Key::O: {
+				if (controlPressed) {
+					OpenScene();
+				}
+			}
+			case Key::S: {
+				if (controlPressed && shiftPressed) {
+					SaveSceneAs();
+				}
+				break;
+			}
+		}
+
+		return false;
+	}
+
+	void EditorLayer::NewScene() {
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	}
+
+	void EditorLayer::OpenScene() {
+		std::string filepath = FileDialogs::OpenFile("Luci Scene (*.luci)\0*.luci\0");
+		if (!filepath.empty()) {
+			m_ActiveScene = CreateRef<Scene>();
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(filepath);
+		}
+	}
+
+	void EditorLayer::SaveSceneAs() {
+		std::string filepath = FileDialogs::SaveFile("Luci Scene (*.luci)\0*.luci\0");
+		if (!filepath.empty()) {
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(filepath);
+		}
+	}
 
 }

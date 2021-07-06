@@ -18,6 +18,13 @@ namespace Luci {
 		void OnEvent(Event& event) override;
 
 	private:
+		bool OnKeyPressed(KeyPressedEvent& event);
+
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+
+	private:
 		OrthographicCameraController m_CameraController;
 
 		Ref<Framebuffer> m_Framebuffer;
