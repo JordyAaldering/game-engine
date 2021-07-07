@@ -9,6 +9,7 @@ namespace Luci {
 
 		// color
 		RGBA8,
+		RED_INTEGER,
 
 		// depth/stencil
 		DEPTH24STENCIL8,
@@ -47,6 +48,7 @@ namespace Luci {
 		virtual ~Framebuffer() = default;
 
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) = 0;
 
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;

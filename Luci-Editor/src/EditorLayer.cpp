@@ -19,7 +19,7 @@ namespace Luci {
         LUCI_PROFILE_FUNCTION();
 
         FramebufferSpecification fbSpec;
-		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
         m_Framebuffer = Framebuffer::Create(fbSpec);
@@ -61,6 +61,19 @@ namespace Luci {
 
         // Update scene
         m_ActiveScene->OnUpdateEditor(timestep, m_EditorCamera);
+
+		auto [mx, my] = ImGui::GetMousePos();
+		mx -= m_ViewportBounds[0].x;
+		my -= m_ViewportBounds[0].y;
+		glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+		my = viewportSize.y - my;
+
+		int mouseX = (int)mx;
+		int mouseY = (int)my;
+
+		if (mouseX >= 0 && mouseX < (int)viewportSize.x && mouseY >= 0 && mouseY < (int)viewportSize.y) {
+			int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+		}
 
         m_Framebuffer->Unbind();
     }
@@ -148,6 +161,8 @@ namespace Luci {
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         if (ImGui::Begin("Viewport")) {
+			auto viewportOffset = ImGui::GetCursorPos(); // includes tab bar
+
             m_ViewportFocused = ImGui::IsWindowFocused();
             m_ViewportHovered = ImGui::IsWindowHovered();
             Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
@@ -155,8 +170,17 @@ namespace Luci {
             ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
             m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-            uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID(1);
+            uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
             ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2(0, 1), ImVec2(1, 0));
+
+			auto windowSize = ImGui::GetWindowSize();
+			ImVec2 minBound = ImGui::GetWindowPos();
+			minBound.x += viewportOffset.x;
+			minBound.y += viewportOffset.y;
+
+			ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+			m_ViewportBounds[0] = { minBound.x, minBound.y };
+			m_ViewportBounds[1] = { maxBound.x, maxBound.y };
 
 			// gizmos
 			Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -167,8 +191,6 @@ namespace Luci {
 				float windowWidth = (float)ImGui::GetWindowWidth();
 				float windowHeight = (float)ImGui::GetWindowHeight();
 				ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-
-				// camera
 
 				// runtime camera from entity
 				//auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();

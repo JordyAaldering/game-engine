@@ -11,7 +11,9 @@ namespace Luci {
 		virtual ~OpenGLFramebuffer();
 
 		void Invalidate();
+
 		virtual void Resize(uint32_t width, uint32_t height) override;
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
 
 		virtual void Bind() override;
 		virtual void Unbind() override;
