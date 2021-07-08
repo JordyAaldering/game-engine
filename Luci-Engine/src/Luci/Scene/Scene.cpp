@@ -30,7 +30,7 @@ namespace Luci {
 		auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
 		for (auto entity : group) {
 			auto [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
-			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+			Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
 		}
 
 		Renderer2D::EndScene();
@@ -69,7 +69,7 @@ namespace Luci {
 				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
 				for (auto entity : group) {
 					auto [sprite, transform] = group.get<SpriteRendererComponent, TransformComponent>(entity);
-					Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+					Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
 				}
 
 				Renderer2D::EndScene();

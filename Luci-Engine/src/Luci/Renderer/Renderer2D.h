@@ -7,6 +7,7 @@
 #include "Luci/Renderer/Camera/Camera.h"
 #include "Luci/Renderer/Camera/EditorCamera.h"
 #include "Luci/Renderer/Camera/OrthographicCamera.h"
+#include "Luci/Scene/Components.h"
 
 namespace Luci {
 
@@ -23,16 +24,15 @@ namespace Luci {
 
 		// Primitives
 		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color);
-		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
-		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
-
 		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color);
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityId = -1);
+
+		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
 		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
-	
-		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
-		static void DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f));
-		static void DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f));
+		static void DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f), int entityId = -1);
+
+		// Components
+		static void DrawSprite(const glm::mat4& transform, SpriteRendererComponent& srComponent, int entityId);
 
 		// Statistics
 		struct Statistics {
@@ -49,7 +49,7 @@ namespace Luci {
 	private:
 		static void FlushAndReset();
 
-		static void DrawQuadFromTexIndex(const glm::mat4& transform, const glm::vec4& color, float texIndex, const glm::vec2* texCoords);
+		static void DrawQuadFromTexIndex(const glm::mat4& transform, const glm::vec4& color, float texIndex, const glm::vec2* texCoords, int entityId = -1);
 	};
 
 }

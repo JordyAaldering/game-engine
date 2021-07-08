@@ -15,6 +15,9 @@ namespace Luci {
 		glm::vec2 TexCoord;
 		float TexIndex;
 		glm::vec2 Tiling;
+
+		// Editor-only
+		int EnityId = -1;
 	};
 
 	struct Renderer2DData {
@@ -63,8 +66,9 @@ namespace Luci {
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float4, "a_Color" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
-			{ ShaderDataType::Float, "a_TexIndex" },
+			{ ShaderDataType::Float,  "a_TexIndex" },
 			{ ShaderDataType::Float2, "a_Tiling" },
+			{ ShaderDataType::Int,    "a_EntityId" },
 		});
 		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
@@ -183,20 +187,20 @@ namespace Luci {
 		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) {
-		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, texture, color);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color) {
-		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, subTexture, color);
-	}
-
 	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& color) {
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		DrawQuadFromTexIndex(transform, color, 0, s_Data.QuadTexCoords);
+	}
+
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityId) {
+		DrawQuadFromTexIndex(transform, color, 0.0f, s_Data.QuadTexCoords, entityId);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) {
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, texture, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) {
@@ -223,35 +227,7 @@ namespace Luci {
 		DrawQuadFromTexIndex(transform, color, texIndex, s_Data.QuadTexCoords);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color) {
-		LUCI_PROFILE_FUNCTION();
-
-		float texIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++) {
-			if (*s_Data.TextureSlots[i].get() == *subTexture->GetTexture().get()) {
-				texIndex = (float)i;
-				break;
-			}
-		}
-
-		if (texIndex == 0.0f) {
-			texIndex = (float)s_Data.TextureSlotIndex;
-			s_Data.TextureSlots[s_Data.TextureSlotIndex] = subTexture->GetTexture();
-			s_Data.TextureSlotIndex++;
-		}
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-
-		DrawQuadFromTexIndex(transform, color, texIndex, subTexture->GetTexCoords());
-	}
-
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color) {
-		DrawQuadFromTexIndex(transform, color, 0.0f, s_Data.QuadTexCoords);
-	}
-
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color) {
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color, int entityId) {
 		float texIndex = 0.0f;
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++) {
 			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
@@ -266,28 +242,18 @@ namespace Luci {
 			s_Data.TextureSlotIndex++;
 		}
 
-		DrawQuadFromTexIndex(transform, color, texIndex, s_Data.QuadTexCoords);
+		DrawQuadFromTexIndex(transform, color, texIndex, s_Data.QuadTexCoords, entityId);
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture, const glm::vec4& color) {
-		float texIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++) {
-			if (*s_Data.TextureSlots[i].get() == *subTexture->GetTexture().get()) {
-				texIndex = (float)i;
-				break;
-			}
-		}
+	/*
+	 * Components
+	 */
 
-		if (texIndex == 0.0f) {
-			texIndex = (float)s_Data.TextureSlotIndex;
-			s_Data.TextureSlots[s_Data.TextureSlotIndex] = subTexture->GetTexture();
-			s_Data.TextureSlotIndex++;
-		}
-
-		DrawQuadFromTexIndex(transform, color, texIndex, subTexture->GetTexCoords());
+	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& srComponent, int entityId) {
+		DrawQuad(transform, srComponent.Color, entityId);
 	}
 
-	void Renderer2D::DrawQuadFromTexIndex(const glm::mat4& transform, const glm::vec4& color, float texIndex, const glm::vec2* texCoords) {
+	void Renderer2D::DrawQuadFromTexIndex(const glm::mat4& transform, const glm::vec4& color, float texIndex, const glm::vec2* texCoords, int entityId) {
 		LUCI_PROFILE_FUNCTION();
 
 		if (s_Data.QuadIndexCount >= Renderer2DData::BufferMaxIndices) {
@@ -300,6 +266,7 @@ namespace Luci {
 			s_Data.QuadVertexBufferPtr->TexCoord = s_Data.QuadTexCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = 0;
 			s_Data.QuadVertexBufferPtr->Tiling = { 1.0f, 1.0f };
+			s_Data.QuadVertexBufferPtr->EnityId = entityId;
 			s_Data.QuadVertexBufferPtr++;
 		}
 

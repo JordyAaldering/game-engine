@@ -55,11 +55,6 @@ namespace Luci {
 		const BufferLayout& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout) {
 			switch (element.Type) {
-				case ShaderDataType::Bool:
-				case ShaderDataType::Int:
-				case ShaderDataType::Int2:
-				case ShaderDataType::Int3:
-				case ShaderDataType::Int4:
 				case ShaderDataType::Float:
 				case ShaderDataType::Float2:
 				case ShaderDataType::Float3:
@@ -69,6 +64,23 @@ namespace Luci {
 						element.GetComponentCount(),
 						ShaderDataTypeToOpenGLBaseType(element.Type), 
 						element.Normalized ? GL_TRUE : GL_FALSE,
+						layout.GetStride(),
+						(const void*)element.Offset
+					);
+
+					m_VertexBufferIndex++;
+					break;
+				}
+
+				case ShaderDataType::Bool:
+				case ShaderDataType::Int:
+				case ShaderDataType::Int2:
+				case ShaderDataType::Int3:
+				case ShaderDataType::Int4: {
+					glEnableVertexAttribArray(m_VertexBufferIndex);
+					glVertexAttribIPointer(m_VertexBufferIndex,
+						element.GetComponentCount(),
+						ShaderDataTypeToOpenGLBaseType(element.Type),
 						layout.GetStride(),
 						(const void*)element.Offset
 					);
