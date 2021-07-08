@@ -65,6 +65,16 @@ namespace Luci {
 			glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, TextureTarget(multisampled), id, 0);
 		}
 
+		static GLenum TextureFormatToGL(FramebufferTextureFormat format) {
+			switch (format) {
+				case FramebufferTextureFormat::RGBA8: return GL_RGBA8;
+				case FramebufferTextureFormat::RED_INTEGER: return GL_RED_INTEGER;
+			}
+
+			LUCI_CORE_ASSERT(false, "Texture format not implemented");
+			return 0;
+		}
+
 	}
 
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& specification)
@@ -161,10 +171,19 @@ namespace Luci {
 
 	int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y) {
 		LUCI_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size(), "Attachment index out of bounds");
+
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
 		int pixelData;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
+	}
+
+	void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value) {
+		LUCI_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size(), "Attachment index out of bounds");
+
+		auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
+		glClearTexImage(m_ColorAttachments[attachmentIndex], 0,
+			Utils::TextureFormatToGL(spec.TextureFormat), GL_INT, &value);
 	}
 
 	void OpenGLFramebuffer::Bind() {

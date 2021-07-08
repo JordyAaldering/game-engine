@@ -59,6 +59,9 @@ namespace Luci {
         RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         RenderCommand::Clear();
 
+		// Clear entity id attachment to -1
+		m_Framebuffer->ClearAttachment(1, -1);
+
         // Update scene
         m_ActiveScene->OnUpdateEditor(timestep, m_EditorCamera);
 
